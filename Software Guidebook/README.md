@@ -11,7 +11,149 @@ The quizzer is a web application that runs on 3 different devices, the master-ta
 
 
 ## REST
+| METHOD | URL |
+|    --- | --- |
+| POST | /rooms/:roomid |
+| PATCH | /rooms/:roomid |
+| DELETE | /rooms/:roomid |
+| POST | /rooms/:roomid/teams |
+| POST | /rooms/:roomid/teams |
+| DELETE | /rooms/:roomid/teams/:teamid |
+| PATCH | /rooms/:roomid/teams/:teamid |
+| PATCH | /rooms/:roomid/teams/:teamid/question |
+| POST | /rooms/:roomid/rounds/:roundid |
+| PUT | /rooms/:roomid/rounds/:roundid |
+| POST | /rooms/:roomid/rounds/:roundid/questions |
+| GET | /categories |
+| GET | /:category/questions |
+
 ## Database
+### Questions
+| name | type | default | required |
+| --- | --- | --- | --- |
+| id | String | X | O |
+| question | String | X | X | 
+| answer | String | X | X |
+| category | String | X | X |
+| language | String | X | X |
+
+### Rooms
+| name | type | default | required |
+| --- | --- | --- | --- |
+| id | String | X | O |
+| language | String | X | O |
+| teams | [Team] | X | X |
+| started | Boolean | false | O |
+| round | Number | 0 | O |
+| categories | [String] | X | X |
+| questionNumber | Number | 0 | X |
+| questions | [String] | X | X |
+| questionsAsked | [String] | X | X |
+| currentQuestion | Question | X | X |
+
+
+### Teams
+| name | type | default | required |
+| --- | --- | --- | --- |
+| id | String | X | O |
+| name | String | X | O |
+| roundPoints | Number | 0 | X |
+| roundScore  | Number | 0 | X |
+| answer | String | X | X |
+
+## Websocket
+### Master app -> Server
+| action | type |
+| --- | --- |
+| master wordt verbonden | `{messageType: "MASTER_CONNECT"}` |
+| team accepteren | `{messageType: "MASTER_ACCEPT", team: {teamName: String}}` |
+| team verwijderen | `{messageType: "MASTER_DENY", team: {teamName: String}}` |
+| ronde starten | `{messageType: "MASTER_STARTROUND"}` |
+| vraag versturen | `{messageType: "MASTER_QUESTION", question: {_id: String, category: String}}` |
+| antwoorden stoppen | `{messageType: "MASTER_STOPANSWERS"}` |
+| antwoorden reviewen | `{messageType: "MASTER_REVIEWANSWERS", question: String, answers: [{teamName: String, answer: String, isCorrect: Boolean}]}`
+| ronde eindigen | `{messageType: "MASTER_ENDROUND"}` |
+| spel stoppen | `{messageType: "END_GAME"}` |
+
+### Team app -> Server
+| action | type |
+| --- | --- |
+| team wordt geregistreerd | `{messageType: "TEAM_CONNECT", teamName: String}`
+| team verstuurd antwoord | `{messageType: "TEAM_ANSWER", teamName: String, answer: String`}
+
+### Scoreboard -> Server
+| action | type |
+| --- | --- |
+| scoreboard verbinden | `{messageType: "SCOREBOARD_CONNECT"}` |
+
+### Server -> Team app
+| action | type |
+| --- | --- |
+| toegestaan om game te spelen | `{messageType: "TEAM_ALLOWED", isAllowed: Boolean}`|
+| nieuwe vraag | `{messageType: "TEAM_NEWQUESTION", question: String, category: String}` |
+| Antwoorden reviewed | `{messageType: "TEAM_ANSWERREVIEWED", correct: Boolean}` | 
+| einde game | `{messageType: "END_GAME" }` |
+
+### Server -> Master app
+| action | type |
+| --- | --- |
+| Team binnengekomen | `{messageType: "TEAM_JOINED", teamName: String}` |
+| antwoord binnengekomen | `{messageType: "NEW_ANSWER", teamName: String: answer: String}` |
+| 
+
+### Server -> Scoreboard
+| action | type |
+| --- | --- |
+| score | `{messageType: "SCORES", teams: [{teamName: String, roundPoints: Number}]}`|
+| resultaat vraag | `{messageType: "QUESTION_RESULTS", question: {question: String, category: String}, teams: [{teamName: String, answer: String, answered: Boolean}]}`
+| vraag beantwoord | `{messageType: "ANSWER_SUBMITTED", teamName: String }`
+
+## State
+### Master app
+```json
+{
+    roomCode: '',
+    language: '',
+    round: 0,
+    appliedTeams: [],
+    approvedTeams: [],
+    question: 0,
+    questions: [],
+    currentQuestion: '',
+    questionClosed: false,
+}
+```
+### Team app
+```json
+{
+    roomCode: '',
+    teamName: '',
+    round: 0,
+    question: {
+        number: 0,
+        question: '',
+        category: ''
+    },
+    answer: {
+        value: ''
+    }
+}
+```
+
+### Scoreboard App
+```json
+{
+    connected: false,
+    roomCode: '',
+
+    question: '',
+    category: '',
+    teams: [],
+    round: 0,
+    questionNumber: 0,
+
+}
+```
 
 ## Wireframes
 ### Master - startscreen
