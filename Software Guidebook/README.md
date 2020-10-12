@@ -23,7 +23,7 @@ The quizzer is a web application that runs on 3 different devices, the master-ta
 ![][wireframe-masterapplication]
 
 ### Team - Room code insert
-[wireframe-teamcode]: https://raw.githubusercontent.com/HANICA-DWA/sep2020-quizz-patrick-sanne/7d6449fca67543982acedc8c753342c1279d5370/Software%20Guidebook/wireframes/wireframes-Team%20(roomcode).png?token=AB2NNDP2ZPZ3PYOTQNGZ5AK7RVNJW "wireframe-teamcode"
+[wireframe-teamcode]: https://raw.githubusercontent.com/HANICA-DWA/sep2020-quizz-patrick-sanne/main/Software%20Guidebook/wireframes/wireframes-Team%20(roomcode).png?token=AB2NNDN2QUV63HF3WLK76BS7RV2JI "wireframe-teamcode"
 ![][wireframe-teamcode]
 
 ### Master - Choose categories
