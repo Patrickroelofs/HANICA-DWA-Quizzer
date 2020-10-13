@@ -17,5 +17,8 @@
     "nodemon": "^2.0.4",
     "websocket": "^1.0.32",
     "ws": "^7.3.1"
+  },
+  "scripts": {
+    "seed": "node ./seeds/index.js"
   }
 }
