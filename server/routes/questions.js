@@ -12,7 +12,7 @@ const Question = mongoose.model('Questions')
 router.get('/categories', async function (req, res, next) {
     try {
         // Get categories from database
-        await Question.distinct('category').then(data => {
+        await Question.find().distinct('category').then(data => {
             return res.send(data)
         })
     } catch (err) {
@@ -23,7 +23,7 @@ router.get('/categories', async function (req, res, next) {
 router.get('/categories/:category', async function (req, res, next) {
     try {
         // Get questions where :category (name)
-        await Question.find({'category': req.params.category}).then((data) => {
+        await Question.find({category: req.params.category}).then((data) => {
             return res.send(data)
         })
 

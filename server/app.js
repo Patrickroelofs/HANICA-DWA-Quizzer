@@ -1,7 +1,7 @@
-const session = require('express-session');
+const session = require('express-session')
 const express = require('express')
 const mongoose = require('mongoose')
-const ws = require('ws')
+const WebSocket = require('ws')
 const db = mongoose.connection
 const cors = require('cors')
 const http = require('http')
@@ -10,20 +10,18 @@ const bodyParser = require('body-parser')
 // Setup server
 const app = express()
 
-app.use(cors({ origin: 'http://localhost:3000/', credentials: true }))
-app.options('http://localhost:3000/', cors({ origin: true, credentials: true }))
-
-app.use(bodyParser.json())
+app.use(cors({ origin: true, credentials: true }))
+app.options('*', cors({ origin: true, credentials: true }))
 
 const sessionParser = session({
-    roomCode: '',
     language: '',
     saveUninitialized: false,
     secret: 'pizza',
-    resave: false,
+    resave: false
 })
 
 app.use(sessionParser)
+app.use(bodyParser.json())
 
 // Connect to mongoDB server
 mongoose
@@ -42,39 +40,45 @@ app.use(function (req, res, next) {
     next()
 })
 
-// Setup routers
-const questionsRouter = require('./routes/questions')
-app.use('/questions', questionsRouter)
+app.use('/', async function(req, res, next) {
+    req.webSocketServer = webSocketServer
+    next()
+})
 
-// const teamsRouter = require('./routes/teams')
-// app.use('/teams', teamsRouter)
-
-const quizRouter = require('./routes/quiz')
-app.use('/quiz', quizRouter)
-
-const httpServer = http.createServer(app)
-const wsServer = new ws.Server({ noServer: true })
+const httpServer = http.createServer()
+const webSocketServer = new WebSocket.Server({noServer: true})
 
 httpServer.on('upgrade', (req, networkSocket, head) => {
-  console.log('upgrade')
     sessionParser(req, {}, () => {
-        if (req.session.roomCode === undefined) {
-            console.log(`oh no... no roomcode error`)
+        
+        if(req.session.roomCode === undefined) {
+            console.log("No roomCode ", req.session)
             networkSocket.destroy()
             return
         }
+    })
 
-        wsServer.handleUpgrade(req, networkSocket, head, (newWebSocket) => {
-            wsServer.emit('connection', newWebSocket, req)
-        })
+    webSocketServer.handleUpgrade(req, networkSocket, head, newWebSocket => {
+        console.log("Socket Upgrade")
+        webSocketServer.emit('connection', newWebSocket, req)
     })
 })
 
-wsServer.on('connection', (socket, req) => {
-  console.log('connection')
+webSocketServer.on('connection', (socket, req) => {
     socket.session = req.session
 })
 
-app.listen(3001, function () {
-    console.log('server has started on http://localhost:3001')
+// Setup routers
+const questionsRouter = require('./routes/questions')
+const teamsRouter = require('./routes/teams')
+const quizRouter = require('./routes/quiz')
+
+app.use('/questions', questionsRouter)
+app.use('/teams', teamsRouter)
+app.use('/quiz', quizRouter)
+
+
+httpServer.on('request', app)
+httpServer.listen(3001, function () {
+    console.log('Server started...')
 })

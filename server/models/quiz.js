@@ -1,20 +1,29 @@
 const mongoose = require('mongoose')
 
-const teamSchema = require('./teams')
-
 const quizSchema = mongoose.Schema({
-    language: {
+    roomCode: {
         type: String,
         required: true,
     },
-    teams: [teamSchema],
+    language: {
+        type: String,
+        required: false,
+    },
+    teams: [
+        {
+            name: String,
+            roundPoints: Number,
+            roundScore: Number,
+            answer: [String],
+        },
+    ],
     started: {
         type: Boolean,
-        required: true,
+        required: false,
     },
     round: {
         type: Number,
-        required: true,
+        required: false,
     },
     savedQuestions: [
         {
