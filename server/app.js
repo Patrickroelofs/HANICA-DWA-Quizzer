@@ -37,6 +37,7 @@ mongoose
 // Ensure all responses are Application/JSON
 app.use(function (req, res, next) {
     res.setHeader('Content-Type', 'Application/JSON')
+
     next()
 })
 
@@ -65,7 +66,16 @@ httpServer.on('upgrade', (req, networkSocket, head) => {
 })
 
 webSocketServer.on('connection', (socket, req) => {
+    console.log('Websocket Connected & Session Saved')
     socket.session = req.session
+})
+
+// !!! temporary server echo- of session
+app.use(function (req, res, next) {
+ 
+    console.log(req.session)
+
+    next()
 })
 
 // Setup routers
