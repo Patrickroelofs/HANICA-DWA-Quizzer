@@ -20,8 +20,9 @@ router.post('/', async function (req, res, next) {
     try {
         const roomCodeGenerated = makeRoomCode()
 
-        req.session.roomCode = roomCodeGenerated
-        req.session.language = req.body.language
+        req.session.master      = true
+        req.session.roomCode    = roomCodeGenerated
+        req.session.language    = req.body.language
         
         const quiz = await Quiz.create({
             roomCode: roomCodeGenerated,

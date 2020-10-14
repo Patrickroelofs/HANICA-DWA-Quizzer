@@ -1,12 +1,19 @@
 const express = require('express')
 const mongoose = require('mongoose')
+const { MasterMessage } = require('../functions/websocket')
 const router = express.Router()
+
+mongoose.set('useFindAndModify', false);
 
 require('../models/quiz')
 const Quiz = mongoose.model('Quiz')
 
 router.post('/:name', async function (req, res, next) {
     try {
+
+        req.session.master = false
+        req.session.roomCode = req.body.roomCode
+
         const team = await Quiz.findOneAndUpdate(
             { roomCode: req.body.roomCode },
             {
@@ -22,6 +29,8 @@ router.post('/:name', async function (req, res, next) {
                 },
             }
         )
+
+        MasterMessage(req, 'TEAM_JOINED')
 
         res.send(team)
     } catch (err) {

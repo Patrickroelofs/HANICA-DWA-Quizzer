@@ -13,6 +13,8 @@ const app = express()
 app.use(cors({ origin: true, credentials: true }))
 app.options('*', cors({ origin: true, credentials: true }))
 
+app.use(bodyParser.json())
+
 const sessionParser = session({
     saveUninitialized: false,
     secret: 'pizza',
@@ -23,7 +25,6 @@ const sessionParser = session({
 })
 
 app.use(sessionParser)
-app.use(bodyParser.json())
 
 // Connect to mongoDB server
 mongoose
@@ -48,23 +49,28 @@ app.use('/', async function(req, res, next) {
     next()
 })
 
-const httpServer = http.createServer()
+const httpServer = http.createServer(app)
 const webSocketServer = new WebSocket.Server({noServer: true})
+
+httpServer.on('upgrade', (req, networkSocket, head) => {
+    sessionParser(req, {}, () => {
+        
+        // if(req.session.roomCode === undefined) {
+        //     console.log("No roomCode ", req.session)
+        //     networkSocket.destroy()
+        //     return
+        // }
+    })
+
+    webSocketServer.handleUpgrade(req, networkSocket, head, newWebSocket => {
+        console.log("Socket Upgrade")
+        webSocketServer.emit('connection', newWebSocket, req)
+    })
+})
 
 webSocketServer.on('connection', (socket, req) => {
     console.log('Websocket Connected & Session Saved')
     socket.session = req.session
-
-    socket.on('message', (message) => {
-        req.session.reload((err) => {
-            if(err) { throw err }
-
-            if(req.session.roomCode === undefined) {
-                console.log(`Ignoring message from no-roomcode user ${message}`)
-                return
-            }
-        })
-    })
 })
 
 // !!! temporary server echo- of session
@@ -83,7 +89,6 @@ app.use('/questions', questionsRouter)
 app.use('/teams', teamsRouter)
 app.use('/quiz', quizRouter)
 
-httpServer.on('request', app)
 httpServer.listen(3001, function () {
     console.log('Server started...')
 })
