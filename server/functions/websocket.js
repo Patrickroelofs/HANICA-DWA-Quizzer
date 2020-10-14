@@ -1,5 +1,5 @@
 MasterMessage = function (req, message) {
-    req.websocketServer.clients.forEach((client) => {
+    req.webSocketServer.clients.forEach((client) => {
         console.log('message:', message, ' | TO: MASTER')
 
         if (

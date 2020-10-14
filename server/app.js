@@ -55,16 +55,18 @@ const webSocketServer = new WebSocket.Server({noServer: true})
 httpServer.on('upgrade', (req, networkSocket, head) => {
     sessionParser(req, {}, () => {
         
+        // * Not working right now, needs input field on client side
         // if(req.session.roomCode === undefined) {
         //     console.log("No roomCode ", req.session)
         //     networkSocket.destroy()
         //     return
         // }
-    })
 
-    webSocketServer.handleUpgrade(req, networkSocket, head, newWebSocket => {
-        console.log("Socket Upgrade")
-        webSocketServer.emit('connection', newWebSocket, req)
+
+        webSocketServer.handleUpgrade(req, networkSocket, head, newWebSocket => {
+            console.log("Socket Upgrade")
+            webSocketServer.emit('connection', newWebSocket, req)
+        })
     })
 })
 
