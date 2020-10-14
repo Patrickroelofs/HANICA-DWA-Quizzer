@@ -78,13 +78,16 @@ webSocketServer.on('connection', (socket, req) => {
 // Setup routers
 const dashboardRouter = require('./routes/dashboard')
 const questionsRouter = require('./routes/questions')
+const globalRouter = require('./routes/globals')
 const teamsRouter = require('./routes/teams')
 const quizRouter = require('./routes/quiz')
 
 app.use('/dashboard', dashboardRouter)
 app.use('/questions', questionsRouter)
+app.use('/globals', globalRouter)
 app.use('/teams', teamsRouter)
 app.use('/quiz', quizRouter)
+
 
 httpServer.listen(3001, function () {
     console.log('Server started...')
