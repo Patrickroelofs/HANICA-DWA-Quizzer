@@ -11,6 +11,8 @@ router.get('/:roomCode', async function (req, res, next) {
         const quiz = await Quiz.findOne({ roomCode: req.params.roomCode })
 
         res.send(quiz)
+        console.log(`[GET] quiz.get(${req.params.roomCode})`)
+        console.log(req.session)
     } catch (err) {
         next(err)
     }
@@ -30,6 +32,9 @@ router.post('/', async function (req, res, next) {
         })
 
         res.send(quiz)
+
+        console.log(`[POST] quiz.post('/') : quiz created`)
+        console.log(req.session)
     } catch (err) {
         next(err)
     }

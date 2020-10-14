@@ -75,18 +75,13 @@ webSocketServer.on('connection', (socket, req) => {
     socket.session = req.session
 })
 
-// !!! temporary server echo- of session
-app.use(function (req, res, next) {
-    console.log(req.session)
-
-    next()
-})
-
 // Setup routers
+const dashboardRouter = require('./routes/dashboard')
 const questionsRouter = require('./routes/questions')
 const teamsRouter = require('./routes/teams')
 const quizRouter = require('./routes/quiz')
 
+app.use('/dashboard', dashboardRouter)
 app.use('/questions', questionsRouter)
 app.use('/teams', teamsRouter)
 app.use('/quiz', quizRouter)

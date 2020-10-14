@@ -11,7 +11,7 @@ const Quiz = mongoose.model('Quiz')
 router.post('/:name', async function (req, res, next) {
     try {
 
-        req.session.master = false
+        req.session.team = true
         req.session.roomCode = req.body.roomCode
 
         const team = await Quiz.findOneAndUpdate(
@@ -33,17 +33,9 @@ router.post('/:name', async function (req, res, next) {
         MasterMessage(req, 'TEAM_JOINED')
 
         res.send(team)
-    } catch (err) {
-        next(err)
-    }
-})
 
-router.get('/:name', async function (req, res, next) {
-    try {
-        // TODO: Doesnt work, needs sessions n stuff
-        const team = await Quiz.findOne({ team: [{name: teamName}] })
-
-        res.send(team)
+        console.log(`[POST] teams.post(${req.params.name})`)
+        console.log(req.session)
     } catch (err) {
         next(err)
     }
