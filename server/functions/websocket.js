@@ -52,20 +52,20 @@ TeamsMessage = function (req, message, teamName) {
 }
 
 /**
- * * Message (DASHBOARD)
- * ? checks if client is a dashboard
+ * * Message (SCOREBOARD)
+ * ? checks if client is a scoreboard
  * ? checks if roomcode is correct
  *
  * @param req the current sessions
- * @param message the message that gets sent to the dashboard client
+ * @param message the message that gets sent to the scoreboard client
  */
-DashboardMessage = function (req, message) {
+ScoreboardMessage = function (req, message) {
     req.webSocketServer.clients.forEach((client) => {
         if (
-            client.session.dashboard &&
+            client.session.scoreboard &&
             req.session.roomCode === client.session.roomCode
         ) {
-            console.log('message:', message, ' | TO: DASHBOARD')
+            console.log('message:', message, ' | TO: SCOREBOARD')
 
             client.send(
                 JSON.stringify({
@@ -79,5 +79,5 @@ DashboardMessage = function (req, message) {
 module.exports = {
     MasterMessage,
     TeamsMessage,
-    DashboardMessage,
+    ScoreboardMessage,
 }

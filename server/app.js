@@ -76,13 +76,13 @@ webSocketServer.on('connection', (socket, req) => {
 })
 
 // Setup routers
-const dashboardRouter = require('./routes/dashboard')
+const scoreboardRouter = require('./routes/scoreboard')
 const questionsRouter = require('./routes/questions')
 const globalRouter = require('./routes/globals')
 const teamsRouter = require('./routes/teams')
 const quizRouter = require('./routes/quiz')
 
-app.use('/dashboard', dashboardRouter)
+app.use('/scoreboard', scoreboardRouter)
 app.use('/questions', questionsRouter)
 app.use('/globals', globalRouter)
 app.use('/teams', teamsRouter)

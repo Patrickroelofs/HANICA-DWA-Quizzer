@@ -20,7 +20,14 @@ router.get('/:roomCode', async function (req, res, next) {
 
 router.post('/', async function (req, res, next) {
     try {
-        const roomCodeGenerated = makeRoomCode()
+        let roomCodeGenerated;
+
+        // ! this statement only exists for testing, remove in production
+        if(req.body.roomCode !== undefined) {
+            roomCodeGenerated = `${req.body.roomCode}`
+        } else {
+            roomCodeGenerated = makeRoomCode()
+        }
 
         req.session.master      = true
         req.session.roomCode    = roomCodeGenerated

@@ -1,6 +1,6 @@
 const express = require('express')
 const mongoose = require('mongoose')
-const { MasterMessage } = require('../functions/websocket')
+const { MasterMessage, ScoreboardMessage, TeamsMessage } = require('../functions/websocket')
 const router = express.Router()
 
 mongoose.set('useFindAndModify', false);
@@ -29,8 +29,10 @@ router.post('/:name', async function (req, res, next) {
                 },
             }
         )
-
+        // Send Websocket messages to:
+        TeamsMessage(req, 'TEAM_JOINED')
         MasterMessage(req, 'TEAM_JOINED')
+        ScoreboardMessage(req, 'TEAM_JOINED')
 
         res.send(team)
 
