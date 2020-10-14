@@ -6,7 +6,6 @@ const Questions = mongoose.model('Questions')
 
 /**
  * * Connect to the mongoDB server and insert the seedfile
- // TODO: Insert language
  */
 mongoose
     .connect('mongodb://localhost:27017/quizzer', {

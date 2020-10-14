@@ -14,10 +14,12 @@ app.use(cors({ origin: true, credentials: true }))
 app.options('*', cors({ origin: true, credentials: true }))
 
 const sessionParser = session({
-    language: '',
     saveUninitialized: false,
     secret: 'pizza',
-    resave: false
+    resave: false,
+    cookie: {
+        expires: new Date(Date.now() + 24 * 60 * 60 * 60 * 1000)
+    }
 })
 
 app.use(sessionParser)
@@ -49,30 +51,24 @@ app.use('/', async function(req, res, next) {
 const httpServer = http.createServer()
 const webSocketServer = new WebSocket.Server({noServer: true})
 
-httpServer.on('upgrade', (req, networkSocket, head) => {
-    sessionParser(req, {}, () => {
-        
-        if(req.session.roomCode === undefined) {
-            console.log("No roomCode ", req.session)
-            networkSocket.destroy()
-            return
-        }
-    })
-
-    webSocketServer.handleUpgrade(req, networkSocket, head, newWebSocket => {
-        console.log("Socket Upgrade")
-        webSocketServer.emit('connection', newWebSocket, req)
-    })
-})
-
 webSocketServer.on('connection', (socket, req) => {
     console.log('Websocket Connected & Session Saved')
     socket.session = req.session
+
+    socket.on('message', (message) => {
+        req.session.reload((err) => {
+            if(err) { throw err }
+
+            if(req.session.roomCode === undefined) {
+                console.log(`Ignoring message from no-roomcode user ${message}`)
+                return
+            }
+        })
+    })
 })
 
 // !!! temporary server echo- of session
 app.use(function (req, res, next) {
- 
     console.log(req.session)
 
     next()
@@ -86,7 +82,6 @@ const quizRouter = require('./routes/quiz')
 app.use('/questions', questionsRouter)
 app.use('/teams', teamsRouter)
 app.use('/quiz', quizRouter)
-
 
 httpServer.on('request', app)
 httpServer.listen(3001, function () {
