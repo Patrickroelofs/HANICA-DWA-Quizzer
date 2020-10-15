@@ -5,6 +5,7 @@ const {
     MasterMessage,
     ScoreboardMessage,
     TeamsMessage,
+    TeamMessage
 } = require('../functions/websocket')
 
 mongoose.set('useFindAndModify', false)
@@ -51,15 +52,16 @@ router.delete('/:name', async function (req, res, next) {
     try {
         await Quiz.updateOne(
             { roomCode: req.session.roomCode },
-            { $pull: { teams: { name: req.params.teamName } } }
+            { $pull: { teams: { name: req.params.name } } }
         )
 
-        TeamMessage(req, 'TEAM_REFUSED', req.params.teamName)
+        TeamMessage(req, 'TEAM_REFUSED', req.params.name)
 
         res.send(
             JSON.stringify({
                 type: 'TEAM_DELETED',
-                message: `${req.params.teamName} got deleted`,
+                message: `${req.params.name}`,
+                roomCode: req.session.roomCode
             })
         )
 

@@ -2,13 +2,13 @@ import React ,{useState, useEffect} from 'react';
 import '../css/App.css';
 import { uniq } from 'lodash'
 import {
-    addTeam,
+    getQuizInfo,
     openWebSocket, removeTeam,
     startCreationRoom,
 } from '../serverCommunication';
 
 function MasterApp (props) {
-    const [roomCode, setRoomCode] = useState("")
+    const [roomCode, setRoomCode] = useState(null)
     const [messageList, setMessageList] = useState([])
 
     async function startQuiz(){
@@ -17,9 +17,21 @@ function MasterApp (props) {
         await makeSocket()
 
     }
-    async function addTeams(roomCode){
-        const thing = await addTeam(roomCode)
-        console.log(thing)
+    async function getQuizData(r, todo){
+        const response = await getQuizInfo(r)
+        const teamsArray = response.data.teams
+        if(todo ===  'ADD') {
+            setMessageList([])
+            teamsArray.forEach(team => {
+                setMessageList((prevArr) => ([...prevArr, team.name]))
+            })
+        }else{
+            setMessageList([])
+            teamsArray.forEach(team => {
+                setMessageList((prevArr) => ([...prevArr, team.name]))
+            })
+        }
+        return response
     }
     function analyzeMessage(msg){
         let json
@@ -32,11 +44,12 @@ function MasterApp (props) {
         console.log(json.type)
         switch (json.type){
             case 'TEAM_JOINED':
-                setMessageList((prevArr) => ([...prevArr, json.teamName]))
+                let roomcode = json.roomCode
+                getQuizData(roomcode, 'ADD').then(r => console.log(r))
                 break
-            case 'DELETED':
-                console.log(' deleting')
-                setMessageList(() => messageList.filter((e)=>(e !== json.team)))
+            case 'TEAM_DELETED':
+                let c = json.roomCode
+                getQuizData(c, 'DELETE').then(r => console.log(r))
                 break
             default:
                 break

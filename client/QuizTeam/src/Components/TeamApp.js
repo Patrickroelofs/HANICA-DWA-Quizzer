@@ -29,7 +29,7 @@ function TeamApp (props) {
         console.log(jsonMessage)
         console.log(jsonMessage.type)
         switch (jsonMessage.type){
-            case 'REFUSED':
+            case 'TEAM_REFUSED':
                 setMessageList((prevArr) => ([...prevArr, jsonMessage.type]))
                 break
             case 'ACCEPTED':

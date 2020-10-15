@@ -35,7 +35,7 @@ MasterMessage = function (req, message) {
 TeamsMessage = function (req, message) {
     req.webSocketServer.clients.forEach((client) => {
         if (
-            client.session.teams &&
+            client.session.team &&
             req.session.roomCode === client.session.roomCode
         ) {
             console.log('message:', message, ' | TO: ALL TEAMS')
@@ -63,7 +63,7 @@ TeamsMessage = function (req, message) {
 TeamMessage = function (req, message, teamName) {
     req.webSocketServer.clients.forEach((client) => {
         if (
-            client.session.teams &&
+            client.session.team &&
             client.session.teamName === teamName &&
             req.session.roomCode === client.session.roomCode
         ) {

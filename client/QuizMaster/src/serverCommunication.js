@@ -48,13 +48,16 @@ export async function getCategories() {
     return await axios.get(serverFetchBase+`/category`)
 
 }
+export async function getQuizInfo(roomCode) {
+  console.log(roomCode)
+  const response = await axios.get(serverFetchBase+`/quiz/${roomCode}`)
+  console.log(response)
+  return response
 
-export async function addTeam(roomCode) {
-  await axios.post(serverFetchBase +'/teams/pizza', {roomCode : 555}, {withCredentials: true})
 }
 
 export async function removeTeam(team, roomCode) {
-  const response = await axios.delete(serverFetchBase +`/quiz/${roomCode}/teams/${team}`, {withCredentials: true})
+  const response = await axios.delete(serverFetchBase +`/teams/${team}`, {data :{roomCode : roomCode}, withCredentials: true})
   return response
 }
 
