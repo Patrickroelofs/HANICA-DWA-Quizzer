@@ -17,6 +17,11 @@ const quizSchema = mongoose.Schema({
             answer: [String],
         },
     ],
+    scoreboard: {
+        type: Boolean,
+        default: false,
+        required: false,
+    },
     started: {
         type: Boolean,
         required: false,
