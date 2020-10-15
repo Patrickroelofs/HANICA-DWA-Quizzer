@@ -17,6 +17,7 @@ MasterMessage = function (req, message) {
             client.send(
                 JSON.stringify({
                     type: message,
+                    roomCode: client.session.roomCode
                 })
             )
         }
@@ -42,6 +43,7 @@ TeamsMessage = function (req, message) {
             client.send(
                 JSON.stringify({
                     type: message,
+                    roomCode: client.session.roomCode
                 })
             )
         }
@@ -70,7 +72,8 @@ TeamMessage = function (req, message, teamName) {
             client.send(
                 JSON.stringify({
                     type: message,
-                    teamName: teamName
+                    teamName: teamName,
+                    roomCode: client.session.roomCode
                 })
             )
         }
@@ -96,6 +99,7 @@ ScoreboardMessage = function (req, message) {
             client.send(
                 JSON.stringify({
                     type: message,
+                    roomCode: client.session.roomCode
                 })
             )
         }
