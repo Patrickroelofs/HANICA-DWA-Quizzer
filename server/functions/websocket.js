@@ -24,6 +24,31 @@ MasterMessage = function (req, message) {
 }
 
 /**
+ * * Message (TEAMS)
+ * ? Checks if client is a team
+ * ? Checks if roomcode is correct
+ *
+ * @param req the current sessions
+ * @param message the message that gets sent to the team client
+ */
+TeamsMessage = function (req, message) {
+    req.webSocketServer.clients.forEach((client) => {
+        if (
+            client.session.teams &&
+            req.session.roomCode === client.session.roomCode
+        ) {
+            console.log('message:', message, ' | TO: ALL TEAMS')
+
+            client.send(
+                JSON.stringify({
+                    type: message,
+                })
+            )
+        }
+    })
+}
+
+/**
  * * Message (TEAM)
  * ? Checks if client is a team
  * ? Checks if roomcode is correct
@@ -33,7 +58,7 @@ MasterMessage = function (req, message) {
  * @param message the message that gets sent to the team client
  * @param teamName the teamname that the message needs to be sent to
  */
-TeamsMessage = function (req, message, teamName) {
+TeamMessage = function (req, message, teamName) {
     req.webSocketServer.clients.forEach((client) => {
         if (
             client.session.teams &&
@@ -77,7 +102,8 @@ ScoreboardMessage = function (req, message) {
 }
 
 module.exports = {
+    ScoreboardMessage,
     MasterMessage,
     TeamsMessage,
-    ScoreboardMessage,
+    TeamMessage,
 }
