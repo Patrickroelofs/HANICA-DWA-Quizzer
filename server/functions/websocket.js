@@ -62,7 +62,7 @@ TeamMessage = function (req, message, teamName) {
     req.webSocketServer.clients.forEach((client) => {
         if (
             client.session.teams &&
-            req.session.teamName === teamName &&
+            client.session.teamName === teamName &&
             req.session.roomCode === client.session.roomCode
         ) {
             console.log('message:', message, ' | TO: ' + teamName)
@@ -70,6 +70,7 @@ TeamMessage = function (req, message, teamName) {
             client.send(
                 JSON.stringify({
                     type: message,
+                    teamName: teamName
                 })
             )
         }

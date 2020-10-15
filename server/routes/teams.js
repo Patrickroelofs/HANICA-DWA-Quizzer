@@ -15,6 +15,7 @@ const Quiz = mongoose.model('Quiz')
 router.post('/:name', async function (req, res, next) {
     try {
         req.session.team = true
+        req.session.teamName = req.params.name
         req.session.roomCode = req.body.roomCode
 
         const team = await Quiz.findOneAndUpdate(
