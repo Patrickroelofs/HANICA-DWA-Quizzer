@@ -45,7 +45,7 @@ export async function getQuest() {
 
 }
 export async function getCategories() {
-    return await axios.get(serverFetchBase+`/category`)
+    return await axios.get(serverFetchBase+`/questions/categories`, {withCredentials: true})
 
 }
 export async function getQuizInfo(roomCode) {

@@ -5,11 +5,15 @@ import {
     getQuizInfo,
     openWebSocket, removeTeam,
     startCreationRoom,
+    getWebSocket,
+    getCategories,
+    getQuest
 } from '../serverCommunication';
 
 function MasterApp (props) {
     const [roomCode, setRoomCode] = useState(null)
     const [messageList, setMessageList] = useState([])
+    const [categories, setCategories] = useState([])
 
     async function startQuiz(){
         const response = await startCreationRoom()
@@ -59,7 +63,6 @@ function MasterApp (props) {
         let response = await removeTeam(team, roomCode)
         analyzeMessage(response)
     }
-
     async function makeSocket(){
        const ws = await openWebSocket()
         ws.onerror = () => console.log('WebSocket error');
@@ -68,16 +71,47 @@ function MasterApp (props) {
         ws.onmessage = (msg) => analyzeMessage(msg)
         console.log(ws)
     }
+    async function getC() {
+        const catagories = await getCategories()
+        console.log(catagories.data)
+        setCategories([])
+        catagories.data.forEach(c => {
+            setCategories((prevArr) => ([...prevArr, c]))
+        })
+    }
+    function onSend(type, message, extra) {
+        const ws = getWebSocket();
+        let m = {type: type, message: message, teamName:extra}
+        ws.send(JSON.stringify(m))
+    }
     return (
         <div>
             <button onClick={startQuiz}>Start quiz</button>
-            <div>{messageList.map(m => {return (
-                <div key={m}>
-                <li >{m}</li>
-                    <button onClick={() => refuseTeam(m)}>Reject</button>
-                </div>)})}
-            </div>
-            <p>{roomCode}</p>
+            <h5>RoomCode: {roomCode}</h5>
+            <hr/>
+            <h5>Joined Teams ({messageList.length})</h5>
+            <ul>
+                <div>{messageList.map(m => {return (
+                    <div key={m}>
+                    <li >{m}</li>
+                        <button onClick={() => refuseTeam(m)}>Reject</button>
+                        <button onClick={() => onSend('TEAM_ACCEPTED', '', m )}>Accept</button>
+                    </div>)})}
+                </div>
+            </ul>
+            <button onClick={getC}>Start Round ({messageList.length})</button>
+            <hr/>
+            <h5>Catagories:</h5>
+                <div>
+                    {categories ? categories.map(c => {return (
+                        <button key={c}>{c}</button>
+                    )}): null}
+                </div>
+            <hr/>
+            <h5>Questions of ..</h5>
+                <div>
+
+                </div>
         </div>
     )
 }

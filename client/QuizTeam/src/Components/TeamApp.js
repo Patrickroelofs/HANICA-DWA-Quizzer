@@ -32,8 +32,9 @@ function TeamApp (props) {
             case 'TEAM_REFUSED':
                 setMessageList((prevArr) => ([...prevArr, jsonMessage.type]))
                 break
-            case 'ACCEPTED':
+            case 'TEAM_ACCEPTED':
                 setMessageList((prevArr) => ([...prevArr, jsonMessage.type]))
+                break
             default:
                 break
         }
