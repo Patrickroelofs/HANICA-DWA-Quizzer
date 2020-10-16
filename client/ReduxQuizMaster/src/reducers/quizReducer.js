@@ -1,10 +1,12 @@
+import { ACCEPT_TEAM, REMOVE_TEAM } from '../actions/teamActions'
 import { CREATE_QUIZ, GET_TEAMS } from './../actions/quizActions'
 
 const initialQuizState = {
     roomCode: '',
     language: '',
     fetchTeams: false,
-    teams: []
+    connectedTeams: [],
+    acceptedTeams: []
 }
 
 const quizReducer = (state = initialQuizState, action) => {
@@ -22,7 +24,7 @@ const quizReducer = (state = initialQuizState, action) => {
             return {
                 ...state,
                 fetchTeams: false,
-                teams: action.payload
+                connectedTeams: action.payload
             }
         }
 
@@ -30,6 +32,21 @@ const quizReducer = (state = initialQuizState, action) => {
             return {
                 ...state,
                 fetchTeams: true,
+            }
+        }
+
+        case ACCEPT_TEAM: {
+            console.log(action.payload)
+            return {
+                ...state,
+                acceptedTeams: action.payload
+            }
+        }
+
+        case REMOVE_TEAM: {
+            return {
+                ...state,
+                fetchTeams: true
             }
         }
 

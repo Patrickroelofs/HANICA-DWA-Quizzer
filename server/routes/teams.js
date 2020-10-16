@@ -55,10 +55,29 @@ router.get('/:roomCode', async function (req, res, next) {
         const stringifiedQuiz = JSON.stringify(quiz)
         const parsedQuiz = JSON.parse(stringifiedQuiz)
 
-        MasterMessage(req, 'TEAM_JOINED')
+        if(parsedQuiz[0].teams.length > 0) {
+            MasterMessage(req, 'TEAM_JOINED')
+        }
 
         res.send(parsedQuiz[0].teams)
         console.log(`[GET] teams.get('/${req.params.roomCode}'`)
+    } catch (err) {
+        next(err)
+    }
+})
+
+router.get('/name/:name', async function (req, res, next) {
+    try {
+        const quiz = await Quiz.find(
+            { roomCode: req.session.roomCode },
+            { teams: { name: req.params.name } })
+        console.log("yeppers", quiz)
+
+        res.send(quiz)
+        TeamMessage(req, 'TEAM_ACCEPTED', req.params.name)
+
+        console.log(`[GET] teams/name/${req.params.name}`)
+
     } catch (err) {
         next(err)
     }

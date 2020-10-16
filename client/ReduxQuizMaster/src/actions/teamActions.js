@@ -1,0 +1,57 @@
+import { webSocket } from './sessionActions'
+
+export const ACCEPT_TEAM = 'ACCEPT_TEAM'
+export const REMOVE_TEAM = 'REMOVE_TEAM'
+
+function ActionRemoveTeam(payload) {
+    return {
+        type: REMOVE_TEAM,
+        payload: payload,
+    }
+}
+
+function ActionAcceptTeam(payload) {
+    return {
+        type: ACCEPT_TEAM,
+        payload: payload,
+    }
+}
+
+//TODO: Remove roomcode :)
+export function reviewTeam(name, roomCode, which) {
+    return (dispatch) => {
+        if (which === 'accept') {
+            const options = {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                mode: 'cors',
+            }
+
+            fetch(`http://localhost:3001/teams/name/${name}`, options)
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log("yeppers", data)
+                    dispatch(ActionAcceptTeam(data[0].teams))
+                })
+
+        } else if (which === 'remove') {
+            const options = {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                mode: 'cors',
+            }
+
+            fetch(`http://localhost:3001/teams/${name}`, options)
+                .then((response) => response.json())
+                .then((data) => {
+                    dispatch(ActionRemoveTeam(data))
+                })
+        }
+    }
+}

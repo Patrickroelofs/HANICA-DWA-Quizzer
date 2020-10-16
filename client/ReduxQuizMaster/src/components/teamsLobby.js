@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { getTeams } from '../actions/quizActions'
+import { reviewTeam } from '../actions/teamActions'
 
 class TeamsLobby extends Component {
     componentDidMount() {
@@ -21,9 +22,15 @@ class TeamsLobby extends Component {
 
                 <p>Teams:</p>
                 <ul>
-                    {this.props.teams
-                        ? this.props.teams.map((team) => {
-                              return <li key={team.name}>{team.name}</li>
+                    {this.props.connectedTeams
+                        ? this.props.connectedTeams.map((team) => {
+                              return (
+                                  <li key={team.name}>
+                                    <span>{team.name}</span>
+                                    <button onClick={() => this.props.reviewTeam(team.name, this.props.roomCode, 'accept')}>Accept</button>
+                                    <button onClick={() => this.props.reviewTeam(team.name, this.props.roomCode, 'remove')}>Deny</button>
+                                  </li>
+                                )
                           })
                         : null}
                 </ul>
@@ -36,12 +43,15 @@ function mapStateToProps(state) {
     return {
         roomCode: state.quiz.roomCode,
         fetchTeams: state.quiz.fetchTeams,
-        teams: state.quiz.teams
+        
+        connectedTeams: state.quiz.connectedTeams,
+        acceptedTeams: state.quiz.acceptedTeams
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
+        reviewTeam: (...data) => dispatch(reviewTeam(...data)),
         getTeams: (data) => dispatch(getTeams(data)),
     }
 }
