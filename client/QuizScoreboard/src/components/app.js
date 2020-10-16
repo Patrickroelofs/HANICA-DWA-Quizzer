@@ -4,21 +4,19 @@ import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-d
 
 import JoinQuizCode from './joinQuizCode'
 import WaitingRoom from './waitingRoom'
+import Quiz from './Quiz'
 
 class App extends Component {
-    isInAQuiz() {
-        if(this.props.roomCode !== '') {
-            return <Redirect to={`/waitingroom`}  />
-        } else {
+    checkState() {
+        if(this.props.roomCode === '' && this.props.quizStarted === false) {
             return <JoinQuizCode />
-        }
-    }
 
-    isNotInAQuiz() {
-        if(this.props.roomCode === '') {
-            return <Redirect to="/" />
-        } else {
+        } else if (this.props.roomCode !== '' && this.props.quizStarted === false) {
             return <WaitingRoom />
+
+        } else if (this.props.roomCode !== '' && this.props.quizStarted === true) {
+            return <Quiz />
+            
         }
     }
 
@@ -26,8 +24,9 @@ class App extends Component {
         return (
             <Router>
                 <Switch>
-                    <Route path="/" exact render={() => this.isInAQuiz() } />
-                    <Route path={`/waitingroom`} render={() => this.isNotInAQuiz() } />
+                    <Route path="/" exact render={() => this.checkState() } />
+                    <Route path={`/waitingroom`} render={() => this.checkState() } />
+                    <Route path={`/quiz`} render={() => this.checkState() } />
 
                     <Route render={() => <Redirect to="/" /> } />
                 </Switch>
@@ -38,7 +37,8 @@ class App extends Component {
 
 function mapStateToProps(state) {
     return {
-        roomCode: state.quiz.roomCode
+        roomCode: state.quiz.roomCode,
+        quizStarted: state.quiz.quizStarted
     }
 }
 
