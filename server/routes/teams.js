@@ -5,7 +5,7 @@ const {
     MasterMessage,
     ScoreboardMessage,
     TeamsMessage,
-    TeamMessage
+    TeamMessage,
 } = require('../functions/websocket')
 
 mongoose.set('useFindAndModify', false)
@@ -48,6 +48,20 @@ router.post('/:name', async function (req, res, next) {
     }
 })
 
+router.get('/:roomCode', async function (req, res, next) {
+    try {
+        const quiz = await Quiz.find({ roomCode: req.params.roomCode })
+
+        const stringifiedQuiz = JSON.stringify(quiz)
+        const parsedQuiz = JSON.parse(stringifiedQuiz)
+
+        res.send(parsedQuiz[0].teams)
+        console.log(`[GET] teams.get('/${req.params.roomCode}'`)
+    } catch (err) {
+        next(err)
+    }
+})
+
 router.delete('/:name', async function (req, res, next) {
     try {
         await Quiz.updateOne(
@@ -61,7 +75,7 @@ router.delete('/:name', async function (req, res, next) {
             JSON.stringify({
                 type: 'TEAM_DELETED',
                 message: `${req.params.name}`,
-                roomCode: req.session.roomCode
+                roomCode: req.session.roomCode,
             })
         )
 

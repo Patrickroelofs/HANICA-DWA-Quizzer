@@ -7,15 +7,15 @@ import WaitingRoom from './waitingRoom'
 
 class App extends Component {
     isInAQuiz() {
-        if(this.props.scoreboardJoinSuccess) {
-            return <Redirect to="/waitingroom" />
+        if(this.props.roomCode !== '') {
+            return <Redirect to={`/waitingroom`}  />
         } else {
             return <JoinQuizCode />
         }
     }
 
     isNotInAQuiz() {
-        if(!this.props.scoreboardJoinSuccess) {
+        if(this.props.roomCode === '') {
             return <Redirect to="/" />
         } else {
             return <WaitingRoom />
@@ -27,7 +27,7 @@ class App extends Component {
             <Router>
                 <Switch>
                     <Route path="/" exact render={() => this.isInAQuiz() } />
-                    <Route path="/waitingroom" render={() => this.isNotInAQuiz() } />
+                    <Route path={`/waitingroom`} render={() => this.isNotInAQuiz() } />
 
                     <Route render={() => <Redirect to="/" /> } />
                 </Switch>
@@ -38,7 +38,7 @@ class App extends Component {
 
 function mapStateToProps(state) {
     return {
-        scoreboardJoinSuccess: state.quiz.scoreboardJoinSuccess
+        roomCode: state.quiz.roomCode
     }
 }
 

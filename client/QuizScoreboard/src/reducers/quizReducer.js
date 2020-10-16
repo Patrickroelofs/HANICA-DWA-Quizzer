@@ -1,13 +1,17 @@
-import { JOIN_QUIZ_SUCCESS } from '../actions/quizActions'
+import { GET_TEAMS, JOIN_QUIZ_SUCCESS } from '../actions/quizActions'
 
 const initialQuizState = {
-    scoreboardJoinSuccess: false
+    roomCode: '',
 }
 
 const quizReducer = (state = initialQuizState, action) => {
     switch (action.type) {
         case JOIN_QUIZ_SUCCESS: {
-            return { ...state, scoreboardJoinSuccess: true }
+            return { ...state, roomCode: action.payload }
+        }
+
+        case GET_TEAMS: {
+            return { ...state, teams: action.payload }
         }
 
         default: {

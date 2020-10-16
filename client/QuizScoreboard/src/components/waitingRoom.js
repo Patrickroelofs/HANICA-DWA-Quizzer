@@ -1,24 +1,31 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { getTeams } from '../actions/quizActions'
 
 class WaitingRoom extends Component {
 
+    componentDidMount() {
+        this.props.getTeams(this.props.roomCode)
+    }
+
     render() {
+        console.log(this.props.teams)
         return (
-            <h1>Works!</h1>
+            <h1>These teams have joined:</h1>
         )
     }
 }
 
 function mapStateToProps(state) {
     return {
-
+        roomCode: state.quiz.roomCode,
+        teams: state.quiz.teams
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-
+        getTeams: (data) => dispatch(getTeams(data))
     }
 }
 
