@@ -1,8 +1,10 @@
-import { CREATE_QUIZ } from './../actions/quizActions'
+import { CREATE_QUIZ, GET_TEAMS } from './../actions/quizActions'
 
 const initialQuizState = {
     roomCode: '',
     language: '',
+    fetchTeams: false,
+    teams: []
 }
 
 const quizReducer = (state = initialQuizState, action) => {
@@ -12,6 +14,22 @@ const quizReducer = (state = initialQuizState, action) => {
                 ...state,
                 language: action.language,
                 roomCode: action.roomCode,
+                fetchTeams: true,
+            }
+        }
+
+        case GET_TEAMS: {
+            return {
+                ...state,
+                fetchTeams: false,
+                teams: action.payload
+            }
+        }
+
+        case 'TEAM_JOINED': {
+            return {
+                ...state,
+                fetchTeams: true,
             }
         }
 

@@ -55,6 +55,8 @@ router.get('/:roomCode', async function (req, res, next) {
         const stringifiedQuiz = JSON.stringify(quiz)
         const parsedQuiz = JSON.parse(stringifiedQuiz)
 
+        MasterMessage(req, 'TEAM_JOINED')
+
         res.send(parsedQuiz[0].teams)
         console.log(`[GET] teams.get('/${req.params.roomCode}'`)
     } catch (err) {

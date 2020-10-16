@@ -1,6 +1,7 @@
 import { webSocket } from './sessionActions'
 
 export const CREATE_QUIZ = 'CREATE_QUIZ'
+export const GET_TEAMS = 'GET_TEAMS'
 
 function ActionCreateQuiz(payload) {
     return {
@@ -33,6 +34,32 @@ export function createQuiz(language) {
                     })
                 )
 
+            })
+    }
+}
+
+function ActionGetTeams(payload) {
+    return {
+        type: GET_TEAMS,
+        payload: payload,
+    }
+}
+
+export function getTeams(roomCode) {
+    return (dispatch) => {
+        const options = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+            mode: 'cors',
+        }
+
+        fetch(`http://localhost:3001/teams/${roomCode}`, options)
+            .then((response) => response.json())
+            .then((data) => {
+                dispatch(ActionGetTeams(data))
             })
     }
 }
