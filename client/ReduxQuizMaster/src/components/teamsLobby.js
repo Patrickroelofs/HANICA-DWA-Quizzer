@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { getTeams } from '../actions/quizActions'
-import { reviewTeam } from '../actions/teamActions'
+import { reviewTeam, getTeams } from '../actions/teamActions'
 
 class TeamsLobby extends Component {
     componentDidMount() {

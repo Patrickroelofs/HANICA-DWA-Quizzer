@@ -1,5 +1,5 @@
-import { ACCEPT_TEAM, REMOVE_TEAM } from '../actions/teamActions'
-import { CREATE_QUIZ, GET_TEAMS } from './../actions/quizActions'
+import { ACCEPT_TEAM, REMOVE_TEAM, GET_TEAMS } from '../actions/teamActions'
+import { CREATE_QUIZ } from './../actions/quizActions'
 
 const initialQuizState = {
     roomCode: '',
@@ -36,7 +36,6 @@ const quizReducer = (state = initialQuizState, action) => {
         }
 
         case ACCEPT_TEAM: {
-            console.log(action.payload)
             return {
                 ...state,
                 acceptedTeams: action.payload
