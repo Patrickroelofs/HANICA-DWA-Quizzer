@@ -70,6 +70,7 @@ router.delete('/:name', async function (req, res, next) {
         )
 
         TeamMessage(req, 'TEAM_REFUSED', req.params.name)
+        ScoreboardMessage(req, 'TEAM_REFUSED')
 
         res.send(
             JSON.stringify({
