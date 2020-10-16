@@ -40,8 +40,9 @@ export async function startCreationRoom() {
   return response
 }
 
-export async function getQuest() {
-    fetch( serverFetchBase+'/questions', {method : 'GET', mode: 'cors', credentials: "include"}).then(response =>  console.log(response))
+export async function getQuestionsOfCategory(cat) {
+  const response = await axios.get(serverFetchBase+`/questions/categories/${cat}`,{withCredentials: true})
+  return response
 
 }
 export async function getCategories() {

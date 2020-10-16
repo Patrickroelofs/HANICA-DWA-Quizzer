@@ -7,14 +7,17 @@ import {
     startCreationRoom,
     getWebSocket,
     getCategories,
-    getQuest
+    getQuest, getQuestionsOfCategory
 } from '../serverCommunication';
 
 function MasterApp (props) {
     const [roomCode, setRoomCode] = useState(null)
     const [messageList, setMessageList] = useState([])
     const [categories, setCategories] = useState([])
-
+    const [acceptedTeams, setAcceptedTeams] = useState([])
+    const [chosenCat, setChosenCat] = useState([])
+    const [currentQuestionsShown, setCurrentQuestionsShown] = useState([])
+    const [currentCat, setCurrentCat] = useState('')
     async function startQuiz(){
         const response = await startCreationRoom()
         setRoomCode(response.data.roomCode)
@@ -79,38 +82,68 @@ function MasterApp (props) {
             setCategories((prevArr) => ([...prevArr, c]))
         })
     }
+    async function getGofC(cat){
+       const response = await getQuestionsOfCategory(cat)
+        setCurrentCat(cat)
+        setCurrentQuestionsShown([])
+        response.data.forEach(question => setCurrentQuestionsShown((prevArr) => ([...prevArr, question])))
+    }
     function onSend(type, message, extra) {
         const ws = getWebSocket();
         let m = {type: type, message: message, teamName:extra}
         ws.send(JSON.stringify(m))
     }
+    function choosingCategories(cat){
+        if(chosenCat.length === 3){
+            const first = chosenCat[0]
+            setChosenCat(() => chosenCat.shift())
+            console.log(cat)
+            setChosenCat(chosenCat.filter((e)=>(e !== first)))
+            setChosenCat((prevArr) => ([...prevArr, cat]))
+        }else{
+            setChosenCat((prevArr) => ([...prevArr, cat]))
+
+        }
+    }
     return (
         <div>
             <button onClick={startQuiz}>Start quiz</button>
-            <h5>RoomCode: {roomCode}</h5>
+            <h3>RoomCode: {roomCode}</h3>
             <hr/>
-            <h5>Joined Teams ({messageList.length})</h5>
+            <h3>Joined Teams ({messageList.length})</h3>
             <ul>
                 <div>{messageList.map(m => {return (
                     <div key={m}>
                     <li >{m}</li>
-                        <button onClick={() => refuseTeam(m)}>Reject</button>
-                        <button onClick={() => onSend('TEAM_ACCEPTED', '', m )}>Accept</button>
+                        {acceptedTeams.includes(m) ?
+                            null
+                            :
+                            <div>
+                                <button onClick={() => refuseTeam(m)}>Reject</button>
+                                <button onClick={() => {setAcceptedTeams((prevArr) => ([...prevArr, m])); onSend('TEAM_ACCEPTED', '', m); }}>Accept</button>
+                            </div>
+                        }
                     </div>)})}
                 </div>
             </ul>
-            <button onClick={getC}>Start Round ({messageList.length})</button>
+            <button onClick={getC}>Start Round ({acceptedTeams.length})</button>
             <hr/>
-            <h5>Catagories:</h5>
+            <h3>Choose categories ({chosenCat.length}/3):</h3>
+                <p>press once to select category, press twice to see questions (can't select more than 3)</p>
                 <div>
                     {categories ? categories.map(c => {return (
-                        <button key={c}>{c}</button>
+                        chosenCat.includes(c)
+                            ? <button onClick={() => getGofC(c)} key={c}><b>{c}</b></button>
+                            : <button onClick={() => choosingCategories(c)} key={c}>{c}</button>
                     )}): null}
                 </div>
             <hr/>
-            <h5>Questions of ..</h5>
+            <h3>Questions of {currentCat}</h3>
                 <div>
-
+                    {currentQuestionsShown
+                        ? currentQuestionsShown.map(q => {return(<li key={q._id}>{q.question}</li>)})
+                        : null
+                    }
                 </div>
         </div>
     )
