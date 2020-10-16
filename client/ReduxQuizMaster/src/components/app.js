@@ -4,14 +4,19 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 import CreateQuiz from './createQuiz'
 import TeamsLobby from './teamsLobby'
+import Quiz from './Quiz'
 
 class App extends Component {
 
     checkState() {
-        if(this.props.roomCode !== '') {
-            return <TeamsLobby />
+        if(this.props.roomCode !== '' && this.props.startQuiz === true) {
+            return <Quiz />
         } else {
-            return <CreateQuiz />
+            if(this.props.roomCode !== '') {
+                return <TeamsLobby />
+            } else {
+                return <CreateQuiz />
+            }
         }
     }
 
@@ -29,6 +34,7 @@ function mapStateToProps(state) {
     return {
         roomCode: state.quiz.roomCode,
         language: state.quiz.language,
+        startQuiz: state.quiz.startQuiz,
     }
 }
 

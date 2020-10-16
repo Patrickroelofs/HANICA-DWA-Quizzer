@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { startQuiz } from '../actions/quizActions'
 import { reviewTeam, getTeams } from '../actions/teamActions'
 
 class TeamsLobby extends Component {
@@ -16,7 +17,6 @@ class TeamsLobby extends Component {
     render() {
         return (
             <div>
-                <h1>Works!</h1>
                 <h2>Roomcode: {this.props.roomCode}</h2>
 
                 <p>Teams:</p>
@@ -25,14 +25,28 @@ class TeamsLobby extends Component {
                         ? this.props.connectedTeams.map((team) => {
                               return (
                                   <li key={team.name}>
-                                    <span>{team.name}</span>
-                                    <button onClick={() => this.props.reviewTeam(team.name, this.props.roomCode, 'accept')}>Accept</button>
-                                    <button onClick={() => this.props.reviewTeam(team.name, this.props.roomCode, 'remove')}>Deny</button>
+                                    <span>{team.name} </span>
+                                    {
+                                        this.props.acceptedTeams.some(e => e.name === team.name)
+                                        ? <span> - User accepted</span>
+                                        : <React.Fragment>
+                                            <button onClick={() => this.props.reviewTeam(team.name, this.props.roomCode, 'accept')}>Accept</button>
+                                            <button onClick={() => this.props.reviewTeam(team.name, this.props.roomCode, 'remove')}>Deny</button>
+                                          </React.Fragment> 
+                                        }
                                   </li>
                                 )
                           })
                         : null}
                 </ul>
+
+                <div>
+                    
+                    {this.props.acceptedTeams.length >= 1
+                        ? <button onClick={() => this.props.startQuiz()}>Start Quiz</button>
+                        : ''
+                    }
+                </div>
             </div>
         )
     }
@@ -50,6 +64,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
+        startQuiz: () => dispatch(startQuiz()),
         reviewTeam: (...data) => dispatch(reviewTeam(...data)),
         getTeams: (data) => dispatch(getTeams(data)),
     }
