@@ -1,4 +1,3 @@
-import { GET_TEAMS, JOIN_QUIZ_SUCCESS } from '../actions/quizActions'
 
 const initialQuizState = {
     roomCode: '',

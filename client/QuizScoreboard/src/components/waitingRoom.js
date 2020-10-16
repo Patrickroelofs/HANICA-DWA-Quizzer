@@ -9,7 +9,6 @@ class WaitingRoom extends Component {
     }
 
     render() {
-        console.log(this.props.teams)
         return (
             <h1>These teams have joined:</h1>
         )
