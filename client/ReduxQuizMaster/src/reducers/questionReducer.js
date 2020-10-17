@@ -1,16 +1,10 @@
-import { GET_CATEGORIES } from "../actions/questionActions"
-
-const initialQuizState = {
-    categories: [{
-
-    }]
+const initialQuestionState = {
+    all: '',
+    selected: ''
 }
 
-const questionReducer = (state = initialQuizState, action) => {
+const questionReducer = (state = initialQuestionState, action) => {
     switch (action.type) {
-        case GET_CATEGORIES: {
-            return { ...state, categories: action.payload }
-        }
 
         default: {
             return state

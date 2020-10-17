@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { getCategories } from './../actions/questionActions'
+import { getCategories, selectCategory, unselectCategory } from './../actions/categoryActions'
 
 class ChooseCategories extends Component {
     componentDidMount() {
@@ -11,11 +11,29 @@ class ChooseCategories extends Component {
         return (
             <div>
                 <h1>Choose Categories!</h1>
-                <p>Choose 3 Categories and 12 Questions</p>
+                
+                {this.props.selectedCategories.length >= 3
+                    ? null
+                    : <div>
+                        <p>Choose {`${this.props.selectedCategories.length} / 3`} Categories</p>
+                        {this.props.AllCategories
+                        ? this.props.AllCategories.map((category) => {
+                            return this.props.selectedCategories.includes(category)
+                                ? null
+                                : <button onClick={() => this.props.selectCategory(category.toString())} key={category.toString()}>{category.toString()}</button>
+                          })
+                        : null
+                    }
+                </div>
+                }
+
+
+                <p>Chosen Categories:</p>
                 <div>
-                    {this.props.categories
-                        ? this.props.categories.map((category) => {
-                            return <button key={category.toString()}>{category.toString()}</button>
+                    {
+                        this.props.selectedCategories
+                        ? this.props.selectedCategories.map((category) => {
+                            return <button onClick={() => this.props.unselectCategory(category.toString())} key={category.toString()}>{category.toString()}</button>
                         })
                         : null
                     }
@@ -27,13 +45,16 @@ class ChooseCategories extends Component {
 
 function mapStateToProps(state) {
     return {
-        categories: state.questions.categories,
+        AllCategories: state.categories.all,
+        selectedCategories: state.categories.selected
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         getCategories: () => dispatch(getCategories()),
+        selectCategory: (category) => dispatch(selectCategory(category)),
+        unselectCategory: (category) => dispatch(unselectCategory(category))
     }
 }
 
