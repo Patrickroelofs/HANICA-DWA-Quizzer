@@ -1,5 +1,3 @@
-import { webSocket } from './sessionActions'
-
 export const ACCEPT_TEAM = 'ACCEPT_TEAM'
 export const REMOVE_TEAM = 'REMOVE_TEAM'
 export const GET_TEAMS = 'GET_TEAMS'
@@ -44,8 +42,7 @@ export function getTeams(roomCode) {
     }
 }
 
-//TODO: Remove roomcode :)
-export function reviewTeam(name, roomCode, which) {
+export function reviewTeam(name, which) {
     return (dispatch) => {
         if (which === 'accept') {
             const options = {

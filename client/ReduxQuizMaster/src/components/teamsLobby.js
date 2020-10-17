@@ -30,8 +30,8 @@ class TeamsLobby extends Component {
                                         this.props.acceptedTeams.some(e => e.name === team.name)
                                         ? <span> - User accepted</span>
                                         : <React.Fragment>
-                                            <button onClick={() => this.props.reviewTeam(team.name, this.props.roomCode, 'accept')}>Accept</button>
-                                            <button onClick={() => this.props.reviewTeam(team.name, this.props.roomCode, 'remove')}>Deny</button>
+                                            <button onClick={() => this.props.reviewTeam(team.name, 'accept')}>Accept</button>
+                                            <button onClick={() => this.props.reviewTeam(team.name, 'remove')}>Deny</button>
                                           </React.Fragment> 
                                         }
                                   </li>

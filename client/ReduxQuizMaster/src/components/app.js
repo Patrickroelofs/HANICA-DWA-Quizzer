@@ -1,30 +1,45 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Redirect, Route } from 'react-router-dom'
 
 import CreateQuiz from './createQuiz'
 import TeamsLobby from './teamsLobby'
-import Quiz from './Quiz'
+import ChooseCategories from './chooseCategories'
 
 class App extends Component {
 
-    checkState() {
-        if(this.props.roomCode !== '' && this.props.startQuiz === true) {
-            return <Quiz />
+    checkPath() {
+        if(this.props.roomCode === '') {
+            return <CreateQuiz />
         } else {
-            if(this.props.roomCode !== '') {
-                return <TeamsLobby />
-            } else {
-                return <CreateQuiz />
-            }
+            return <Redirect to={'/lobby'} />
+        }
+    }
+
+    checkLobby() {
+        if(this.props.roomCode !== '' && this.props.startQuiz === false) {
+            return <TeamsLobby />
+        } else if(this.props.roomCode !== '' && this.props.startQuiz === true) {
+            return <Redirect to={'/categories'} />
+        } else {
+            return <Redirect to={'/'} />
+        }
+    }
+
+    checkChooseCategories() {
+        if(this.props.roomCode !== '' && this.props.startQuiz === true) {
+            return <ChooseCategories />
+        } else {
+            return <Redirect to={'/'} />
         }
     }
 
     render() {
         return (
             <Router>
-                <Route path="/" exact render={() => this.checkState()} />
-                <Route path="/lobby" render={() => this.checkState()} />
+                <Route path="/" exact render={() => this.checkPath()} />
+                <Route path="/lobby" render={() => this.checkLobby()} />
+                <Route path="/categories" render={() => this.checkChooseCategories()} />
             </Router>
         )
     }
