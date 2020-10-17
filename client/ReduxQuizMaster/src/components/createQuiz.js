@@ -1,40 +1,31 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import React from 'react'
+import { useDispatch } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 import { createQuiz } from '../actions/quizActions'
 
-class CreateQuiz extends Component {
-    handleSubmit = (e) => {
+export const CreateQuiz = () => {
+    const history = useHistory()
+    const dispatch = useDispatch()
+
+    const handleSubmit = (e) => {
         e.preventDefault()
-        this.props.createQuiz(e.target.language.value)
+        dispatch(createQuiz(e.target.language.value))
+        
+        history.push('/lobby')
     }
 
 
-    render() {
-        return (
-            <div>
-                <form onSubmit={this.handleSubmit}>
-                    <select name="language">
-                        <option value="NL">Nederlands</option>
-                        <option value="EN">English</option>
-                    </select>
-                    <input type="submit" value="submit" />
-                </form>
-            </div>
-        )
-    }
+    return (
+        <div>
+            <form onSubmit={handleSubmit}>
+                <select name="language">
+                    <option value="NL">Nederlands</option>
+                    <option value="EN">English</option>
+                </select>
+                <input type="submit" value="submit" />
+            </form>
+        </div>
+    )
 }
 
-function mapStateToProps(state) {
-    return {
-
-    }
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-        createQuiz: (data) => dispatch(createQuiz(data))
-    }
-}
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(CreateQuiz)
+export default CreateQuiz

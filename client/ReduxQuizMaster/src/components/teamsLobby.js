@@ -1,73 +1,64 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useHistory } from 'react-router-dom'
+
 import { startQuiz } from '../actions/quizActions'
 import { reviewTeam, getTeams } from '../actions/teamActions'
 
-class TeamsLobby extends Component {
-    componentDidMount() {
-        this.props.getTeams(this.props.roomCode)
-    }
+export const TeamsLobby = () => {
+    const history = useHistory()
+    const dispatch = useDispatch()
 
-    componentDidUpdate() {
-        if (this.props.fetchTeams === true) {
-            this.props.getTeams(this.props.roomCode)
+    const roomCode = useSelector(state => state.quiz.roomCode)
+    const fetchTeams = useSelector(state => state.quiz.fetchTeams)
+    const connectedTeams = useSelector(state => state.quiz.connectedTeams)
+    const acceptedTeams = useSelector(state => state.quiz.acceptedTeams)
+
+    useEffect(() => {
+        if(fetchTeams === true) {
+            dispatch(getTeams(roomCode))
         }
+    }, [fetchTeams, dispatch, roomCode])
+
+    const handleSubmit = () => {
+        console.log("yeppers")
+        dispatch(startQuiz())
+
+        history.push("/categories")
     }
 
-    render() {
-        return (
+    return (
+        <div>
+            <h2>Roomcode: {roomCode}</h2>   
+            <p>Teams:</p>
+            <ul>
+                {connectedTeams
+                    ? connectedTeams.map((team) => {
+                          return (
+                              <li key={team.name}>
+                                <span>{team.name} </span>
+                                {
+                                    acceptedTeams.some(e => e.name === team.name)
+                                    ? <span> - User accepted</span>
+                                    : <React.Fragment>
+                                        <button onClick={() => dispatch(reviewTeam(team.name, 'accept'))}>Accept</button>
+                                        <button onClick={() => dispatch(reviewTeam(team.name, 'remove'))}>Deny</button>
+                                      </React.Fragment> 
+                                    }
+                              </li>
+                            )
+                      })
+                    : null}
+            </ul>   
             <div>
-                <h2>Roomcode: {this.props.roomCode}</h2>
-
-                <p>Teams:</p>
-                <ul>
-                    {this.props.connectedTeams
-                        ? this.props.connectedTeams.map((team) => {
-                              return (
-                                  <li key={team.name}>
-                                    <span>{team.name} </span>
-                                    {
-                                        this.props.acceptedTeams.some(e => e.name === team.name)
-                                        ? <span> - User accepted</span>
-                                        : <React.Fragment>
-                                            <button onClick={() => this.props.reviewTeam(team.name, 'accept')}>Accept</button>
-                                            <button onClick={() => this.props.reviewTeam(team.name, 'remove')}>Deny</button>
-                                          </React.Fragment> 
-                                        }
-                                  </li>
-                                )
-                          })
-                        : null}
-                </ul>
-
-                <div>
-                    
-                    {this.props.acceptedTeams.length >= 1
-                        ? <button onClick={() => this.props.startQuiz()}>Start Quiz</button>
-                        : ''
-                    }
-                </div>
+                  
+                {acceptedTeams.length >= 1
+                    ? <button onClick={() => handleSubmit()}>Start Quiz</button>
+                    : ''
+                }
             </div>
-        )
-    }
+        </div>
+    )
 }
 
-function mapStateToProps(state) {
-    return {
-        roomCode: state.quiz.roomCode,
-        fetchTeams: state.quiz.fetchTeams,
-        
-        connectedTeams: state.quiz.connectedTeams,
-        acceptedTeams: state.quiz.acceptedTeams
-    }
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-        startQuiz: () => dispatch(startQuiz()),
-        reviewTeam: (...data) => dispatch(reviewTeam(...data)),
-        getTeams: (data) => dispatch(getTeams(data)),
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(TeamsLobby)
+export default TeamsLobby

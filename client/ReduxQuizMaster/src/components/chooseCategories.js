@@ -1,26 +1,29 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { getCategories, selectCategory, unselectCategory } from './../actions/categoryActions'
 
-class ChooseCategories extends Component {
-    componentDidMount() {
-        this.props.getCategories()
-    }
+export const ChooseCategories = () => {
+    const dispatch = useDispatch()
+    const AllCategories = useSelector(state => state.categories.all)
+    const selectedCategories = useSelector(state => state.categories.selected)
+    
+    useEffect(() => {
+        dispatch(getCategories())
+    }, [dispatch])
 
-    render() {
         return (
             <div>
                 <h1>Choose Categories!</h1>
                 
-                {this.props.selectedCategories.length >= 3
+                {selectedCategories.length >= 3
                     ? null
                     : <div>
-                        <p>Choose {`${this.props.selectedCategories.length} / 3`} Categories</p>
-                        {this.props.AllCategories
-                        ? this.props.AllCategories.map((category) => {
-                            return this.props.selectedCategories.includes(category)
+                        <p>Choose {`${selectedCategories.length} / 3`} Categories</p>
+                        {AllCategories
+                        ? AllCategories.map((category) => {
+                            return selectedCategories.includes(category)
                                 ? null
-                                : <button onClick={() => this.props.selectCategory(category.toString())} key={category.toString()}>{category.toString()}</button>
+                                : <button onClick={() => dispatch(selectCategory(category.toString()))} key={category.toString()}>{category.toString()}</button>
                           })
                         : null
                     }
@@ -31,31 +34,22 @@ class ChooseCategories extends Component {
                 <p>Chosen Categories:</p>
                 <div>
                     {
-                        this.props.selectedCategories
-                        ? this.props.selectedCategories.map((category) => {
-                            return <button onClick={() => this.props.unselectCategory(category.toString())} key={category.toString()}>{category.toString()}</button>
+                        selectedCategories.length >= 1
+                        ? selectedCategories.map((category) => {
+                            return <button onClick={() => dispatch(unselectCategory(category.toString()))} key={category.toString()}>{category.toString()}</button>
                         })
+                        : null
+                    }
+                </div>
+                <div>
+                    {
+                        selectedCategories.length >= 3
+                        ? <button>Start Sending Questions</button>
                         : null
                     }
                 </div>
             </div>
         )
-    }
 }
 
-function mapStateToProps(state) {
-    return {
-        AllCategories: state.categories.all,
-        selectedCategories: state.categories.selected
-    }
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-        getCategories: () => dispatch(getCategories()),
-        selectCategory: (category) => dispatch(selectCategory(category)),
-        unselectCategory: (category) => dispatch(unselectCategory(category))
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ChooseCategories)
+export default ChooseCategories
