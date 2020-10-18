@@ -1,45 +1,28 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 import JoinQuizCode from './joinQuizCode'
 import WaitingRoom from './waitingRoom'
 import Quiz from './Quiz'
+import { webSocket } from '../actions/sessionActions'
 
-class App extends Component {
-    checkState() {
-        if(this.props.roomCode === '' && this.props.quizStarted === false) {
-            return <JoinQuizCode />
+export const App = () => {
+    const dispatch = useDispatch()
 
-        } else if (this.props.roomCode !== '' && this.props.quizStarted === false) {
-            return <WaitingRoom />
+    useEffect(() => {
+        dispatch(webSocket())
+    }, [dispatch])
 
-        } else if (this.props.roomCode !== '' && this.props.quizStarted === true) {
-            return <Quiz />
-            
-        }
-    }
-
-    render() {
-        return (
-            <Router>
-                <Switch>
-                    <Route path="/" exact render={() => this.checkState() } />
-                    <Route path={`/waitingroom`} render={() => this.checkState() } />
-                    <Route path={`/quiz`} render={() => this.checkState() } />
-
-                    <Route render={() => <Redirect to="/" /> } />
-                </Switch>
-            </Router>
-        )
-    }
+    return (
+        <Router>
+            <Switch>
+                <Route path="/" exact render={() => <JoinQuizCode />} />
+                <Route path={`/waitingroom`}  render={() => <WaitingRoom />} />
+                <Route path={`/quiz`} render={() => <Quiz />} />
+            </Switch>
+        </Router>
+    )
 }
 
-function mapStateToProps(state) {
-    return {
-        roomCode: state.quiz.roomCode,
-        quizStarted: state.quiz.quizStarted
-    }
-}
-
-export default connect(mapStateToProps)(App)
+export default App

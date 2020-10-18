@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getCategories, selectCategory, unselectCategory } from './../actions/categoryActions'
+import { webSocket } from '../actions/sessionActions'
 
 export const ChooseCategories = () => {
     const dispatch = useDispatch()
@@ -8,6 +9,7 @@ export const ChooseCategories = () => {
     const selectedCategories = useSelector(state => state.categories.selected)
     
     useEffect(() => {
+        dispatch(webSocket())
         dispatch(getCategories())
     }, [dispatch])
 

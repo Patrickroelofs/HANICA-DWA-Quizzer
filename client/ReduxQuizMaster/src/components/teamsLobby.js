@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom'
 
 import { startQuiz } from '../actions/quizActions'
 import { reviewTeam, getTeams } from '../actions/teamActions'
+import { webSocket } from '../actions/sessionActions'
 
 export const TeamsLobby = () => {
     const history = useHistory()
@@ -15,6 +16,8 @@ export const TeamsLobby = () => {
     const acceptedTeams = useSelector(state => state.quiz.acceptedTeams)
 
     useEffect(() => {
+        dispatch(webSocket())
+
         if(fetchTeams === true) {
             dispatch(getTeams(roomCode))
         }

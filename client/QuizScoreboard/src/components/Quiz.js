@@ -1,28 +1,9 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import React from 'react'
 
-class Quiz extends Component {
-    componentDidMount() {
-
-    }
-
-    render() {
-        return (
-            <h1>Quiz has started</h1>
-        )
-    }
+export const Quiz = () => {
+    return (
+        <h1>Quiz has started</h1>
+    )
 }
 
-function mapStateToProps(state) {
-    return {
-
-    }
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Quiz)
+export default Quiz

@@ -1,45 +1,37 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { getTeams } from '../actions/quizActions'
 
-class WaitingRoom extends Component {
-    componentDidMount() {
-        this.props.getTeams(this.props.roomCode)
-    }
+export const WaitingRoom = () => {
+    const dispatch = useDispatch()
 
-    componentDidUpdate() {
-        if (this.props.fetchTeams === true) {
-            this.props.getTeams(this.props.roomCode)
+    const roomCode = useSelector(state => state.quiz.roomCode)
+    const fetchTeams = useSelector(state => state.quiz.fetchTeams)
+    const teams = useSelector(state => state.quiz.teams)
+
+
+
+    useEffect(() => {
+        if (fetchTeams === true) {
+            dispatch(getTeams(roomCode))
+        } else {
+            dispatch(getTeams(roomCode))
         }
-    }
+    }, [fetchTeams, dispatch, roomCode])
 
-    render() {
-        return (
-            <React.Fragment>
-                <h1>These teams have joined:</h1>
 
-                {this.props.teams
-                    ? this.props.teams.map((team) => {
-                          return <li key={team.name}>{team.name}</li>
-                      })
-                    : null}
-            </React.Fragment>
-        )
-    }
+
+    return (
+        <React.Fragment>
+            <h1>These teams have joined:</h1>
+
+            {teams
+                ? teams.map((team) => {
+                      return <li key={team.name}>{team.name}</li>
+                  })
+                : null}
+        </React.Fragment>
+    )
 }
 
-function mapStateToProps(state) {
-    return {
-        roomCode: state.quiz.roomCode,
-        teams: state.quiz.teams,
-        fetchTeams: state.quiz.fetchTeams,
-    }
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-        getTeams: (data) => dispatch(getTeams(data)),
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(WaitingRoom)
+export default WaitingRoom

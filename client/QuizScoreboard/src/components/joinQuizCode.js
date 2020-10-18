@@ -1,36 +1,28 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import React from 'react'
+import { useDispatch } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 import { joinQuiz } from './../actions/quizActions'
 
-class JoinQuizCode extends Component {
-    handleSubmit = (e) => {
+export const JoinQuizCode = () => {
+    const history = useHistory()
+    const dispatch = useDispatch()
+
+    const handleSubmit = (e) => {
         e.preventDefault();
-        this.props.joinQuiz(e.target.roomCode.value)
+        dispatch(joinQuiz(e.target.roomCode.value))
+
+        history.push('/waitingroom')
     }
 
 
-    render() {
-        return (
-            <div>
-                <form onSubmit={this.handleSubmit}>
-                    <input type="text" name="roomCode" ref="roomCode" />
-                    <input type="submit" value="submit" />
-                </form>
-            </div>
-        )
-    }
+    return (
+        <div>
+            <form onSubmit={handleSubmit}>
+                <input type="text" name="roomCode" />
+                <input type="submit" value="submit" />
+            </form>
+        </div>
+    )
 }
 
-function mapStateToProps(state) {
-    return {
-
-    }
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-        joinQuiz: (data) => dispatch(joinQuiz(data))
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(JoinQuizCode)
+export default JoinQuizCode

@@ -1,5 +1,3 @@
-import { webSocket } from './sessionActions'
-
 export const CREATE_QUIZ = 'CREATE_QUIZ'
 export const START_QUIZ = 'START_QUIZ'
 
@@ -27,7 +25,6 @@ export function createQuiz(language) {
         fetch('http://localhost:3001/quiz/', options)
             .then((response) => response.json())
             .then((data) => {
-                dispatch(webSocket())
                 dispatch(
                     ActionCreateQuiz({
                         language: data.language,
