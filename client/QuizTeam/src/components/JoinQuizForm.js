@@ -2,10 +2,11 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { joinQuiz } from '../actions/quizActions'
+import { webSocket } from '../actions/sessionActions'
 
 export const JoinQuizForm = () => {
-    const dispatch = useDispatch()
     const history = useHistory()
+    const dispatch = useDispatch()
 
     const handleSubmit = (e) => {
         e.preventDefault();

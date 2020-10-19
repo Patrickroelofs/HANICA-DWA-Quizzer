@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { webSocket } from './sessionActions'
 
 const port = 3001;
 const serverHostname = `${window.location.hostname}:${port}`
@@ -10,7 +9,7 @@ export const JOIN_QUIZ_SUCCESS = 'JOIN_QUIZ_SUCCESS'
 export const GET_TEAMS = 'GET_TEAMS'
 
 
-function joinQuizSuccess(payload) {
+export function joinQuizSuccess(payload) {
     return {
         type: JOIN_QUIZ_SUCCESS,
         payload: payload,
@@ -22,9 +21,7 @@ export function joinQuiz(roomCode, teamName) {
         axios.post(serverFetchBase + `/teams/${teamName}`,
             {roomCode: roomCode},
             {withCredentials: true}).then(() => {
-                    dispatch(webSocket())
-                    dispatch(joinQuizSuccess(roomCode))
-
+                dispatch(joinQuizSuccess())
         })
     }
 }

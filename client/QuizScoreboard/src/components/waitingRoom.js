@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getTeams } from '../actions/quizActions'
+import { webSocket } from '../actions/sessionActions'
 
 export const WaitingRoom = () => {
     const dispatch = useDispatch()
@@ -9,6 +10,10 @@ export const WaitingRoom = () => {
     const fetchTeams = useSelector(state => state.quiz.fetchTeams)
     const teams = useSelector(state => state.quiz.teams)
 
+
+    const startwebsocket = () => {
+        dispatch(webSocket())
+    }
 
 
     useEffect(() => {
@@ -23,6 +28,7 @@ export const WaitingRoom = () => {
 
     return (
         <React.Fragment>
+            <button onClick={startwebsocket}>Start websocket</button>
             <h1>These teams have joined:</h1>
 
             {teams
