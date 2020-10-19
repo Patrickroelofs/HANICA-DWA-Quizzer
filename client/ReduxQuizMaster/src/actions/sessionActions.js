@@ -15,8 +15,10 @@ function websocket_open(websocket) {
 export function webSocket() {
 
     return (dispatch) => {
+        if(wsConnection === undefined) {
+            wsConnection = new WebSocket(server)
+        }
 
-        wsConnection = new WebSocket(server)
 
         wsConnection.onmessage = (e) => {
             console.log('WEBSOCKET DATA: ', e.data)
