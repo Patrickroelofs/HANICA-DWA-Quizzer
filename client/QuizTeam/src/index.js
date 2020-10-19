@@ -4,10 +4,10 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { store } from './store'
 
-import TeamApp from './components/TeamApp'
+import App from './components/app'
 
 ReactDOM.render(
     <Provider store={store}>
-        <TeamApp />
+        <App />
     </Provider>,
     document.getElementById('root'));

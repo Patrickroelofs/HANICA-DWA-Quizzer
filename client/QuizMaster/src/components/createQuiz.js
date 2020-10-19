@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { createQuiz } from '../actions/quizActions'
-import { webSocket } from '../actions/sessionActions'
 
 export const CreateQuiz = () => {
     const history = useHistory()
