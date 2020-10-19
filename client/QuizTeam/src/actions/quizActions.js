@@ -22,8 +22,9 @@ export function joinQuiz(roomCode, teamName) {
         axios.post(serverFetchBase + `/teams/${teamName}`,
             {roomCode: roomCode},
             {withCredentials: true}).then(() => {
-                    dispatch(joinQuizSuccess(roomCode))
                     dispatch(webSocket())
+                    dispatch(joinQuizSuccess(roomCode))
+
         })
     }
 }

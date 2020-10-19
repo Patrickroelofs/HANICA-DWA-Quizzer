@@ -8,10 +8,6 @@ export const CreateQuiz = () => {
     const history = useHistory()
     const dispatch = useDispatch()
 
-    useEffect(() => {
-        dispatch(webSocket())
-    }, [dispatch])
-
     const handleSubmit = (e) => {
         e.preventDefault()
         dispatch(createQuiz(e.target.language.value))

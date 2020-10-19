@@ -23,8 +23,8 @@ export function joinQuiz(roomCode) {
         }
 
         fetch('http://localhost:3001/scoreboard/', options).then(() => {
-            dispatch(joinQuizSuccess(roomCode))
             dispatch(webSocket())
+            dispatch(joinQuizSuccess(roomCode))
         })
     }
 }

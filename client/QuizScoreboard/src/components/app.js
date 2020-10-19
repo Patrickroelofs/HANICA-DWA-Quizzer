@@ -9,10 +9,7 @@ import { webSocket } from '../actions/sessionActions'
 
 export const App = () => {
     const dispatch = useDispatch()
-
-    useEffect(() => {
-        dispatch(webSocket())
-    }, [dispatch])
+    
 
     return (
         <Router>

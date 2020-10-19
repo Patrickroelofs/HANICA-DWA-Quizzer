@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom'
 
 import JoinQuizForm from './JoinQuizForm'
-import WaitingRoom from './WaitingRoom'
+import WaitingRoom from './waitingRoom'
 
 class TeamApp extends Component {
     isInAQuiz() {
