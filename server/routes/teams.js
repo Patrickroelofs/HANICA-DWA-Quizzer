@@ -34,10 +34,11 @@ router.post("/:name", async function (req, res, next) {
                 },
             }
         )
+        req.session.joined = true
         // Send Websocket messages to:
-        TeamsMessage(req, "TEAM_JOINED")
-        MasterMessage(req, "TEAM_JOINED")
-        ScoreboardMessage(req, "TEAM_JOINED")
+        // TeamsMessage(req, "TEAM_JOINED")
+        // MasterMessage(req, "TEAM_JOINED")
+        // ScoreboardMessage(req, "TEAM_JOINED")
 
         res.send(team)
 
@@ -55,9 +56,6 @@ router.get("/:roomCode", async function (req, res, next) {
         const stringifiedQuiz = JSON.stringify(quiz)
         const parsedQuiz = JSON.parse(stringifiedQuiz)
 
-        if (parsedQuiz[0].teams.length > 0) {
-            MasterMessage(req, "TEAM_JOINED")
-        }
 
         res.send(parsedQuiz[0].teams)
         console.log(`[GET] teams.get('/${req.params.roomCode}'`)
@@ -75,7 +73,6 @@ router.get("/name/:name", async function (req, res, next) {
         })
 
         res.send(quiz)
-        TeamMessage(req, "TEAM_ACCEPTED", req.params.name)
 
         console.log(`[GET] teams/name/${req.params.name}`)
     } catch (err) {
@@ -90,8 +87,8 @@ router.delete("/:name", async function (req, res, next) {
             { $pull: { teams: { name: req.params.name } } }
         )
 
-        TeamMessage(req, "TEAM_REFUSED", req.params.name)
-        ScoreboardMessage(req, "TEAM_REFUSED")
+        // TeamMessage(req, "TEAM_REFUSED", req.params.name)
+        // ScoreboardMessage(req, "TEAM_REFUSED")
 
         res.send(
             JSON.stringify({

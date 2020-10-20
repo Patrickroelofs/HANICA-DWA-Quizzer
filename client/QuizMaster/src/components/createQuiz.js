@@ -2,7 +2,8 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { createQuiz } from '../actions/quizActions'
-import { webSocket } from './../actions/sessionActions'
+
+
 
 export const CreateQuiz = () => {
     const history = useHistory()
@@ -18,9 +19,6 @@ export const CreateQuiz = () => {
 
     return (
         <div>
-            <div>
-
-            </div>
             <form onSubmit={handleSubmit}>
                 <select name="language">
                     <option value="NL">Nederlands</option>

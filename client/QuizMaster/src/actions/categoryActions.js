@@ -6,6 +6,12 @@ function ActionGetCategories(payload) {
         payload: payload
     }
 }
+function ActionGetQuestions(payload) {
+    return {
+        type: 'GET_QUESTIONS',
+        payload: payload
+    }
+}
 
 export function getCategories() {
     return (dispatch) => {
@@ -23,6 +29,24 @@ export function getCategories() {
         .then((data) => {
             dispatch(ActionGetCategories(data))
         })
+    }
+}
+export function getQuestions(category) {
+    return (dispatch) => {
+        const options = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+            mode: 'cors',
+        }
+
+        fetch(`http://localhost:3001/questions/categories/${category}`, options)
+            .then((response) => response.json())
+            .then((data) => {
+                dispatch(ActionGetQuestions(data))
+            })
     }
 }
 
@@ -49,9 +73,21 @@ function ActionUnselectCategory(payload) {
         payload: payload
     }
 }
+function ActionSelectQuestions(payload){
+    return{
+        type: 'SELECT_QUESTIONS',
+        payload: payload
+    }
+}
 
 export function unselectCategory(category) {
     return (dispatch) => {
         dispatch(ActionUnselectCategory(category))
+    }
+}
+
+export function selectQuestions(category) {
+    return (dispatch) => {
+        dispatch(ActionSelectQuestions(category))
     }
 }

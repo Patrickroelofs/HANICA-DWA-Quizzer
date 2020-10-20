@@ -1,3 +1,5 @@
+import {sendMessage} from "./sessionActions";
+
 export const ACCEPT_TEAM = 'ACCEPT_TEAM'
 export const REMOVE_TEAM = 'REMOVE_TEAM'
 export const GET_TEAMS = 'GET_TEAMS'
@@ -58,6 +60,7 @@ export function reviewTeam(name, which) {
                 .then((response) => response.json())
                 .then((data) => {
                     dispatch(ActionAcceptTeam(data[0].teams))
+                    dispatch(sendMessage(JSON.stringify({type: 'TEAM_ACCEPTED', team: name})))
                 })
 
         } else if (which === 'remove') {
@@ -74,6 +77,7 @@ export function reviewTeam(name, which) {
                 .then((response) => response.json())
                 .then((data) => {
                     dispatch(ActionRemoveTeam(data))
+                    dispatch(sendMessage(JSON.stringify({type: 'TEAM_REFUSED', team: name})))
                 })
         }
     }

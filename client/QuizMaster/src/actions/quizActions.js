@@ -1,3 +1,5 @@
+import {webSocket} from "./sessionActions";
+
 export const CREATE_QUIZ = 'CREATE_QUIZ'
 export const START_QUIZ = 'START_QUIZ'
 
@@ -31,8 +33,9 @@ export function createQuiz(language) {
                         roomCode: data.roomCode,
                     })
                 )
-
-            })
+            }).then(() => {
+            dispatch(webSocket())
+        })
     }
 }
 

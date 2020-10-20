@@ -11,7 +11,18 @@ function websocket_open(websocket) {
         payload: websocket,
     }
 }
-
+function sentMessage(message){
+    return{
+        type: 'TEAM_REFUSED',
+        payload: message
+    }
+}
+export function sendMessage(message){
+    return (dispatch) => {
+        wsConnection.send(message)
+        dispatch(sentMessage(message))
+    }
+}
 export function webSocket() {
 
     return (dispatch) => {

@@ -1,20 +1,28 @@
-import React from 'react'
-import { useDispatch } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import React ,{useEffect}from 'react'
+import {useDispatch, useSelector} from 'react-redux'
+import { useHistory} from 'react-router-dom'
 import { joinQuiz } from '../actions/quizActions'
-import { webSocket } from '../actions/sessionActions'
+
+
 
 export const JoinQuizForm = () => {
     const history = useHistory()
     const dispatch = useDispatch()
+    const accepted = useSelector(state => state.quiz.accepted)
+    const roomCode = useSelector(state => state.quiz.roomCode)
 
     const handleSubmit = (e) => {
         e.preventDefault();
         dispatch(joinQuiz(e.target.roomCode.value, e.target.teamName.value))
-
-        history.push('/waitingroom')
+        if(accepted) {
+            history.push('/waitingroom')
+        }
     }
-
+    useEffect(() => {
+        if(accepted){
+            history.push('/waitingroom')
+        }
+    }, [accepted])
     return (
         <div>
             <form method='post' onSubmit={handleSubmit}>
@@ -22,6 +30,15 @@ export const JoinQuizForm = () => {
                 <input name='roomCode' type='text' placeholder='room code...'/>
                 <button type="submit" value="Submit" className='submitTeamButton'>Login & create websocket</button>
             </form>
+            <div>
+                {roomCode === ''
+                ? null
+                : accepted !== false
+                        ?  <p>Waiting for review from Quiz master of room {roomCode} </p>
+                        :  <p>Sorry rejected</p>}
+
+
+            </div>
         </div>
     )
 }

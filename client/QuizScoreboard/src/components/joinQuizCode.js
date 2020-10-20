@@ -1,8 +1,7 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { webSocket } from '../actions/sessionActions'
-import { joinQuiz } from './../actions/quizActions'
+import { joinQuiz } from '../actions/quizActions'
 
 export const JoinQuizCode = () => {
     const history = useHistory()

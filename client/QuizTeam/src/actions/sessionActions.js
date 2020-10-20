@@ -19,6 +19,9 @@ function websocket_open(websocket) {
     }
 }
 
+export function sendMessage(message){
+    wsConnection.send(message)
+}
 export function webSocket() {
     return (dispatch) => {
         if(wsConnection === undefined) {

@@ -17,8 +17,8 @@ router.post('/', async function (req, res, next) {
                 scoreboard: true
             }
         )
-
-        MasterMessage(req, 'SCOREBOARD_JOINED')
+        req.session.joined = true
+        //MasterMessage(req, 'SCOREBOARD_JOINED')
 
         res.send('SCOREBOARD Joined')
 

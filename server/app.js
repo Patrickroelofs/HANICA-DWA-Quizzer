@@ -6,7 +6,7 @@ const db = mongoose.connection
 const cors = require('cors')
 const http = require('http')
 const bodyParser = require('body-parser')
-
+const {MasterMessage} = require("./functions/websocket");
 // Setup server
 const app = express()
 
@@ -64,6 +64,25 @@ httpServer.on('upgrade', (req, networkSocket, head) => {
 webSocketServer.on('connection', (socket, req) => {
     console.log('Websocket Connected & Session Saved')
     socket.session = req.session
+    if(socket.session.scoreboard && socket.session.joined){
+        MasterMessage(webSocketServer.clients, socket, 'SCOREBOARD_JOINED')
+    }
+    if(socket.session.team && socket.session.joined){
+        TeamsMessage(webSocketServer.clients,socket, "TEAM_JOINED")
+        MasterMessage(webSocketServer.clients, socket, "TEAM_JOINED")
+        ScoreboardMessage(webSocketServer.clients, socket, "TEAM_JOINED")
+    }
+    socket.on('message', (message) => {
+        message = JSON.parse(message)
+        if(message.type === 'TEAM_REFUSED'){
+            TeamMessage(webSocketServer.clients,socket,'TEAM_REFUSED', message.team)
+            ScoreboardMessage(webSocketServer.clients, socket, "TEAM_REFUSED")
+        }
+        if(message.type === 'TEAM_ACCEPTED'){
+            TeamMessage(webSocketServer.clients,socket,'TEAM_ACCEPTED', message.team)
+        }
+    })
+
 })
 
 // Setup routers
@@ -72,6 +91,9 @@ const questionsRouter = require('./routes/questions')
 const globalRouter = require('./routes/globals')
 const teamsRouter = require('./routes/teams')
 const quizRouter = require('./routes/quiz')
+const {TeamMessage} = require("./functions/websocket");
+const {ScoreboardMessage} = require("./functions/websocket");
+const {TeamsMessage} = require("./functions/websocket");
 
 app.use('/scoreboard', scoreboardRouter)
 app.use('/questions', questionsRouter)

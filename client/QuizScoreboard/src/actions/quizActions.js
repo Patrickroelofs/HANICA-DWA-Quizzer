@@ -1,3 +1,5 @@
+import {webSocket} from "./sessionActions";
+
 export const JOIN_QUIZ_SUCCESS = 'JOIN_QUIZ_SUCCESS'
 export const GET_TEAMS = 'GET_TEAMS'
 
@@ -22,6 +24,8 @@ export function joinQuiz(roomCode) {
 
         fetch('http://localhost:3001/scoreboard/', options).then(() => {
             dispatch(joinQuizSuccess(roomCode))
+            dispatch(webSocket())
+
         })
     }
 }

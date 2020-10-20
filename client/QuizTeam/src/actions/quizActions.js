@@ -1,4 +1,5 @@
 import axios from 'axios'
+import {webSocket} from "./sessionActions";
 
 const port = 3001;
 const serverHostname = `${window.location.hostname}:${port}`
@@ -22,6 +23,7 @@ export function joinQuiz(roomCode, teamName) {
             {roomCode: roomCode},
             {withCredentials: true}).then(() => {
                 dispatch(joinQuizSuccess())
+                dispatch(webSocket())
         })
     }
 }

@@ -3,14 +3,17 @@
  * ? checks if client is a master
  * ? checks if roomcode is correct
  *
- * @param req the current sessions
+ * @param clients
+ * @param socket
  * @param message the message that get sent to the master client
  */
-MasterMessage = function (req, message) {
-    req.webSocketServer.clients.forEach((client) => {
+MasterMessage = function (clients,socket, message) {
+    clients.forEach((client) => {
+        console.log(`evaluating : ${client.session.master} ${socket.session.roomCode} ${client.session.roomCode}`)
         if (
+
             client.session.master &&
-            req.session.roomCode === client.session.roomCode
+            socket.session.roomCode === client.session.roomCode
         ) {
             console.log('message:', message, ' | TO: MASTER')
 
@@ -29,14 +32,16 @@ MasterMessage = function (req, message) {
  * ? Checks if client is a team
  * ? Checks if roomcode is correct
  *
- * @param req the current sessions
+ * @param clients
+ * @param socket
  * @param message the message that gets sent to the team client
  */
-TeamsMessage = function (req, message) {
-    req.webSocketServer.clients.forEach((client) => {
+TeamsMessage = function (clients, socket, message) {
+    clients.forEach((client) => {
+        console.log(`evaluating : ${client.session.team} ${socket.session.roomCode} ${client.session.roomCode}`)
         if (
             client.session.team &&
-            req.session.roomCode === client.session.roomCode
+            socket.session.roomCode === client.session.roomCode
         ) {
             console.log('message:', message, ' | TO: ALL TEAMS')
 
@@ -56,16 +61,19 @@ TeamsMessage = function (req, message) {
  * ? Checks if roomcode is correct
  * ? Checks if client name is correct
  *
- * @param req the current sessions
+ * @param clients
+ * @param socket
  * @param message the message that gets sent to the team client
  * @param teamName the teamname that the message needs to be sent to
  */
-TeamMessage = function (req, message, teamName) {
-    req.webSocketServer.clients.forEach((client) => {
+TeamMessage = function (clients, socket , message, teamName) {
+
+    clients.forEach((client) => {
+        console.log(`evaluating : ${client.session.team} ${socket.session.roomCode} ${client.session.roomCode} ${teamName}`)
         if (
             client.session.team &&
             client.session.teamName === teamName &&
-            req.session.roomCode === client.session.roomCode
+            socket.session.roomCode === client.session.roomCode
         ) {
             console.log('message:', message, ' | TO: ' + teamName)
 
@@ -85,14 +93,16 @@ TeamMessage = function (req, message, teamName) {
  * ? checks if client is a scoreboard
  * ? checks if roomcode is correct
  *
- * @param req the current sessions
+ * @param clients
+ * @param socket
  * @param message the message that gets sent to the scoreboard client
  */
-ScoreboardMessage = function (req, message) {
-    req.webSocketServer.clients.forEach((client) => {
+ScoreboardMessage = function (clients, socket , message) {
+    clients.forEach((client) => {
+        console.log(`evaluating : ${client.session.scoreboard} ${socket.session.roomCode} ${client.session.roomCode}`)
         if (
             client.session.scoreboard &&
-            req.session.roomCode === client.session.roomCode
+            socket.session.roomCode === client.session.roomCode
         ) {
             console.log('message:', message, ' | TO: SCOREBOARD')
 
