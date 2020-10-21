@@ -1,13 +1,11 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import {getCategories, selectCategory, selectQuestions, unselectCategory} from '../actions/categoryActions'
-import { webSocket } from '../actions/sessionActions'
-import {startQuiz} from "../actions/quizActions";
+import { getCategories, getQuestions, selectCategory, unselectCategory } from '../actions/categoryActions'
 
 export const ChooseCategories = () => {
-    const history = useHistory()
     const dispatch = useDispatch()
+    const history = useHistory()
     const AllCategories = useSelector(state => state.categories.all)
     const selectedCategories = useSelector(state => state.categories.selected)
 
@@ -15,12 +13,11 @@ export const ChooseCategories = () => {
         dispatch(getCategories())
     }, [dispatch])
 
-    const handleClick = (category) => {
-        dispatch(selectQuestions(category))
-
-        history.push("/questions")
+    const onSubmit = () => {
+        dispatch(getQuestions(selectedCategories)).then(() => {
+            history.push('/sendquestions')
+        })
     }
-
 
     return (
             <div>
@@ -52,9 +49,11 @@ export const ChooseCategories = () => {
                         ? selectedCategories.map((category) => {
                                 return(
                                     <div key={category.toString()}>
-                                    <button onClick={() => handleClick(category.toString())} >{category.toString()}</button>
-                                    <button onClick={() => dispatch(unselectCategory(category.toString()))}>X</button>
-                                    </div>)
+                                        <p>{category.toString() + ' '}
+                                            <button onClick={() => dispatch(unselectCategory(category.toString()))}>X</button>
+                                        </p>
+                                    </div>
+                                )
                         })
                         : null
                     }
@@ -62,7 +61,7 @@ export const ChooseCategories = () => {
                 <div>
                     {
                         selectedCategories.length >= 3
-                        ? <button>Start Sending Questions</button>
+                        ? <button onClick={onSubmit}>Start Sending Questions</button>
                         : null
                     }
                 </div>

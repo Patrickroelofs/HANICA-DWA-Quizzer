@@ -32,6 +32,25 @@ router.get('/categories/:category', async function (req, res, next) {
     }
 })
 
+// Get all questions from the 3 categories selected
+router.post('/categories', async function (req, res, next) {
+    try {
+        await Question.find(
+            {
+                category: {
+                    $in: [req.body[0], req.body[1], req.body[2]]
+                },
+                language: req.session.language
+            }
+        ).then((data) => {
+            res.send(data)
+        })
+        
+    } catch (err) {
+        next(err)
+    }
+})
+
 router.get('/:id', async function (req, res, next) {
     try {
         // Get Question where :question (ID)

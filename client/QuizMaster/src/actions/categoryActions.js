@@ -31,22 +31,32 @@ export function getCategories() {
         })
     }
 }
-export function getQuestions(category) {
-    return (dispatch) => {
-        const options = {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include',
-            mode: 'cors',
+export function getQuestions(categories) {
+    return async (dispatch) => {
+        function onSuccess(payload) {
+            dispatch(ActionGetQuestions(payload))
+            return payload
         }
 
-        fetch(`http://localhost:3001/questions/categories/${category}`, options)
-            .then((response) => response.json())
-            .then((data) => {
-                dispatch(ActionGetQuestions(data))
-            })
+        try {
+            const options = {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials: "include",
+                mode: "cors",
+                body: JSON.stringify(categories)
+            }
+
+            const data = await fetch(`http://localhost:3001/questions/categories`, options)
+                .then((response) => response.json())
+
+            return onSuccess(data)
+
+        } catch (e) {
+            console.log("error (function getQuestions)", e)
+        }
     }
 }
 

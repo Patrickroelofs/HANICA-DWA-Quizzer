@@ -10,12 +10,6 @@ export const WaitingRoom = () => {
     const fetchTeams = useSelector(state => state.quiz.fetchTeams)
     const teams = useSelector(state => state.quiz.teams)
 
-
-    const startwebsocket = () => {
-        dispatch(webSocket())
-    }
-
-
     useEffect(() => {
         if (fetchTeams === true) {
             dispatch(getTeams(roomCode))
@@ -28,7 +22,6 @@ export const WaitingRoom = () => {
 
     return (
         <React.Fragment>
-            <button onClick={startwebsocket}>Start websocket</button>
             <h1>These teams have joined:</h1>
 
             {teams

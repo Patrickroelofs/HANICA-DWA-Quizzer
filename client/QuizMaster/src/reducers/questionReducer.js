@@ -1,6 +1,6 @@
 const initialQuestionState = {
     all: '',
-    selected: ''
+    randomized: ''
 }
 
 const questionReducer = (state = initialQuestionState, action) => {
@@ -14,6 +14,12 @@ const questionReducer = (state = initialQuestionState, action) => {
             return {
                 ...state,
                 all : action.payload
+            }
+
+        case 'RANDOM_QUESTIONS': 
+            return {
+                ...state,
+                randomized: action.payload
             }
         default: {
             return state
