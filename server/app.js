@@ -74,13 +74,23 @@ webSocketServer.on('connection', (socket, req) => {
     }
     socket.on('message', (message) => {
         message = JSON.parse(message)
-        if(message.type === 'TEAM_REFUSED'){
-            TeamMessage(webSocketServer.clients,socket,'TEAM_REFUSED', message.team)
-            ScoreboardMessage(webSocketServer.clients, socket, "TEAM_REFUSED")
-        }
-        if(message.type === 'TEAM_ACCEPTED'){
-            TeamMessage(webSocketServer.clients,socket,'TEAM_ACCEPTED', message.team)
-        }
+        switch (message.type){
+            case'TEAM_REFUSED':
+                TeamMessage(webSocketServer.clients, socket, 'TEAM_REFUSED', message.team)
+                ScoreboardMessage(webSocketServer.clients, socket, "TEAM_REFUSED")
+                break;
+            case 'TEAM_ACCEPTED':
+                TeamMessage(webSocketServer.clients, socket, 'TEAM_ACCEPTED', message.team)
+                break
+            case 'NEW_QUESTION':
+                TeamsMessage(webSocketServer.clients, socket, 'NEW_QUESTION', message.question)
+                ScoreboardMessage(webSocketServer.clients, socket, 'NEW_QUESTION', message.question)
+                break
+            case 'ANSWER':
+                MasterMessage(webSocketServer.clients, socket, 'ANSWER', message.answer)
+            }
+
+
     })
 
 })

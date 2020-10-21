@@ -1,5 +1,6 @@
 import axios from 'axios'
 import {webSocket} from "./sessionActions";
+import {sendMessage} from "./sessionActions";
 
 const port = 3001;
 const serverHostname = `${window.location.hostname}:${port}`
@@ -22,7 +23,7 @@ export function joinQuiz(roomCode, teamName) {
         axios.post(serverFetchBase + `/teams/${teamName}`,
             {roomCode: roomCode},
             {withCredentials: true}).then(() => {
-                dispatch(joinQuizSuccess())
+                dispatch(joinQuizSuccess(roomCode))
                 dispatch(webSocket())
         })
     }
@@ -52,5 +53,19 @@ export function getTeams(roomCode) {
                 console.log(data)
                 dispatch(ActionGetTeams(data))
             })
+    }
+}
+
+function ActionSendAnswer(payload) {
+    return {
+        type: 'SEND_ANSWER',
+        payload: payload,
+    }
+}
+
+export function sendAnswer(answer) {
+    return (dispatch) => {
+        dispatch(ActionSendAnswer(answer))
+        dispatch(sendMessage(JSON.stringify({type: 'ANSWER', answer:answer})))
     }
 }

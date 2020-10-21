@@ -1,5 +1,5 @@
 import { ACCEPT_TEAM, REMOVE_TEAM, GET_TEAMS } from '../actions/teamActions'
-import { CREATE_QUIZ, START_QUIZ } from './../actions/quizActions'
+import { CREATE_QUIZ, START_QUIZ } from '../actions/quizActions'
 
 const initialQuizState = {
     roomCode: '',

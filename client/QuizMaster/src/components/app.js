@@ -5,6 +5,7 @@ import CreateQuiz from './createQuiz'
 import TeamsLobby from './teamsLobby'
 import ChooseCategories from './chooseCategories'
 import SendQuestions from './sendQuestions';
+import Review from "./Review";
 
 export const App = () => {
     return (
@@ -14,6 +15,7 @@ export const App = () => {
                 <Route path="/lobby" render={() => <TeamsLobby />} />
                 <Route path="/categories" render={() => <ChooseCategories />} />
                 <Route path='/sendquestions' render={() => <SendQuestions />} />
+                <Route path='/review' render={() => <Review />} />
             </Switch>
         </Router>
     )

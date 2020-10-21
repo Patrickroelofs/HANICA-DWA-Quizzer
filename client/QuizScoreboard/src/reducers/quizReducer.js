@@ -4,6 +4,7 @@ const initialQuizState = {
     fetchTeams: false,
     quizStarted: false,
     roomCode: '',
+    currentQuestion: '',
 }
 
 const quizReducer = (state = initialQuizState, action) => {
@@ -22,6 +23,9 @@ const quizReducer = (state = initialQuizState, action) => {
 
         case 'TEAM_REFUSED': {
             return { ...state, fetchTeams: true }
+        }
+        case 'NEW_QUESTION': {
+            return {...state, currentQuestion: action.payload}
         }
 
         default: {

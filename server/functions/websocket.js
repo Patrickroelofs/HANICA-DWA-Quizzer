@@ -6,8 +6,9 @@
  * @param clients
  * @param socket
  * @param message the message that get sent to the master client
+ * @param payload
  */
-MasterMessage = function (clients,socket, message) {
+MasterMessage = function (clients,socket, message, payload) {
     clients.forEach((client) => {
         console.log(`evaluating : ${client.session.master} ${socket.session.roomCode} ${client.session.roomCode}`)
         if (
@@ -20,7 +21,8 @@ MasterMessage = function (clients,socket, message) {
             client.send(
                 JSON.stringify({
                     type: message,
-                    roomCode: client.session.roomCode
+                    roomCode: client.session.roomCode,
+                    payload: payload
                 })
             )
         }
@@ -35,8 +37,9 @@ MasterMessage = function (clients,socket, message) {
  * @param clients
  * @param socket
  * @param message the message that gets sent to the team client
+ * @param payload
  */
-TeamsMessage = function (clients, socket, message) {
+TeamsMessage = function (clients, socket, message, payload) {
     clients.forEach((client) => {
         console.log(`evaluating : ${client.session.team} ${socket.session.roomCode} ${client.session.roomCode}`)
         if (
@@ -48,6 +51,7 @@ TeamsMessage = function (clients, socket, message) {
             client.send(
                 JSON.stringify({
                     type: message,
+                    payload: payload,
                     roomCode: client.session.roomCode
                 })
             )
@@ -97,7 +101,7 @@ TeamMessage = function (clients, socket , message, teamName) {
  * @param socket
  * @param message the message that gets sent to the scoreboard client
  */
-ScoreboardMessage = function (clients, socket , message) {
+ScoreboardMessage = function (clients, socket , message, payload) {
     clients.forEach((client) => {
         console.log(`evaluating : ${client.session.scoreboard} ${socket.session.roomCode} ${client.session.roomCode}`)
         if (
@@ -109,6 +113,7 @@ ScoreboardMessage = function (clients, socket , message) {
             client.send(
                 JSON.stringify({
                     type: message,
+                    payload: payload,
                     roomCode: client.session.roomCode
                 })
             )

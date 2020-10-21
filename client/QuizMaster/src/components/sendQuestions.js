@@ -1,8 +1,11 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { randomQuestions } from '../functions/randomQuestions'
+import { useHistory } from 'react-router-dom'
+import {sendQuestion} from "../actions/questionActions";
 
 export const SendQuestions = () => {
+    const history = useHistory()
     const dispatch = useDispatch()
     const questions = useSelector(state => state.questions.all)
     const randomizedQuestions = useSelector(state => state.questions.randomized)
@@ -13,6 +16,11 @@ export const SendQuestions = () => {
 
     const refreshQuestions = () => {
         dispatch(randomQuestions((questions)))
+    }
+
+    const send = (question) => {
+        dispatch(sendQuestion(question))
+        history.push('/review')
     }
 
     return (
@@ -26,8 +34,8 @@ export const SendQuestions = () => {
                 ? null
                 : randomizedQuestions.map((q) => {
                     return (
-                        <React.Fragment>
-                            <button key={q._id}>{q.question}</button>
+                        <React.Fragment key={q._id}>
+                            <button onClick={() => send(q)}>{q.question}</button>
                             <br />
                         </React.Fragment>
 

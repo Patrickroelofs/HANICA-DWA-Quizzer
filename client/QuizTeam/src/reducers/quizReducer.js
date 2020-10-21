@@ -5,6 +5,8 @@ import {TEAM_ACCEPTED, TEAM_REFUSED} from "../actions/sessionActions";
 const initialQuizState = {
     roomCode: '',
     accepted: undefined,
+    currentQuestion: '',
+    answered: undefined,
 }
 
 const quizReducer = (state = initialQuizState, action) => {
@@ -20,6 +22,12 @@ const quizReducer = (state = initialQuizState, action) => {
         }
         case TEAM_REFUSED: {
             return {...state, accepted: false}
+        }
+        case 'NEW_QUESTION': {
+            return {...state, currentQuestion: action.payload}
+        }
+        case 'SEND_ANSWER': {
+            return {...state, answered : true}
         }
         default: {
             return state
