@@ -2,12 +2,14 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { getCategories, getQuestions, selectCategory, unselectCategory } from '../actions/categoryActions'
+import { createRound } from '../actions/quizActions'
 
 export const ChooseCategories = () => {
     const dispatch = useDispatch()
     const history = useHistory()
     const AllCategories = useSelector(state => state.categories.all)
     const selectedCategories = useSelector(state => state.categories.selected)
+    const roundNumber = useSelector(state => state.quiz.roundNumber)
 
     useEffect(() => {
         dispatch(getCategories())
@@ -15,7 +17,9 @@ export const ChooseCategories = () => {
 
     const onSubmit = () => {
         dispatch(getQuestions(selectedCategories)).then(() => {
-            history.push('/sendquestions')
+            dispatch(createRound(selectedCategories, roundNumber)).then(() => {
+                history.push('/sendquestions')
+            })
         })
     }
 

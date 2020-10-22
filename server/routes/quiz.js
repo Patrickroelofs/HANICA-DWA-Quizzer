@@ -40,4 +40,29 @@ router.post('/', async function (req, res, next) {
     }
 })
 
+router.post('/round', async function(req, res, next) {
+    try {
+        const quiz = await Quiz.findOneAndUpdate(
+            { roomCode: req.body.roomCode },
+            {
+                $push: {
+                    rounds: {
+                        roundNumber: req.body.roundNumber,
+                        categories: [
+                            //TODO: Make this better :)
+                            req.body.categories0,
+                            req.body.categories1,
+                            req.body.categories2,
+                        ]
+                    }
+                }
+            }
+        )
+
+        res.send(quiz)
+    } catch (err) {
+        next(err)
+    }
+})
+
 module.exports = router

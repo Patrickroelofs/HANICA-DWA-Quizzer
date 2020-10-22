@@ -3,6 +3,7 @@ import { CREATE_QUIZ, START_QUIZ } from '../actions/quizActions'
 
 const initialQuizState = {
     roomCode: '',
+    roundNumber: 0,
     language: '',
     fetchTeams: false,
     startQuiz: false,
