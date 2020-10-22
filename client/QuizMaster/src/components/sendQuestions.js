@@ -12,7 +12,7 @@ export const SendQuestions = () => {
 
     useEffect(() => {
         dispatch(randomQuestions(questions))
-    }, [])
+    }, [dispatch, questions])
 
     const refreshQuestions = () => {
         dispatch(randomQuestions((questions)))

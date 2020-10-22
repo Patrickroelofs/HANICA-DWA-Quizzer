@@ -1,29 +1,10 @@
 import {sendMessage} from "./sessionActions";
 
+export const TEAM_ACCEPTED = 'TEAM_ACCEPTED'
+export const TEAM_REFUSED = 'TEAM_REFUSED'
 export const ACCEPT_TEAM = 'ACCEPT_TEAM'
 export const REMOVE_TEAM = 'REMOVE_TEAM'
 export const GET_TEAMS = 'GET_TEAMS'
-
-function ActionRemoveTeam(payload) {
-    return {
-        type: REMOVE_TEAM,
-        payload: payload,
-    }
-}
-
-function ActionAcceptTeam(payload) {
-    return {
-        type: ACCEPT_TEAM,
-        payload: payload,
-    }
-}
-
-function ActionGetTeams(payload) {
-    return {
-        type: GET_TEAMS,
-        payload: payload,
-    }
-}
 
 export function getTeams(roomCode) {
     return (dispatch) => {
@@ -39,7 +20,7 @@ export function getTeams(roomCode) {
         fetch(`http://localhost:3001/teams/${roomCode}`, options)
             .then((response) => response.json())
             .then((data) => {
-                dispatch(ActionGetTeams(data))
+                dispatch({type: GET_TEAMS, payload: data})
             })
     }
 }
@@ -59,8 +40,8 @@ export function reviewTeam(name, which) {
             fetch(`http://localhost:3001/teams/name/${name}`, options)
                 .then((response) => response.json())
                 .then((data) => {
-                    dispatch(ActionAcceptTeam(data[0].teams))
-                    dispatch(sendMessage(JSON.stringify({type: 'TEAM_ACCEPTED', team: name})))
+                    dispatch({type: ACCEPT_TEAM, payload: data[0].teams})
+                    dispatch(sendMessage({type: TEAM_ACCEPTED, team: name}))
                 })
 
         } else if (which === 'remove') {
@@ -76,8 +57,8 @@ export function reviewTeam(name, which) {
             fetch(`http://localhost:3001/teams/${name}`, options)
                 .then((response) => response.json())
                 .then((data) => {
-                    dispatch(ActionRemoveTeam(data))
-                    dispatch(sendMessage(JSON.stringify({type: 'TEAM_REFUSED', team: name})))
+                    dispatch({type: REMOVE_TEAM, payload: data})
+                    dispatch(sendMessage({type: TEAM_REFUSED, team: name}))
                 })
         }
     }

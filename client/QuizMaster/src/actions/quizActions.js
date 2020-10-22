@@ -3,15 +3,6 @@ import {webSocket} from "./sessionActions";
 export const CREATE_QUIZ = 'CREATE_QUIZ'
 export const START_QUIZ = 'START_QUIZ'
 
-
-function ActionCreateQuiz(payload) {
-    return {
-        type: CREATE_QUIZ,
-        language: payload.language,
-        roomCode: payload.roomCode,
-    }
-}
-
 export function createQuiz(language) {
     return (dispatch) => {
         const options = {
@@ -28,10 +19,11 @@ export function createQuiz(language) {
             .then((response) => response.json())
             .then((data) => {
                 dispatch(
-                    ActionCreateQuiz({
+                    {
+                        type: CREATE_QUIZ,
                         language: data.language,
-                        roomCode: data.roomCode,
-                    })
+                        roomCode: data.roomCode
+                    }
                 )
             }).then(() => {
             dispatch(webSocket())
@@ -39,16 +31,9 @@ export function createQuiz(language) {
     }
 }
 
-function ActionStartQuiz(payload) {
-    return {
-        type: START_QUIZ,
-        payload: payload
-    }
-}
-
 export function startQuiz() {
     return (dispatch) => {
         //TODO: Send start quiz to server and have it message all users
-        dispatch(ActionStartQuiz(true))
+        dispatch({type: START_QUIZ, payload: true})
     }
 }

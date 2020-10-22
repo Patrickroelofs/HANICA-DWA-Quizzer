@@ -1,21 +1,16 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { randomQuestions } from '../functions/randomQuestions'
-import { useHistory } from 'react-router-dom'
-import {sendQuestion} from "../actions/questionActions";
+import React from 'react'
+import { useSelector } from 'react-redux'
 
-export const Review = () => {
-    const history = useHistory()
-    const dispatch = useDispatch()
+export const ReviewAnswers = () => {
     const question = useSelector(state => state.questions.currentQuestion)
     const answers = useSelector(state => state.questions.answer)
 
 
-    const send = (review) => {
+    //const send = (review) => {
         //todo make this exist so that the review can be sent back
         //dispatch(sendReview(review))
 
-    }
+    //}
 
     return (
         <div>
@@ -30,4 +25,4 @@ export const Review = () => {
     )
 }
 
-export default Review
+export default ReviewAnswers

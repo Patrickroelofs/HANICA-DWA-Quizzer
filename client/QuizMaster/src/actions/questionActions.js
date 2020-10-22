@@ -1,15 +1,11 @@
 import {sendMessage} from "./sessionActions";
 
-function ActionSendQuestion(payload) {
-    return {
-        type: 'SEND_QUESTION',
-        payload: payload
-    }
-}
+export const NEW_QUESTION = 'NEW_QUESTION'
+export const SEND_QUESTION = 'SEND_QUESTION'
 
 export function sendQuestion(question) {
     return (dispatch) => {
-        dispatch(sendMessage(JSON.stringify({type: 'NEW_QUESTION', question: question.question})))
-        dispatch(ActionSendQuestion(question))
+        dispatch(sendMessage({type: NEW_QUESTION, question: question.question}))
+        dispatch({type: SEND_QUESTION, payload: question})
     }
 }

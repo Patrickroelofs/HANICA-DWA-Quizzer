@@ -5,13 +5,6 @@ let wsConnection
 
 export const WEBSOCKET_OPEN = 'WEBSOCKET_OPEN'
 
-function websocket_open(websocket) {
-    return {
-        type: WEBSOCKET_OPEN,
-        payload: websocket,
-    }
-}
-
 export function webSocket() {
     return (dispatch) => {
         if(wsConnection === undefined) {
@@ -26,7 +19,7 @@ export function webSocket() {
 
         wsConnection.onopen = (e) => {
             console.log('WEBSOCKET OPEN: ', e)
-            dispatch(websocket_open(wsConnection))
+            dispatch({type: WEBSOCKET_OPEN, payload: wsConnection})
         }
 
         wsConnection.onclose = (e) => {

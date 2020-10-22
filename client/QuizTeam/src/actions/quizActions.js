@@ -1,38 +1,27 @@
-import axios from 'axios'
-import {webSocket} from "./sessionActions";
-import {sendMessage} from "./sessionActions";
-
-const port = 3001;
-const serverHostname = `${window.location.hostname}:${port}`
-const serverFetchBase = `${window.location.protocol}//${serverHostname}`
-
+import { webSocket } from "./sessionActions";
+import { sendMessage } from "./sessionActions";
 
 export const JOIN_QUIZ_SUCCESS = 'JOIN_QUIZ_SUCCESS'
 export const GET_TEAMS = 'GET_TEAMS'
-
-
-export function joinQuizSuccess(payload) {
-    return {
-        type: JOIN_QUIZ_SUCCESS,
-        payload: payload,
-    }
-}
+export const SEND_ANSWER = 'SEND_ANSWER'
 
 export function joinQuiz(roomCode, teamName) {
     return (dispatch) => {
-        axios.post(serverFetchBase + `/teams/${teamName}`,
-            {roomCode: roomCode},
-            {withCredentials: true}).then(() => {
-                dispatch(joinQuizSuccess(roomCode))
-                dispatch(webSocket())
-        })
-    }
-}
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+            mode: 'cors',
+            body: JSON.stringify({roomCode: roomCode})
+        }
 
-function ActionGetTeams(payload) {
-    return {
-        type: GET_TEAMS,
-        payload: payload,
+        fetch(`http://localhost:3001/teams/${teamName}`, options)
+            .then(() => {
+                dispatch({type: JOIN_QUIZ_SUCCESS, payload: roomCode})
+                dispatch(webSocket())
+            })
     }
 }
 
@@ -50,22 +39,14 @@ export function getTeams(roomCode) {
         fetch(`http://localhost:3001/teams/${roomCode}`, options)
             .then((response) => response.json())
             .then((data) => {
-                console.log(data)
-                dispatch(ActionGetTeams(data))
+                dispatch({type: GET_TEAMS, payload: data})
             })
-    }
-}
-
-function ActionSendAnswer(payload) {
-    return {
-        type: 'SEND_ANSWER',
-        payload: payload,
     }
 }
 
 export function sendAnswer(answer) {
     return (dispatch) => {
-        dispatch(ActionSendAnswer(answer))
+        dispatch({type: SEND_ANSWER, payload: answer})
         dispatch(sendMessage(JSON.stringify({type: 'ANSWER', answer:answer})))
     }
 }

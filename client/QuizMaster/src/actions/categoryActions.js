@@ -1,17 +1,7 @@
 export const GET_CATEGORIES = 'GET_CATEGORIES'
-
-function ActionGetCategories(payload) {
-    return {
-        type: GET_CATEGORIES,
-        payload: payload
-    }
-}
-function ActionGetQuestions(payload) {
-    return {
-        type: 'GET_QUESTIONS',
-        payload: payload
-    }
-}
+export const GET_QUESTIONS = 'GET_QUESTIONS'
+export const SELECT_CATEGORY = 'SELECT_CATEGORY'
+export const UNSELECT_CATEGORY = 'UNSELECT_CATEGORY'
 
 export function getCategories() {
     return (dispatch) => {
@@ -27,17 +17,13 @@ export function getCategories() {
         fetch(`http://localhost:3001/questions/categories`, options)
         .then((response) => response.json())
         .then((data) => {
-            dispatch(ActionGetCategories(data))
+            dispatch({type: GET_CATEGORIES, payload: data})
         })
     }
 }
+
 export function getQuestions(categories) {
     return async (dispatch) => {
-        function onSuccess(payload) {
-            dispatch(ActionGetQuestions(payload))
-            return payload
-        }
-
         try {
             const options = {
                 method: "POST",
@@ -49,10 +35,11 @@ export function getQuestions(categories) {
                 body: JSON.stringify(categories)
             }
 
-            const data = await fetch(`http://localhost:3001/questions/categories`, options)
+            await fetch(`http://localhost:3001/questions/categories`, options)
                 .then((response) => response.json())
-
-            return onSuccess(data)
+                .then((data) => {
+                    dispatch({type: GET_QUESTIONS, payload: data})
+                })
 
         } catch (e) {
             console.log("error (function getQuestions)", e)
@@ -60,44 +47,14 @@ export function getQuestions(categories) {
     }
 }
 
-export const SELECT_CATEGORY = 'SELECT_CATEGORY'
-
-function ActionSelectCategory(payload) {
-    return {
-        type: SELECT_CATEGORY,
-        payload: payload
-    }
-}
-
 export function selectCategory(category) {
     return (dispatch) => {
-        dispatch(ActionSelectCategory(category))
-    }
-}
-
-export const UNSELECT_CATEGORY = 'UNSELECT_CATEGORY'
-
-function ActionUnselectCategory(payload) {
-    return {
-        type: UNSELECT_CATEGORY,
-        payload: payload
-    }
-}
-function ActionSelectQuestions(payload){
-    return{
-        type: 'SELECT_QUESTIONS',
-        payload: payload
+        dispatch({type: SELECT_CATEGORY, payload: category})
     }
 }
 
 export function unselectCategory(category) {
     return (dispatch) => {
-        dispatch(ActionUnselectCategory(category))
-    }
-}
-
-export function selectQuestions(category) {
-    return (dispatch) => {
-        dispatch(ActionSelectQuestions(category))
+        dispatch({type: UNSELECT_CATEGORY, payload: category})
     }
 }

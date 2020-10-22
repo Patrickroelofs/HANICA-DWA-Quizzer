@@ -1,14 +1,9 @@
-import React ,{useEffect}from 'react'
-import {useDispatch, useSelector} from 'react-redux'
-import { useHistory} from 'react-router-dom'
-import {sendMessage} from "../actions/sessionActions";
-import {sendAnswer} from "../actions/quizActions";
+import React from 'react'
+import {useSelector} from 'react-redux'
 
 
 
 export const Quiz = () => {
-    const history = useHistory()
-    const dispatch = useDispatch()
     const currentQuestion = useSelector(state => state.quiz.currentQuestion)
     const roomCode = useSelector(state => state.quiz.roomCode)
 

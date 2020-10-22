@@ -3,13 +3,6 @@ import {webSocket} from "./sessionActions";
 export const JOIN_QUIZ_SUCCESS = 'JOIN_QUIZ_SUCCESS'
 export const GET_TEAMS = 'GET_TEAMS'
 
-function joinQuizSuccess(payload) {
-    return {
-        type: JOIN_QUIZ_SUCCESS,
-        payload: payload,
-    }
-}
-
 export function joinQuiz(roomCode) {
     return (dispatch) => {
         const options = {
@@ -23,17 +16,10 @@ export function joinQuiz(roomCode) {
         }
 
         fetch('http://localhost:3001/scoreboard/', options).then(() => {
-            dispatch(joinQuizSuccess(roomCode))
+            dispatch({type: JOIN_QUIZ_SUCCESS, payload: roomCode})
             dispatch(webSocket())
 
         })
-    }
-}
-
-function ActionGetTeams(payload) {
-    return {
-        type: GET_TEAMS,
-        payload: payload,
     }
 }
 
@@ -51,7 +37,7 @@ export function getTeams(roomCode) {
         fetch(`http://localhost:3001/teams/${roomCode}`, options)
             .then((response) => response.json())
             .then((data) => {
-                dispatch(ActionGetTeams(data))
+                dispatch({type: GET_TEAMS, payload: data})
             })
     }
 }

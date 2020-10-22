@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getTeams } from '../actions/quizActions'
-import {useHistory} from "react-router-dom";
-import { webSocket } from '../actions/sessionActions'
+import { useHistory } from "react-router-dom";
 
 export const WaitingRoom = () => {
     const dispatch = useDispatch()
@@ -21,7 +20,7 @@ export const WaitingRoom = () => {
         if (currentQuestion){
             history.push('/quiz')
         }
-    }, [fetchTeams, dispatch, roomCode, currentQuestion])
+    }, [fetchTeams, dispatch, roomCode, currentQuestion, history])
 
 
 

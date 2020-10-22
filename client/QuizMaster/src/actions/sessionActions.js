@@ -3,26 +3,16 @@ const server = `ws://${window.location.hostname}:${port}`
 
 let wsConnection
 
+export const WEBSOCKET_MESSAGE_SENT = 'WEBSOCKET_MESSAGE_SENT'
 export const WEBSOCKET_OPEN = 'WEBSOCKET_OPEN'
 
-function websocket_open(websocket) {
-    return {
-        type: WEBSOCKET_OPEN,
-        payload: websocket,
-    }
-}
-function sentMessage(message){
-    return{
-        type: 'TEAM_REFUSED',
-        payload: message
-    }
-}
-export function sendMessage(message){
+export function sendMessage(message) {
     return (dispatch) => {
-        wsConnection.send(message)
-        dispatch(sentMessage(message))
+        wsConnection.send(JSON.stringify(message))
+        dispatch(message)
     }
 }
+
 export function webSocket() {
 
     return (dispatch) => {
@@ -39,7 +29,7 @@ export function webSocket() {
 
         wsConnection.onopen = (e) => {
             console.log('WEBSOCKET OPEN: ', e)
-            dispatch(websocket_open(wsConnection))
+            dispatch({type: WEBSOCKET_OPEN, payload: wsConnection})
         }
 
         wsConnection.onclose = (e) => {
