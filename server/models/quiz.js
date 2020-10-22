@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
 
+const Rounds = require('./rounds')
+
 const quizSchema = mongoose.Schema({
     roomCode: {
         type: String,
@@ -9,45 +11,23 @@ const quizSchema = mongoose.Schema({
         type: String,
         required: false,
     },
+    scoreboard: {
+        type: Boolean
+    },
     teams: [
         {
             name: String,
             roundPoints: Number,
             roundScore: Number,
-            answer: [String],
         },
     ],
-    scoreboard: {
-        type: Boolean,
-        default: false,
-        required: false,
-    },
     started: {
         type: Boolean,
         required: false,
     },
-    round: {
-        type: Number,
-        required: false,
-    },
-    savedQuestions: [
-        {
-            type: String,
-            required: false,
-        },
-    ],
-    currentQuestion: [
-        {
-            type: String,
-            required: false,
-        },
-    ],
-    questionsAsked: [
-        {
-            type: String,
-            required: false,
-        },
-    ],
+    rounds: {
+        type: Rounds
+    }
 })
 
 const Quiz = mongoose.model('Quiz', quizSchema)
