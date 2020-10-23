@@ -1,0 +1,142 @@
+@import url('https://fonts.googleapis.com/css2?family=Balsamiq+Sans:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap');
+body,
+html {
+    background: #fefdf8;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Balsamiq Sans', cursive;
+    font-weight: bold;
+    text-align: center;
+}
+
+.container {
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 1024px;
+    margin: 0 auto;
+}
+
+.input {
+    padding: 16px 32px;
+    display: inline-block;
+    font-size: 14px;
+    outline: none;
+    color: #000;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    font-weight: bold;
+    border: 0;
+}
+
+.button {
+    background: white;
+    cursor: pointer;
+    padding: 24px 32px;
+    display: inline-block;
+    font-size: 14px;
+    outline: none;
+    color: #000;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    font-weight: bold;
+    border: 0;
+    position: relative;
+    vertical-align: top;
+    &:hover {
+        svg {
+            left: 32px;
+        }
+    }
+    svg {
+        -webkit-transition: all 0.3s ease-in-out;
+        -moz-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
+        top: 12px;
+        left: 20px;
+        position: absolute;
+    }
+}
+
+.joinQuizCode {
+    h1 {
+        font-size: 128px;
+        color: #fff;
+    }
+}
+
+.waitingRoom {
+    h1 {
+        font-size: 48px;
+        color: #fff;
+        text-align: center;
+    }
+    h3 {
+        color: #fff;
+        text-align: center;
+    }
+
+    .teamList {
+        > div {
+            margin: 0 16px;
+            display: inline-block;
+        }
+        p {
+            margin: 16px 0;
+            color: white;
+            font-size: 24px;
+        }
+    }
+}
+
+.hero {
+    z-index: 0;
+    overflow: hidden;
+    position: relative;
+    height: 90vh;
+    background: #ffce54;
+    background: linear-gradient(100deg, #f12711, #f5af19);
+
+    .waveBG {
+        position: absolute;
+        top: 100%;
+        left: -25vw;
+        right: 0px;
+        background: url('/img/wave.svg');
+        background-position: center;
+        filter: brightness(0) saturate(100%) invert(94%) sepia(17%)
+            saturate(269%) hue-rotate(25deg) brightness(115%) contrast(99%);
+    }
+    .wave1 {
+        height: 200px;
+        transform: translateY(-40px);
+    }
+    .wave2 {
+        height: 240px;
+        transform: translateY(-80px);
+        background-size: 960px 240px;
+        opacity: 0.5;
+        left: -80vw;
+        right: -5vw;
+    }
+    .wave3 {
+        height: 220px;
+        transform: translateY(-120px);
+        background-size: 880px 220px;
+        opacity: 0.33;
+        left: 0vw;
+        right: -20vw;
+    }
+    .wave4 {
+        height: 280px;
+        transform: translateY(-160px);
+        background-size: 1120px 280px;
+        opacity: 0.1;
+        left: 0vw;
+        right: -40vw;
+    }
+}
