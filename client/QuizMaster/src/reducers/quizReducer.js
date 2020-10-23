@@ -1,5 +1,5 @@
 import { ACCEPT_TEAM, REMOVE_TEAM, GET_TEAMS } from '../actions/teamActions'
-import { CREATE_QUIZ, START_QUIZ } from '../actions/quizActions'
+import {CREATE_QUIZ, CREATE_ROUND, START_QUIZ} from '../actions/quizActions'
 
 const initialQuizState = {
     roomCode: '',
@@ -50,14 +50,18 @@ const quizReducer = (state = initialQuizState, action) => {
                 fetchTeams: true
             }
         }
-
         case START_QUIZ: {
             return {
                 ...state,
                 startQuiz: true,
             }
         }
-
+        case CREATE_ROUND: {
+            return {
+                ...state,
+                roundNumber: action.payload
+            }
+        }
         default: {
             return state
         }

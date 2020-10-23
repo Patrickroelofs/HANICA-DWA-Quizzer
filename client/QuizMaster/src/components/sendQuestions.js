@@ -2,12 +2,13 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { randomQuestions } from '../functions/randomQuestions'
 import { useHistory } from 'react-router-dom'
-import {sendQuestion} from "../actions/questionActions";
+import {sendQuestion, updateQuestion} from "../actions/questionActions";
 
 export const SendQuestions = () => {
     const history = useHistory()
     const dispatch = useDispatch()
     const questions = useSelector(state => state.questions.all)
+    const roundNumber = useSelector(state => state.quiz.roundNumber)
     const randomizedQuestions = useSelector(state => state.questions.randomized)
 
     useEffect(() => {
@@ -19,7 +20,7 @@ export const SendQuestions = () => {
     }
 
     const send = (question) => {
-        dispatch(sendQuestion(question))
+        dispatch(updateQuestion(question, roundNumber))
         history.push('/review')
     }
 

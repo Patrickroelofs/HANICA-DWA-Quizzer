@@ -25,9 +25,9 @@ const quizSchema = mongoose.Schema({
         type: Boolean,
         required: false,
     },
-    rounds: {
+    rounds: [{
         type: Rounds
-    }
+    }]
 })
 
 const Quiz = mongoose.model('Quiz', quizSchema)

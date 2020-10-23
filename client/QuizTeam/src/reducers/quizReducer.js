@@ -1,4 +1,4 @@
-import { GET_TEAMS, JOIN_QUIZ_SUCCESS } from '../actions/quizActions'
+import {GET_QUESTIONS, GET_TEAMS, JOIN_QUIZ_SUCCESS} from '../actions/quizActions'
 import {TEAM_ACCEPTED, TEAM_REFUSED} from "../actions/sessionActions";
 
 
@@ -23,11 +23,17 @@ const quizReducer = (state = initialQuizState, action) => {
         case TEAM_REFUSED: {
             return {...state, accepted: false}
         }
+        case GET_QUESTIONS: {
+            return {...state, question : action.payload, fetchQuestions: false}
+        }
         case 'NEW_QUESTION': {
-            return {...state, currentQuestion: action.payload}
+            return {...state, fetchQuestions : true}
         }
         case 'SEND_ANSWER': {
             return {...state, answered : true}
+        }
+        case 'START_QUIZ': {
+            return {...state, roundNumber : action.payload}
         }
         default: {
             return state

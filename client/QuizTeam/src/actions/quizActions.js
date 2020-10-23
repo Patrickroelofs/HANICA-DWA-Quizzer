@@ -4,6 +4,7 @@ import { sendMessage } from "./sessionActions";
 export const JOIN_QUIZ_SUCCESS = 'JOIN_QUIZ_SUCCESS'
 export const GET_TEAMS = 'GET_TEAMS'
 export const SEND_ANSWER = 'SEND_ANSWER'
+export const GET_QUESTIONS = 'GET_QUESTIONS'
 
 export function joinQuiz(roomCode, teamName) {
     return (dispatch) => {
@@ -43,7 +44,24 @@ export function getTeams(roomCode) {
             })
     }
 }
+export function getQuestions(roundNumber) {
+    return (dispatch) => {
+        const options = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+            mode: 'cors',
+        }
 
+        fetch(`http://localhost:3001/round/${roundNumber}/question`, options)
+            .then((response) => response.json())
+            .then((data) => {
+                dispatch({type: GET_QUESTIONS, payload: data.question})
+            })
+    }
+}
 export function sendAnswer(answer) {
     return (dispatch) => {
         dispatch({type: SEND_ANSWER, payload: answer})

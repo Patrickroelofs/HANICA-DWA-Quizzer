@@ -23,8 +23,6 @@ export const TeamsLobby = () => {
     }, [fetchTeams, dispatch, roomCode])
 
     const handleSubmit = () => {
-        dispatch(startQuiz())
-
         history.push("/categories")
     }
 

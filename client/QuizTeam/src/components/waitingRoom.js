@@ -1,18 +1,25 @@
 import React, { useEffect } from 'react'
-import { useSelector } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import { useHistory } from "react-router-dom";
+import {getQuestions} from "../actions/quizActions";
 
 export const WaitingRoom = () => {
+    const dispatch = useDispatch()
     const history = useHistory()
-    const currentQuestion = useSelector(state => state.quiz.currentQuestion)
+    const fetchQuestions = useSelector(state => state.quiz.fetchQuestions)
+    const roundNumber = useSelector(state => state.quiz.roundNumber)
     useEffect(() => {
-        if(currentQuestion){
+        if(fetchQuestions){
+            dispatch(getQuestions(roundNumber))
             history.push('/quiz')
         }
-    }, [currentQuestion, history])
+    }, [dispatch, fetchQuestions, history, roundNumber])
     return (
         <div>
             <h1>Waiting for QuizMaster</h1>
+            {roundNumber
+                ? <h4>Round {roundNumber} in the making</h4>
+             : null}
         </div>
     )
 }

@@ -74,6 +74,7 @@ webSocketServer.on('connection', (socket, req) => {
     }
     socket.on('message', (message) => {
         message = JSON.parse(message)
+        console.log(message)
         switch (message.type){
             case'TEAM_REFUSED':
                 TeamMessage(webSocketServer.clients, socket, 'TEAM_REFUSED', message.team)
@@ -81,13 +82,18 @@ webSocketServer.on('connection', (socket, req) => {
                 break;
             case 'TEAM_ACCEPTED':
                 TeamMessage(webSocketServer.clients, socket, 'TEAM_ACCEPTED', message.team)
-                break
+                break;
+            case 'START_QUIZ':
+                TeamsMessage(webSocketServer.clients, socket, 'START_QUIZ', message.roundNumber)
+                ScoreboardMessage(webSocketServer.clients, socket, 'START_QUIZ', message.roundNumber)
+                break;
             case 'NEW_QUESTION':
                 TeamsMessage(webSocketServer.clients, socket, 'NEW_QUESTION', message.question)
                 ScoreboardMessage(webSocketServer.clients, socket, 'NEW_QUESTION', message.question)
-                break
+                break;
             case 'ANSWER':
                 MasterMessage(webSocketServer.clients, socket, 'ANSWER', message.answer)
+                break;
             }
 
 
@@ -101,6 +107,7 @@ const questionsRouter = require('./routes/questions')
 const globalRouter = require('./routes/globals')
 const teamsRouter = require('./routes/teams')
 const quizRouter = require('./routes/quiz')
+const roundRouter = require('./routes/rounds')
 const {TeamMessage} = require("./functions/websocket");
 const {ScoreboardMessage} = require("./functions/websocket");
 const {TeamsMessage} = require("./functions/websocket");
@@ -110,6 +117,7 @@ app.use('/questions', questionsRouter)
 app.use('/globals', globalRouter)
 app.use('/teams', teamsRouter)
 app.use('/quiz', quizRouter)
+app.use('/round', roundRouter)
 
 
 httpServer.listen(3001, function () {
