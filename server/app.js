@@ -64,6 +64,7 @@ httpServer.on('upgrade', (req, networkSocket, head) => {
 webSocketServer.on('connection', (socket, req) => {
     console.log('Websocket Connected & Session Saved')
     socket.session = req.session
+    console.log(socket.session)
     if(socket.session.scoreboard && socket.session.joined){
         MasterMessage(webSocketServer.clients, socket, 'SCOREBOARD_JOINED')
     }
@@ -76,23 +77,9 @@ webSocketServer.on('connection', (socket, req) => {
         message = JSON.parse(message)
         console.log(message)
         switch (message.type){
-            case'TEAM_REFUSED':
-                TeamMessage(webSocketServer.clients, socket, 'TEAM_REFUSED', message.team)
-                ScoreboardMessage(webSocketServer.clients, socket, "TEAM_REFUSED")
-                break;
-            case 'TEAM_ACCEPTED':
-                TeamMessage(webSocketServer.clients, socket, 'TEAM_ACCEPTED', message.team)
-                break;
             case 'START_QUIZ':
                 TeamsMessage(webSocketServer.clients, socket, 'START_QUIZ', message.roundNumber)
                 ScoreboardMessage(webSocketServer.clients, socket, 'START_QUIZ', message.roundNumber)
-                break;
-            case 'NEW_QUESTION':
-                TeamsMessage(webSocketServer.clients, socket, 'NEW_QUESTION', message.question)
-                ScoreboardMessage(webSocketServer.clients, socket, 'NEW_QUESTION', message.question)
-                break;
-            case 'ANSWER':
-                MasterMessage(webSocketServer.clients, socket, 'ANSWER', message.answer)
                 break;
             }
 

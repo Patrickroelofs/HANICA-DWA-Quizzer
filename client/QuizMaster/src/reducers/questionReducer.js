@@ -28,15 +28,6 @@ const questionReducer = (state = initialQuestionState, action) => {
                 ...state,
                 currentQuestions : action.payload
             }
-        case 'ANSWER':
-            // idk how were gonna do this (needs to save the team that sent the answer but also the answer)...or
-            // maybe we will just get it from the database since were supposed to safe the answer in the team.. so yeah
-            // still need to do that. once thats done probably only need to send the team name and tell it to get the stuff from database
-            // just idk how to :D
-            return {
-                ...state,
-                answer : action.payload
-            }
         default: {
             return state
         }

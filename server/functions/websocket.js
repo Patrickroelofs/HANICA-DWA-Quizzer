@@ -10,7 +10,6 @@
  */
 MasterMessage = function (clients,socket, message, payload) {
     clients.forEach((client) => {
-        console.log(`evaluating : ${client.session.master} ${socket.session.roomCode} ${client.session.roomCode}`)
         if (
 
             client.session.master &&
@@ -41,7 +40,6 @@ MasterMessage = function (clients,socket, message, payload) {
  */
 TeamsMessage = function (clients, socket, message, payload) {
     clients.forEach((client) => {
-        console.log(`evaluating : ${client.session.team} ${socket.session.roomCode} ${client.session.roomCode}`)
         if (
             client.session.team &&
             socket.session.roomCode === client.session.roomCode
@@ -73,7 +71,6 @@ TeamsMessage = function (clients, socket, message, payload) {
 TeamMessage = function (clients, socket , message, teamName) {
 
     clients.forEach((client) => {
-        console.log(`evaluating : ${client.session.team} ${socket.session.roomCode} ${client.session.roomCode} ${teamName}`)
         if (
             client.session.team &&
             client.session.teamName === teamName &&
@@ -103,7 +100,6 @@ TeamMessage = function (clients, socket , message, teamName) {
  */
 ScoreboardMessage = function (clients, socket , message, payload) {
     clients.forEach((client) => {
-        console.log(`evaluating : ${client.session.scoreboard} ${socket.session.roomCode} ${client.session.roomCode}`)
         if (
             client.session.scoreboard &&
             socket.session.roomCode === client.session.roomCode

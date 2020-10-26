@@ -1,16 +1,15 @@
 import React from 'react'
-import {useSelector} from 'react-redux'
-
+import {useDispatch, useSelector} from 'react-redux'
+import {sendAnswer} from "../actions/quizActions";
 
 
 export const Quiz = () => {
+    const dispatch = useDispatch()
     const question = useSelector(state => state.quiz.question)
     const roomCode = useSelector(state => state.quiz.roomCode)
-
     const handleSubmit = (e) => {
         e.preventDefault();
-        // todo: make this work idk why it doesnt but im done
-        //dispatch(sendAnswer(e.target.answer.value))
+        dispatch(sendAnswer(e.target.answer.value))
     }
 
     return (

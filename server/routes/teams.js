@@ -28,7 +28,7 @@ router.post("/:name", async function (req, res, next) {
                             name: req.params.name,
                             roundPoints: 0,
                             roundScore: 0,
-                            answer: [],
+                            answer: '',
                         },
                     ],
                 },
@@ -68,16 +68,36 @@ router.get("/:roomCode", async function (req, res, next) {
 // should change the .find to check roomcode AND fine name
 router.get("/name/:name", async function (req, res, next) {
     try {
-        const quiz = await Quiz.find({
-            roomCode: req.session.roomCode,
-        })
+        const team = await Quiz.findOne(
+            {roomCode: req.session.roomCode, "teams.name" : req.params.name},
+            { "teams" : {$elemMatch: {"name" : req.params.name}}, _id :0 })
 
-        res.send(quiz)
+        TeamMessage(req.webSocketServer.clients, req, 'TEAM_ACCEPTED', req.params.name)
+        res.send(team)
 
         console.log(`[GET] teams/name/${req.params.name}`)
     } catch (err) {
         next(err)
     }
+})
+
+router.patch('/answer', async function(req, res, next){
+    console.log('hi im trying')
+    if(req.body.review){
+        await Quiz.findOneAndUpdate(
+            {roomCode: req.session.roomCode, "teams.name" : req.body.teamName},
+            {$set :{'teams.$.answer.review' : req.body.review,},
+                $inc :{'teams.$.roundScore' : 1}}
+        )
+    }else{
+        await Quiz.findOneAndUpdate(
+            {roomCode: req.session.roomCode, "teams.name" : req.body.teamName},
+            {$set :{'teams.$.answer.review' : req.body.review,}}
+        )
+    }
+
+    ScoreboardMessage(req.webSocketServer.clients, req, "ANSWER_REVIEWED")
+    res.send({message: 'updated score and review of answer'})
 })
 
 router.delete("/:name", async function (req, res, next) {
@@ -87,9 +107,8 @@ router.delete("/:name", async function (req, res, next) {
             { $pull: { teams: { name: req.params.name } } }
         )
 
-        // TeamMessage(req, "TEAM_REFUSED", req.params.name)
-        // ScoreboardMessage(req, "TEAM_REFUSED")
-
+        TeamMessage(req.webSocketServer.clients, req, 'TEAM_REFUSED', req.params.name)
+        ScoreboardMessage(req.webSocketServer.clients, req, 'TEAM_REFUSED')
         res.send(
             JSON.stringify({
                 type: "TEAM_DELETED",

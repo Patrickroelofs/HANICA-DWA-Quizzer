@@ -19,6 +19,10 @@ const quizSchema = mongoose.Schema({
             name: String,
             roundPoints: Number,
             roundScore: Number,
+            answer: {
+                givenAnswer: String,
+                review: Boolean,
+            },
         },
     ],
     started: {

@@ -62,9 +62,32 @@ export function getQuestions(roundNumber) {
             })
     }
 }
+function ActionSendAnswer(){
+    return{
+        type: SEND_ANSWER
+    }
+}
 export function sendAnswer(answer) {
-    return (dispatch) => {
-        dispatch({type: SEND_ANSWER, payload: answer})
-        dispatch(sendMessage(JSON.stringify({type: 'ANSWER', answer:answer})))
+    return async (dispatch) => {
+        try {
+            const options = {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials: "include",
+                mode: "cors",
+                body: JSON.stringify({answer:answer})
+            }
+
+            await fetch(`http://localhost:3001/round/answer`, options)
+            .then((response) => response.json())
+            .then((data) => {
+                dispatch(sendMessage(JSON.stringify({type: 'ANSWER'})))
+                dispatch(ActionSendAnswer)
+            })}
+            catch (err){
+                console.log("error (function SendAnswers)", err)
+        }
     }
 }

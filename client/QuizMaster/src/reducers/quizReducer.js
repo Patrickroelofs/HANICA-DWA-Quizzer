@@ -13,6 +13,12 @@ const initialQuizState = {
 
 const quizReducer = (state = initialQuizState, action) => {
     switch (action.type) {
+        case 'ANSWER': {
+            return {
+                ...state,
+                fetchTeams: true
+            }
+        }
         case CREATE_QUIZ: {
             return {
                 ...state,
@@ -40,10 +46,15 @@ const quizReducer = (state = initialQuizState, action) => {
         case ACCEPT_TEAM: {
             return {
                 ...state,
-                acceptedTeams: action.payload
+                acceptedTeams: [...state.acceptedTeams, action.payload]
             }
         }
-
+        case 'SEND_REVIEW': {
+            return {
+                ...state,
+                fetchTeams: true
+            }
+        }
         case REMOVE_TEAM: {
             return {
                 ...state,

@@ -20,12 +20,20 @@ const quizReducer = (state = initialQuizState, action) => {
         case 'TEAM_JOINED': {
             return { ...state, fetchTeams: true }
         }
-
         case 'TEAM_REFUSED': {
             return { ...state, fetchTeams: true }
         }
+        case 'START_QUIZ': {
+            return { ...state, roundNumber: action.payload}
+        }
         case 'NEW_QUESTION': {
-            return {...state, currentQuestion: action.payload}
+            return {...state, fetchQuestions: true}
+        }
+        case 'GET_QUESTIONS': {
+            return {...state, fetchQuestions: false, currentQuestion: action.payload}
+        }
+        case 'ANSWER': {
+            return {...state, fetchTeams: true}
         }
 
         default: {

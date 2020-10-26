@@ -34,7 +34,7 @@ export const TeamsLobby = () => {
                 {connectedTeams
                     ? connectedTeams.map((team) => {
                           return (
-                              <li key={team.name}>
+                              <li key={team._id}>
                                 <span>{team.name} </span>
                                 {
                                     acceptedTeams.some(e => e.name === team.name)

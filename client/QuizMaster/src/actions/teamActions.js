@@ -40,8 +40,8 @@ export function reviewTeam(name, which) {
             fetch(`http://localhost:3001/teams/name/${name}`, options)
                 .then((response) => response.json())
                 .then((data) => {
-                    dispatch({type: ACCEPT_TEAM, payload: data[0].teams})
-                    dispatch(sendMessage({type: TEAM_ACCEPTED, team: name}))
+                    console.log(data)
+                    dispatch({type: ACCEPT_TEAM, payload: data.teams[0]})
                 })
 
         } else if (which === 'remove') {
@@ -58,7 +58,6 @@ export function reviewTeam(name, which) {
                 .then((response) => response.json())
                 .then((data) => {
                     dispatch({type: REMOVE_TEAM, payload: data})
-                    dispatch(sendMessage({type: TEAM_REFUSED, team: name}))
                 })
         }
     }
