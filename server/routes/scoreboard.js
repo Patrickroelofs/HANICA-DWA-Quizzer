@@ -22,8 +22,6 @@ router.post('/', async function (req, res, next) {
 
         res.send('SCOREBOARD Joined')
 
-        console.log(`[POST] scoreboard.post('/') : scoreboard joined`)
-        console.log(req.session)
     } catch (err) {
         next(err)
     }

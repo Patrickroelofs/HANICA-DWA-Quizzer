@@ -7,6 +7,7 @@ const initialQuizState = {
     accepted: undefined,
     currentQuestion: '',
     answered: undefined,
+    questionNumber: 0,
 }
 
 const quizReducer = (state = initialQuizState, action) => {
@@ -27,10 +28,10 @@ const quizReducer = (state = initialQuizState, action) => {
             return {...state, question : action.payload, fetchQuestions: false}
         }
         case 'NEW_QUESTION': {
-            return {...state, fetchQuestions : true}
+            return {...state, fetchQuestions : true, questionNumber: state.questionNumber + 1}
         }
         case 'SEND_ANSWER': {
-            return {...state, answered : true}
+            return {...state, answered : true, answer: action.payload}
         }
         case 'START_QUIZ': {
             return {...state, roundNumber : action.payload}

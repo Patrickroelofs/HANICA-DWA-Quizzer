@@ -1,5 +1,5 @@
 import {webSocket} from "./sessionActions";
-
+import { store } from './../store'
 
 export const JOIN_QUIZ_SUCCESS = 'JOIN_QUIZ_SUCCESS'
 export const GET_TEAMS = 'GET_TEAMS'
@@ -44,7 +44,7 @@ export function getTeams(roomCode) {
 }
 
 export function getQuestions(roundNumber) {
-    return (dispatch) => {
+    return async (dispatch) => {
         const options = {
             method: 'GET',
             headers: {
@@ -54,10 +54,33 @@ export function getQuestions(roundNumber) {
             mode: 'cors',
         }
 
-        fetch(`http://localhost:3001/round/${roundNumber}/question`, options)
+        fetch(`http://localhost:3001/round/${roundNumber}/question/${store.getState().quiz.questionNumber}`, options)
             .then((response) => response.json())
             .then((data) => {
-                dispatch({type: 'GET_QUESTIONS', payload: data.question})
+                dispatch({type: 'GET_QUESTIONS', payload: data})
             })
+    }
+}
+
+export function getAnswer() {
+    return async (dispatch) => {
+        try {
+            const options = {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials: "include",
+                mode: "cors"
+            }
+            await fetch(`http://localhost:3001/round/${store.getState().quiz.roundNumber}/answer/${store.getState().quiz.questionNumber}`, options)
+                .then((response) => response.json())
+                .then((data) => {
+                    dispatch({type: 'GET_ANSWERS', payload: data})
+                })
+        }
+        catch (err) {
+            console.log('error (function sendReview)', err)
+        }
     }
 }

@@ -2,7 +2,8 @@
 
 const initialQuestionState = {
     all: '',
-    randomized: ''
+    randomized: '',
+    questionNumber: 0,
 }
 
 const questionReducer = (state = initialQuestionState, action) => {
@@ -26,7 +27,8 @@ const questionReducer = (state = initialQuestionState, action) => {
         case 'SEND_QUESTION':
             return {
                 ...state,
-                currentQuestions : action.payload
+                currentQuestions : action.payload,
+                questionNumber: state.questionNumber + 1,
             }
         default: {
             return state

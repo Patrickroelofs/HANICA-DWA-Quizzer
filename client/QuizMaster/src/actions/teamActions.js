@@ -40,7 +40,6 @@ export function reviewTeam(name, which) {
             fetch(`http://localhost:3001/teams/name/${name}`, options)
                 .then((response) => response.json())
                 .then((data) => {
-                    console.log(data)
                     dispatch({type: ACCEPT_TEAM, payload: data.teams[0]})
                 })
 

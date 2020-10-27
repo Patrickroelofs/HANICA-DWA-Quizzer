@@ -55,16 +55,13 @@ const webSocketServer = new WebSocket.Server({noServer: true})
 httpServer.on('upgrade', (req, networkSocket, head) => {
     sessionParser(req, {}, () => {
         webSocketServer.handleUpgrade(req, networkSocket, head, newWebSocket => {
-            console.log("Socket Upgrade")
             webSocketServer.emit('connection', newWebSocket, req)
         })
     })
 })
 
 webSocketServer.on('connection', (socket, req) => {
-    console.log('Websocket Connected & Session Saved')
     socket.session = req.session
-    console.log(socket.session)
     if(socket.session.scoreboard && socket.session.joined){
         MasterMessage(webSocketServer.clients, socket, 'SCOREBOARD_JOINED')
     }

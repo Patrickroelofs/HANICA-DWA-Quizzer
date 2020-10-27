@@ -42,8 +42,6 @@ router.post("/:name", async function (req, res, next) {
 
         res.send(team)
 
-        console.log(`[POST] teams.post(${req.params.name})`)
-        console.log(req.session)
     } catch (err) {
         next(err)
     }
@@ -58,7 +56,6 @@ router.get("/:roomCode", async function (req, res, next) {
 
 
         res.send(parsedQuiz[0].teams)
-        console.log(`[GET] teams.get('/${req.params.roomCode}'`)
     } catch (err) {
         next(err)
     }
@@ -75,29 +72,9 @@ router.get("/name/:name", async function (req, res, next) {
         TeamMessage(req.webSocketServer.clients, req, 'TEAM_ACCEPTED', req.params.name)
         res.send(team)
 
-        console.log(`[GET] teams/name/${req.params.name}`)
     } catch (err) {
         next(err)
     }
-})
-
-router.patch('/answer', async function(req, res, next){
-    console.log('hi im trying')
-    if(req.body.review){
-        await Quiz.findOneAndUpdate(
-            {roomCode: req.session.roomCode, "teams.name" : req.body.teamName},
-            {$set :{'teams.$.answer.review' : req.body.review,},
-                $inc :{'teams.$.roundScore' : 1}}
-        )
-    }else{
-        await Quiz.findOneAndUpdate(
-            {roomCode: req.session.roomCode, "teams.name" : req.body.teamName},
-            {$set :{'teams.$.answer.review' : req.body.review,}}
-        )
-    }
-
-    ScoreboardMessage(req.webSocketServer.clients, req, "ANSWER_REVIEWED")
-    res.send({message: 'updated score and review of answer'})
 })
 
 router.delete("/:name", async function (req, res, next) {
@@ -117,8 +94,6 @@ router.delete("/:name", async function (req, res, next) {
             })
         )
 
-        console.log(`[DELETE] teams.delete(${req.params.name})`)
-        console.log(req.session)
     } catch (err) {
         next(err)
     }

@@ -1,15 +1,20 @@
 import React from 'react'
 import {useDispatch, useSelector} from 'react-redux'
+import { useHistory } from 'react-router-dom';
 import {sendAnswer} from "../actions/quizActions";
 
 
 export const Quiz = () => {
     const dispatch = useDispatch()
+    const history = useHistory()
     const question = useSelector(state => state.quiz.question)
     const roomCode = useSelector(state => state.quiz.roomCode)
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(sendAnswer(e.target.answer.value))
+        dispatch(sendAnswer(e.target.answer.value)).then(() => {
+            history.push('/answered')
+        })
     }
 
     return (

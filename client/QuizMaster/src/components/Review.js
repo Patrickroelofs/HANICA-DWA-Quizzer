@@ -2,8 +2,9 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { randomQuestions } from '../functions/randomQuestions'
 import { useHistory } from 'react-router-dom'
-import {sendReview} from "../actions/questionActions";
+import {getAnswer, sendReview} from "../actions/questionActions";
 import {getTeams} from "../actions/teamActions";
+import { closeQuestion } from '../actions/quizActions';
 
 export const Review = () => {
     const history = useHistory()
@@ -11,8 +12,9 @@ export const Review = () => {
     const question = useSelector(state => state.questions.currentQuestions)
     const answer = useSelector(state => state.questions.answer)
     const fetchTeams = useSelector(state => state.quiz.fetchTeams)
+    const fetchAnswers = useSelector(state => state.quiz.fetchAnswers)
     const roomCode = useSelector(state => state.quiz.roomCode)
-    const connectedTeams = useSelector(state => state.quiz.connectedTeams)
+    const answers = useSelector(state => state.quiz.answers)
 
 
     const send = (review, teamName) => {
@@ -20,12 +22,26 @@ export const Review = () => {
         dispatch(sendReview(review, teamName))
     }
 
+    const close = () => {
+        dispatch(closeQuestion())
+
+        history.push('/sendQuestions')
+    }
+
     useEffect(() => {
 
         if(fetchTeams) {
             dispatch(getTeams(roomCode))
         }
-    }, [answer, dispatch, fetchTeams, roomCode])
+
+    }, [answer, dispatch, fetchTeams, getAnswer, roomCode])
+
+    useEffect(() => {
+        if(fetchAnswers) {
+            dispatch(getAnswer())
+        }
+    })
+
     return (
         <div>
             {question
@@ -34,23 +50,23 @@ export const Review = () => {
                     <h3>{question.answer}</h3>
                 </React.Fragment>
             : null}
-            {connectedTeams
-                ? connectedTeams.map(team => {return (
-                    <div>
-                    <h4>{team.name}</h4>
-                        {team.answer ?
-                            <div><p>{team.answer.givenAnswer}</p>
-                                {team.answer.review === undefined
+            {answers
+                ? answers.map(a => {return (
+                    <div key={a.name}>
+                    <h4>{a.team}</h4>
+                        {a.answer ?
+                            <div><p>{a.answer}</p>
+                                {a.review === undefined
                                     ? <div>
-                                        <button onClick={() => send(true, team.name)}>right</button>
-                                        <button onClick={() => send(false, team.name)}>wrong</button>
+                                        <button onClick={() => send(true, a.team)}>right</button>
+                                        <button onClick={() => send(false, a.team)}>wrong</button>
                                       </div>
-                                    : <p>{team.answer.review}</p>}
+                                    : <p>{a.review}</p>}
                                  </div>
                             : <p>waiting for answer</p>}
                     </div>)})
                 :null}
-                <button>Close Question</button>
+                <button onClick={close}>Close Question</button>
         </div>
     )
 }

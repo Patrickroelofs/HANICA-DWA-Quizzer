@@ -7,8 +7,10 @@ const initialQuizState = {
     language: '',
     fetchTeams: false,
     startQuiz: false,
+    fetchAnswers: false,
     connectedTeams: [],
-    acceptedTeams: []
+    acceptedTeams: [],
+    answers: []
 }
 
 const quizReducer = (state = initialQuizState, action) => {
@@ -16,7 +18,7 @@ const quizReducer = (state = initialQuizState, action) => {
         case 'ANSWER': {
             return {
                 ...state,
-                fetchTeams: true
+                fetchAnswers: true
             }
         }
         case CREATE_QUIZ: {
@@ -52,7 +54,7 @@ const quizReducer = (state = initialQuizState, action) => {
         case 'SEND_REVIEW': {
             return {
                 ...state,
-                fetchTeams: true
+                fetchAnswers: true
             }
         }
         case REMOVE_TEAM: {
@@ -73,6 +75,17 @@ const quizReducer = (state = initialQuizState, action) => {
                 roundNumber: action.payload
             }
         }
+        case 'GET_ANSWERS':
+            return {
+                ...state,
+                fetchAnswers: false,
+                answers: action.payload
+            }
+
+        case 'QUESTION_CLOSED': 
+            return {
+                ...state,
+            }
         default: {
             return state
         }

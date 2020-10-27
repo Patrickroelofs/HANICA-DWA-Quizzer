@@ -7,26 +7,32 @@ const roundSchema = mongoose.Schema({
     categories: [{
         type: String,
     }],
-    round: {
+    round: [{
+        closed: {
+            type: Boolean,
+            default: false,
+        },
         questionNumber: {
-            type: Number,
+            type: Number
         },
         question: {
             type: String,
         },
-        answer: {
+        answer: { // this is the answer to the question :)
             type: String,
         },
         answers: [{
+            review: {
+                type: Boolean
+            },
             answer: {
                 type: String
             },
             team: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'Teams'
+                type: String,
             }
         }],
-    },
+    }],
 })
 
 module.exports = roundSchema

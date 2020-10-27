@@ -1,8 +1,11 @@
 import { GET_TEAMS, JOIN_QUIZ_SUCCESS } from '../actions/quizActions'
 
 const initialQuizState = {
+    questionNumber: 0,
     fetchTeams: false,
+    fetchAnswers: false,
     quizStarted: false,
+    fetchQuestions: false,
     roomCode: '',
     currentQuestion: '',
 }
@@ -27,13 +30,22 @@ const quizReducer = (state = initialQuizState, action) => {
             return { ...state, roundNumber: action.payload}
         }
         case 'NEW_QUESTION': {
-            return {...state, fetchQuestions: true}
+            return {...state, fetchQuestions: true, questionNumber: state.questionNumber + 1}
         }
         case 'GET_QUESTIONS': {
-            return {...state, fetchQuestions: false, currentQuestion: action.payload}
+            return {...state, fetchQuestions: true, currentQuestion: action.payload}
+        }
+        case 'CLOSE_QUESTIONS': {
+            return {...state, fetchQuestions: false}
         }
         case 'ANSWER': {
-            return {...state, fetchTeams: true}
+            return {...state, fetchAnswers: true}
+        }
+        case 'ANSWER_REVIEWED': {
+            return {...state, fetchAnswers: true}
+        }
+        case 'GET_ANSWERS': {
+            return {...state, answers: action.payload, fetchAnswers: false}
         }
 
         default: {

@@ -76,3 +76,27 @@ export function createRound(categories, roundNumber) {
             })
     }
 }
+
+export function closeQuestion () {
+    return async (dispatch) => {
+        try {
+            const options = {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials: "include",
+                mode: "cors"
+            }
+
+            await fetch(`http://localhost:3001/quiz/${store.getState().quiz.roundNumber}/close`, options)
+                .then((response) => response.json())
+                .then((data) => {
+                    dispatch({type: 'QUESTION_CLOSED'})
+                })
+
+        } catch (e) {
+            console.log("error (function closeQuestion)", e)
+        }
+    }
+}
