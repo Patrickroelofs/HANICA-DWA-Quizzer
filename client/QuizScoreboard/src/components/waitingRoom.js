@@ -31,34 +31,24 @@ export const WaitingRoom = () => {
 
     return (
         <div className='waitingRoom'>
-            <div className='hero'>
-            <div className='waveBG wave1'/>
-                <div className='waveBG wave2'/>
-                <div className='waveBG wave3'/>
-                <div className='waveBG wave4'/>
-
-                <h3>{roomCode}</h3>
+                <h3>Game PIN : {roomCode}</h3>
                 <h1>These teams have joined:</h1>
-                <div className='container'>
-                    <div className='teamList'>
-                    {teams
-                        ? teams.map((team) => {
-                            return (
+                <div className='teamList'>
+                {teams
+                    ? teams.map((team) => {
+                        return (
+                            <div>
                                 <div>
-                                    <div>
-                                        <img alt='' width="150px" src={`${process.env.PUBLIC_URL}/img/undraw_profile_pic_ic5t.svg`} />
-                                    </div>
-                                    <p key={team.name}>{team.name}</p>
+                                    <img alt='' width="150px" src={`${process.env.PUBLIC_URL}/img/undraw_profile_pic_ic5t.svg`} />
                                 </div>
-
-                            )
-                        })
-                        : null}
-                    </div>
+                                <p key={team.name}>{team.name}</p>
+                            </div>
+                
+                        )
+                    })
+                    : null}
                 </div>
-            </div>
         </div>
-
     )
 }
 
