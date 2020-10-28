@@ -13,26 +13,19 @@ export const Answers = () => {
     }, [])
 
     return (
-        <div>
+        <div className='answers'>
             <h1>Answers</h1>
 
-            <div className="teamList">
+            <div className='answerlist'>
                 {teams
                     ? teams.map((team) => {
                         return answers.map((answer) => {
                             if(team.name.toString() === answer.team.toString()) {
                                 return (
-                                    <div>
-                                        <div>
-                                            <img
-                                                alt=""
-                                                width="150px"
-                                                src={`${process.env.PUBLIC_URL}/img/undraw_profile_pic_ic5t.svg`}
-                                            />
-                                        </div>
-                                        <p key={team.name}>{team.name}</p>
+                                    <div key={team.name} className='team'>
+                                        <h2 key={team.name}>{team.name}</h2>
                                         <p>{answer.answer}</p>
-                                        <p>Correct: {team.roundScore} / 12</p>
+                                        <span>Correct: {team.roundScore} / 12</span>
                                     </div>
                                 )
                             }

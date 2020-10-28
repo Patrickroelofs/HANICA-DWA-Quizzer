@@ -35,20 +35,16 @@ export const Quiz = () => {
     })
 
     return (
-        <div>
+        <div className='quiz'>
             <h1>{currentQuestion}</h1>
-
 
             { answers
                 ? answers.map((a) => {
                       return (
-                          <div>
-                              <h3>{a.team}</h3>
+                          <div className='answers'>
                               {a.answer 
-                                ? a.review === undefined 
-                                    ? (<div>{a.team} : Has answered!</div>) 
-                                    : (<div>{a.team} : heeft het {a.review ? ("YES") : ("NO")}</div>)
-                                : <p>no answer yet..</p>
+                                ? <h2>{a.team} : Has answered!</h2>
+                                : null
                               }
                           </div>
                       )
