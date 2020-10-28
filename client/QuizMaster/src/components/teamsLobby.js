@@ -27,9 +27,13 @@ export const TeamsLobby = () => {
     }
 
     return (
-        <div>
-            <h2>Roomcode: {roomCode}</h2>   
-            <p>Teams:</p>
+        <div className='teamsLobby'>
+            <h1>Game PIN: {roomCode}</h1>
+            { connectedTeams.length >= 1
+                ? <h2>Teams in kamer</h2>
+                : null
+            }
+
             <ul>
                 {connectedTeams
                     ? connectedTeams.map((team) => {
@@ -52,7 +56,7 @@ export const TeamsLobby = () => {
             <div>
                   
                 {acceptedTeams.length >= 1
-                    ? <button onClick={() => handleSubmit()}>Start Quiz</button>
+                    ? <button className='button full' onClick={() => handleSubmit()}>Start Quiz</button>
                     : ''
                 }
             </div>

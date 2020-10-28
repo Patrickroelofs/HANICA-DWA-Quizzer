@@ -8,6 +8,9 @@ import SendQuestions from './sendQuestions';
 import Review from './Review'
 import EndQuiz from './endQuiz'
 
+import './css/normalize.scss'
+import './css/app.scss'
+
 export const App = () => {
     return (
         <Router>

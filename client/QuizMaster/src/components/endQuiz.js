@@ -19,13 +19,18 @@ export const EndQuiz = () => {
     }
 
     return (
-        <div>
+        <div className='endQuiz'>
             {roundNumber > 3
-                ? <p>3 rondes gespeeld :)</p>
-                : <button onClick={newRound}>New round ({roundNumber}/3)</button>
+                ? null
+                : <h1>Nieuwe ronde starten?</h1>
             }
 
-            <button onClick={endQuiz}>End Quiz</button>
+            {roundNumber > 3
+                ? <h1>3 rondes gespeeld :)</h1>
+                : <button className='button full' onClick={newRound}>New round ({roundNumber}/3)</button>
+            }
+
+            <button className='button full' onClick={endQuiz}>End Quiz</button>
         </div>
     )
 }

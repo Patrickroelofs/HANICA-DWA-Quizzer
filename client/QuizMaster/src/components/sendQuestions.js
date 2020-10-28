@@ -25,20 +25,20 @@ export const SendQuestions = () => {
     }
 
     return (
-        <div>
+        <div class='sendQuestions'>
             <h1>Choose a question and send it to the teams!</h1>
-            <button onClick={refreshQuestions}>Load new Questions</button>
-            <br /><br />
+            <button className='button full' onClick={refreshQuestions}>Nieuwe vragen laden...</button>
+            <hr />
             
             {
                 randomizedQuestions >= 0
                 ? null
                 : randomizedQuestions.map((q) => {
                     return (
-                        <React.Fragment key={q._id}>
-                            <button onClick={() => send(q)}>{q.question}</button>
+                        <div className='questionList' key={q._id}>
+                            <button className='button full' onClick={() => send(q)}>{q.question}</button>
                             <br />
-                        </React.Fragment>
+                        </div>
 
                     )
                 })

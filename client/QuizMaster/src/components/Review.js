@@ -51,7 +51,7 @@ export const Review = () => {
     })
 
     return (
-        <div>
+        <div class='review'>
             {question
                 ? <React.Fragment>
                     <h1>{question.question}</h1>
@@ -61,20 +61,26 @@ export const Review = () => {
             {answers
                 ? answers.map(a => {return (
                     <div key={a.name}>
-                    <h4>{a.team}</h4>
-                        {a.answer ?
-                            <div><p>{a.answer}</p>
-                                {a.review === undefined
-                                    ? <div>
-                                        <button onClick={() => send(true, a.team)}>right</button>
-                                        <button onClick={() => send(false, a.team)}>wrong</button>
-                                      </div>
-                                    : <p>{a.review}</p>}
-                                 </div>
-                            : <p>waiting for answer</p>}
+                        {a.answer 
+                        ?   <div>
+                            {a.review === undefined
+                                ? <div className='reviewteamanswers'>
+                                    <p>{a.team} : {a.answer}</p>
+                                    <button className='button' onClick={() => send(true, a.team)}>Correct</button>
+                                    <button className='button' onClick={() => send(false, a.team)}>Fout</button>
+                                  </div>
+
+                                  // !!! something goes wrong here (a.name gets reset? should it?)
+                                  // !!! probably not, but this <p> wont display anything when above buttons pressed
+                                : <p>{a.name + ` : `} {a.review}</p>}
+                            </div>
+                        : <p>waiting for answer</p>}
                     </div>)})
                 :null}
-                <button onClick={close}>Close Question</button>
+
+                <br />
+                <br />
+                <button className='button full' onClick={close}>Close Question</button>
         </div>
     )
 }

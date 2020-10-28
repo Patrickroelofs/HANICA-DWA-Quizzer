@@ -24,7 +24,7 @@ export const ChooseCategories = () => {
     }
 
     return (
-            <div>
+            <div className='chooseCategories'>
                 <h1>Choose Categories!</h1>
                 
                 {selectedCategories.length >= 3
@@ -43,26 +43,23 @@ export const ChooseCategories = () => {
                 }
 
 
-                <h3>Chosen Categories:</h3>
-                {selectedCategories.length > 0
-                    ?<p>Click on <button>category</button> <i>(Below)</i> to choose questions <br/> Click on <button>X</button> to unselect that category and choose a new one</p>
-                : null}
-                <div>
+                
+                <div class='chosenCategories'>
+                    {selectedCategories.length >= 1
+                        ? <h3>Chosen Categories:</h3>
+                        : null
+                    }
                     {
                         selectedCategories.length >= 1
                         ? selectedCategories.map((category) => {
                                 return(
-                                    <div key={category.toString()}>
-                                        <p>{category.toString() + ' '}
-                                            <button onClick={() => dispatch(unselectCategory(category.toString()))}>X</button>
-                                        </p>
-                                    </div>
+                                    <button key={category.toString()} onClick={() => dispatch(unselectCategory(category.toString()))}>{category.toString()}</button>
                                 )
                         })
                         : null
                     }
                 </div>
-                <div>
+                <div class='sendCategories'>
                     {
                         selectedCategories.length >= 3
                         ? <button onClick={onSubmit}>Start Sending Questions</button>

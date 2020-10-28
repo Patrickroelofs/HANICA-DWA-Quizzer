@@ -8,7 +8,7 @@ export function randomQuestions(questions) {
             convertedQuestions.push(questions[i])
         }
     
-        let newQuestions = _.sampleSize(convertedQuestions, 12)
+        let newQuestions = _.sampleSize(convertedQuestions, 6)
 
         dispatch({type: 'RANDOM_QUESTIONS', payload: newQuestions}) 
     }

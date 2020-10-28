@@ -18,13 +18,14 @@ export const CreateQuiz = () => {
 
 
     return (
-        <div>
+        <div class='createQuiz'>
+            <h1>QuizzerMaster</h1>
             <form onSubmit={handleSubmit}>
                 <select name="language">
                     <option value="NL">Nederlands</option>
                     <option value="EN">English</option>
                 </select>
-                <input type="submit" value="submit" />
+                <input className='button' type="submit" value="Quiz maken" />
             </form>
         </div>
     )
