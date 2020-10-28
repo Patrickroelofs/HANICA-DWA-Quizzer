@@ -20,10 +20,10 @@ export const Answered = () => {
     }
 
     return (
-        <div>
-            <h1>Je hebt geantwoord :)~!</h1>
+        <div className='answered'>
+            <h1>Je hebt geantwoord!</h1>
             <h2>{answer}</h2>
-            <button onClick={newAnswer}>Nieuw antwoord geven</button>
+            <button className='button' onClick={newAnswer}>Antwoord aanpassen</button>
         </div>
     )
 }

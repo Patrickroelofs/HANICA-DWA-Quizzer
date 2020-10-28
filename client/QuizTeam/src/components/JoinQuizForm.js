@@ -24,21 +24,18 @@ export const JoinQuizForm = () => {
         }
     }, [accepted, history])
     return (
-        <div>
-            <form method='post' onSubmit={handleSubmit}>
-                <input name='teamName' type='text' placeholder='team name...'/>
-                <input name='roomCode' type='text' placeholder='room code...'/>
-                <button type="submit" value="Submit" className='submitTeamButton'>Login & create websocket</button>
-            </form>
-            <div>
-                {roomCode === ''
-                ? null
+        <div className='joinQuizForm'>
+            <h1>QuizzerTeam</h1>
+            {roomCode === ''
+                ?   <form method='post' onSubmit={handleSubmit}>
+                        <input className='input' name='teamName' type='text' placeholder='team name...'/>
+                        <input className='input second' name='roomCode' type='text' placeholder='room code...'/>
+                        <button className='button' type="submit" value="Submit">Inloggen met teamnaam</button>
+                    </form>
                 : accepted !== false
-                        ?  <p>Waiting for review from Quiz master of room {roomCode} </p>
-                        :  <p>Sorry rejected</p>}
-
-
-            </div>
+                    ? <p>Waiting for review from Quiz master of room {roomCode} </p>
+                    : <p>Sorry rejected</p>
+            }
         </div>
     )
 }

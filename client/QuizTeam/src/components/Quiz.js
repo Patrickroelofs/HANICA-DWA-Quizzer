@@ -26,12 +26,11 @@ export const Quiz = () => {
     })
 
     return (
-        <div>
-            <h6>{roomCode}</h6>
+        <div class='quiz'>
             <h1>{question}</h1>
             <form method='post' onSubmit={handleSubmit}>
-                <input name='answer' type='text' placeholder='put your answer here..'/>
-                <button type="submit" value="Submit" className='submitAnswerButton'>Send Answer</button>
+                <input className='input' name='answer' type='text' placeholder='put your answer here..'/>
+                <button className='button' type="submit" value="Submit">Send Answer</button>
             </form>
 
         </div>

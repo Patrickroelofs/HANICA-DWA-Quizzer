@@ -16,8 +16,8 @@ export const WaitingRoom = () => {
         }
     }, [dispatch, fetchQuestions, history, roundNumber])
     return (
-        <div>
-            <h1>Waiting for QuizMaster</h1>
+        <div className='waitingRoom'>
+            <h1>Waiting for QuizMaster to start.</h1>
             {roundNumber
                 ? <h4>Round {roundNumber} in the making</h4>
              : null}

@@ -6,6 +6,9 @@ import WaitingRoom from './waitingRoom'
 import Quiz from "./Quiz";
 import Answered from './Answered'
 
+import './css/normalize.scss'
+import './css/app.scss'
+
 export const App = () => {
     return (
         <Router>
