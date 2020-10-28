@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import { useHistory } from 'react-router-dom';
 import {sendAnswer} from "../actions/quizActions";
@@ -9,6 +9,7 @@ export const Quiz = () => {
     const history = useHistory()
     const question = useSelector(state => state.quiz.question)
     const roomCode = useSelector(state => state.quiz.roomCode)
+    const closeQuestion = useSelector(state => state.quiz.closeQuestion)
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -16,6 +17,13 @@ export const Quiz = () => {
             history.push('/answered')
         })
     }
+    
+    useEffect(() => {
+        if(closeQuestion === true) {
+            dispatch({type: 'CLOSE_QUESTION'})
+            history.push('/waitingroom')
+        }
+    })
 
     return (
         <div>

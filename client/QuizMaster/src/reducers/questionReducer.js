@@ -30,6 +30,12 @@ const questionReducer = (state = initialQuestionState, action) => {
                 currentQuestions : action.payload,
                 questionNumber: state.questionNumber + 1,
             }
+
+        case 'NEW_ROUND': 
+            return {
+                ...state,
+                questionNumber: 0
+            }
         default: {
             return state
         }

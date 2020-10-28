@@ -85,7 +85,9 @@ const quizReducer = (state = initialQuizState, action) => {
         case 'QUESTION_CLOSED': 
             return {
                 ...state,
+                answers: []
             }
+            
         default: {
             return state
         }

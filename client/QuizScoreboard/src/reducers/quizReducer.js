@@ -6,6 +6,7 @@ const initialQuizState = {
     fetchAnswers: false,
     quizStarted: false,
     fetchQuestions: false,
+    closeQuestion: false,
     roomCode: '',
     currentQuestion: '',
 }
@@ -35,8 +36,11 @@ const quizReducer = (state = initialQuizState, action) => {
         case 'GET_QUESTIONS': {
             return {...state, fetchQuestions: true, currentQuestion: action.payload}
         }
-        case 'CLOSE_QUESTIONS': {
-            return {...state, fetchQuestions: false}
+        case 'CLOSE_QUESTION': {
+            return {...state, closeQuestion: false}
+        }
+        case 'QUESTION_CLOSED': {
+            return {...state, closeQuestion: true}
         }
         case 'ANSWER': {
             return {...state, fetchAnswers: true}

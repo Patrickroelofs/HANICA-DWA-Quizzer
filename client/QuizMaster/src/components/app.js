@@ -6,6 +6,7 @@ import TeamsLobby from './teamsLobby'
 import ChooseCategories from './chooseCategories'
 import SendQuestions from './sendQuestions';
 import Review from './Review'
+import EndQuiz from './endQuiz'
 
 export const App = () => {
     return (
@@ -16,6 +17,7 @@ export const App = () => {
                 <Route path="/categories" render={() => <ChooseCategories />} />
                 <Route path='/sendquestions' render={() => <SendQuestions />} />
                 <Route path='/review' render={() => <Review />} />
+                <Route path='/endQuiz' render={() => <EndQuiz />} />
             </Switch>
         </Router>
     )

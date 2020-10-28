@@ -8,6 +8,7 @@ export const WaitingRoom = () => {
     const history = useHistory()
     const fetchQuestions = useSelector(state => state.quiz.fetchQuestions)
     const roundNumber = useSelector(state => state.quiz.roundNumber)
+    
     useEffect(() => {
         if(fetchQuestions){
             dispatch(getQuestions(roundNumber))

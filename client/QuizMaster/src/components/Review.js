@@ -15,6 +15,7 @@ export const Review = () => {
     const fetchAnswers = useSelector(state => state.quiz.fetchAnswers)
     const roomCode = useSelector(state => state.quiz.roomCode)
     const answers = useSelector(state => state.quiz.answers)
+    const questionNumber = useSelector(state => state.questions.questionNumber)
 
 
     const send = (review, teamName) => {
@@ -23,9 +24,16 @@ export const Review = () => {
     }
 
     const close = () => {
-        dispatch(closeQuestion())
+        if(questionNumber >= 2) {
+            dispatch(closeQuestion())
+            history.push('/endQuiz')
 
-        history.push('/sendQuestions')
+        } else {
+            dispatch(closeQuestion())
+            history.push('/sendQuestions')
+
+        }
+
     }
 
     useEffect(() => {

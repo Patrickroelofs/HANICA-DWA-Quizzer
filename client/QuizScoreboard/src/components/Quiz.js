@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 import { getTeams, getAnswer, getQuestions } from '../actions/quizActions'
 
 export const Quiz = () => {
     const dispatch = useDispatch()
+    const history = useHistory()
     const currentQuestion = useSelector((state) => state.quiz.currentQuestion)
     const answers = useSelector((state) => state.quiz.answers)
     const fetchTeams = useSelector((state) => state.quiz.fetchTeams)
@@ -11,6 +13,7 @@ export const Quiz = () => {
     const fetchAnswers = useSelector((state) => state.quiz.fetchAnswers)
     const fetchQuestions = useSelector((state) => state.quiz.fetchQuestions)
     const roundNumber = useSelector((state) => state.quiz.roundNumber)
+    const closeQuestion = useSelector((state) => state.quiz.closeQuestion)
 
     useEffect(() => {
         if (fetchTeams === true) {
@@ -23,6 +26,11 @@ export const Quiz = () => {
 
         if (fetchAnswers === true) {
             dispatch(getAnswer())
+        }
+
+        if (closeQuestion === true) {
+            dispatch({type: 'CLOSE_QUESTION'})
+            history.push('/answers')
         }
     })
 

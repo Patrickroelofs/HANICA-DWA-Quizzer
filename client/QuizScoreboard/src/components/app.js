@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 import JoinQuizCode from './joinQuizCode'
 import WaitingRoom from './waitingRoom'
+import Answers from './Answers'
 import Quiz from './Quiz'
 
 import './css/normalize.scss'
@@ -15,6 +16,7 @@ export const App = () => {
                 <Route path="/" exact render={() => <JoinQuizCode />} />
                 <Route path={`/waitingroom`}  render={() => <WaitingRoom />} />
                 <Route path={`/quiz`} render={() => <Quiz />} />
+                <Route path={'/answers'} render={() => <Answers />} />
             </Switch>
         </Router>
     )

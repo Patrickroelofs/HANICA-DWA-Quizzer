@@ -60,20 +60,25 @@ router.post('/round', async function(req, res, next) {
     }
 })
 
-router.patch('/:roundNumber/close', async function (req, res, next) {
+router.patch('/:roundNumber/close/:questionNumber', async function (req, res, next) {
     try {
         const quiz = await Quiz.findOne({roomCode: req.session.roomCode})
         .then(room => {
             room.rounds.forEach(r => {
                 if(r.roundNumber.toString() === req.params.roundNumber.toString()) {
-                    r.round.closed = true
+                    r.round.forEach(a => {
+                        if(a.questionNumber.toString() === req.params.questionNumber.toString()) {
+                            a.closed = true
+                        }
+                    })
                 }
             })
+            
+            room.save();
+            res.send({close: 'closed'})
 
             TeamsMessage(req.webSocketServer.clients, req, 'QUESTION_CLOSED')
             ScoreboardMessage(req.webSocketServer.clients, req, 'QUESTION_CLOSED')
-
-            room.save();
         });
     } catch (e) {
         next (e)

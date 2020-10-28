@@ -107,6 +107,15 @@ router.patch('/:roundNumber/review/:questionNumber', async function(req, res, ne
                 })
             }
         })
+        
+        return room
+
+    }).then(room => {
+        room.teams.forEach(r => {
+            if(r.name.toString() === req.body.team.toString()) {
+                r.roundScore = r.roundScore + 1;
+            }
+        })
 
         room.save()
     })

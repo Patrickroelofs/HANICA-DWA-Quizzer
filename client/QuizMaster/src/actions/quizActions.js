@@ -89,7 +89,7 @@ export function closeQuestion () {
                 mode: "cors"
             }
 
-            await fetch(`http://localhost:3001/quiz/${store.getState().quiz.roundNumber}/close`, options)
+            await fetch(`http://localhost:3001/quiz/${store.getState().quiz.roundNumber}/close/${store.getState().questions.questionNumber}`, options)
                 .then((response) => response.json())
                 .then((data) => {
                     dispatch({type: 'QUESTION_CLOSED'})
