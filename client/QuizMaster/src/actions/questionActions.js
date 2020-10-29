@@ -1,5 +1,4 @@
-import {sendMessage} from "./sessionActions";
-import { store } from './../store'
+import { store } from '../store'
 
 export const NEW_QUESTION = 'NEW_QUESTION'
 export const SEND_QUESTION = 'SEND_QUESTION'

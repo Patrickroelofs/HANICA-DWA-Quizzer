@@ -16,6 +16,9 @@ const quizReducer = (state = initialQuizState, action) => {
         case JOIN_QUIZ_SUCCESS: {
             return { ...state, roomCode: action.payload, }
         }
+        case 'JOIN_QUIZ_FAILED':{
+            return {...state, accepted: false}
+        }
         case GET_TEAMS: {
             return { ...state, teams: action.payload }
         }
@@ -44,6 +47,9 @@ const quizReducer = (state = initialQuizState, action) => {
             return {...state, closeQuestion: true}
         }
         case 'DISCONNECTED_MASTER_LEFT': {
+            return {...initialQuizState}
+        }
+        case 'QUIZ_ENDED':{
             return {...initialQuizState}
         }
 

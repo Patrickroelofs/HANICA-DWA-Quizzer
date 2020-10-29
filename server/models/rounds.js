@@ -21,6 +21,9 @@ const roundSchema = mongoose.Schema({
         answer: { // this is the answer to the question :)
             type: String,
         },
+        category: {
+            type: String
+        },
         answers: [{
             review: {
                 type: Boolean

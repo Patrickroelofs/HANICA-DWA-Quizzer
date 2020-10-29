@@ -115,7 +115,7 @@ export function deleteQuiz() {
             }
             await fetch(`http://localhost:3001/quiz/${store.getState().quiz.roomCode}`, options)
             .then(() => {
-                dispatch({type: 'QUIZ_DELETED'})
+                dispatch({type: 'RESET_STATE'})
             })
         } catch (e) {
             console.log(e)

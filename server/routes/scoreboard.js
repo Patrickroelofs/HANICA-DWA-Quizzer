@@ -11,16 +11,16 @@ router.post('/', async function (req, res, next) {
         req.session.scoreboard = true
         req.session.roomCode = req.body.roomCode
 
-        await Quiz.findOneAndUpdate(
-            { roomCode: req.body.roomCode },
-            {
-                scoreboard: true
+        await Quiz.findOne({ roomCode: req.body.roomCode }).then(room => {
+            if(room.started){
+                res.send({worked: false})
+            }else{
+                room.scoreboard = true
+                req.session.joined = true
+                res.send({worked: true})
             }
-        )
-        req.session.joined = true
-        //MasterMessage(req, 'SCOREBOARD_JOINED')
-
-        res.send('SCOREBOARD Joined')
+            room.save()
+        })
 
     } catch (err) {
         next(err)

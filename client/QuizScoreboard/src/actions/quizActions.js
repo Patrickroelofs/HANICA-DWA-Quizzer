@@ -16,10 +16,16 @@ export function joinQuiz(roomCode) {
             body: JSON.stringify({ roomCode: roomCode }),
         }
 
-        return fetch('http://localhost:3001/scoreboard/', options).then(() => {
-            dispatch({type: JOIN_QUIZ_SUCCESS, payload: roomCode})
-            dispatch(webSocket())
-        })
+        return fetch('http://localhost:3001/scoreboard/', options)
+            .then((response) => response.json())
+            .then((data) => {
+                if(data.worked){
+                    dispatch({type: JOIN_QUIZ_SUCCESS, payload: roomCode})
+                    dispatch(webSocket())
+                }else{
+                    dispatch({type: 'JOIN_QUIZ_FAILED'})
+                }
+            })
     }
 }
 

@@ -36,11 +36,14 @@ export const JoinQuizForm = () => {
                         <input className='input' name='teamName' type='text' placeholder='team name...'/>
                         <input className='input second' name='roomCode' type='text' placeholder='room code...'/>
                         <button className='button' type="submit" value="Submit">Inloggen met teamnaam</button>
+                    {accepted === false ? <p>sorry this room has already started</p> : null}
                     </form>
+
                 : accepted !== false
                     ? <p>Waiting for review from Quiz master of room {roomCode} </p>
                     : <p>Sorry rejected</p>
             }
+            {}
         </div>
     )
 }

@@ -13,9 +13,11 @@ export const Quiz = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(sendAnswer(e.target.answer.value)).then(() => {
-            history.push('/answered')
-        })
+        if(e.target.answer.value !== '') {
+            dispatch(sendAnswer(e.target.answer.value)).then(() => {
+                history.push('/answered')
+            })
+        }
     }
     
     useEffect(() => {
@@ -31,7 +33,13 @@ export const Quiz = () => {
 
     return (
         <div className='quiz'>
-            <h1>{question}</h1>
+            {question
+                ? <div>
+                    <h3>{question.category}</h3>
+                    <h1>{question.question}</h1>
+            </div>
+            :null}
+
             <form method='post' onSubmit={handleSubmit}>
                 <input className='input' name='answer' type='text' placeholder='put your answer here..'/>
                 <button className='button' type="submit" value="Submit">Send Answer</button>

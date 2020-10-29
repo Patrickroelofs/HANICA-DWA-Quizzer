@@ -18,29 +18,22 @@ router.post("/:name", async function (req, res, next) {
         req.session.team = true
         req.session.teamName = req.params.name
         req.session.roomCode = req.body.roomCode
-
-        const team = await Quiz.findOneAndUpdate(
-            { roomCode: req.body.roomCode },
-            {
-                $push: {
-                    teams: [
-                        {
-                            name: req.params.name,
-                            roundPoints: 0,
-                            roundScore: 0,
-                            answer: '',
-                        },
-                    ],
-                },
-            }
-        )
-        req.session.joined = true
-        // Send Websocket messages to:
-        // TeamsMessage(req, "TEAM_JOINED")
-        // MasterMessage(req, "TEAM_JOINED")
-        // ScoreboardMessage(req, "TEAM_JOINED")
-
-        res.send(team)
+       await Quiz.findOne({roomCode: req.body.roomCode})
+           .then(room => {
+               if(room.started){
+                   res.send({worked : false})
+               }else{
+                   room.teams.push({
+                       name: req.params.name,
+                       roundPoints: 0,
+                       roundScore: 0,
+                       answer: '',
+                   })
+                   req.session.joined = true
+                   res.send({worked : true,})
+               }
+            room.save()
+        })
 
     } catch (err) {
         next(err)

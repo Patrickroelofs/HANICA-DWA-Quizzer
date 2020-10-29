@@ -1,6 +1,5 @@
 import { webSocket } from "./sessionActions";
-import { sendMessage } from "./sessionActions";
-import { store } from './../store'
+import { store } from '../store'
 
 export const JOIN_QUIZ_SUCCESS = 'JOIN_QUIZ_SUCCESS'
 export const GET_TEAMS = 'GET_TEAMS'
@@ -20,10 +19,15 @@ export function joinQuiz(roomCode, teamName) {
         }
 
         fetch(`http://localhost:3001/teams/${teamName}`, options)
-            .then(() => {
-                dispatch({type: JOIN_QUIZ_SUCCESS, payload: roomCode})
-                dispatch(webSocket())
-            })
+            .then((response) => response.json())
+            .then((data) => {
+                if(data.worked){
+                    dispatch({type: JOIN_QUIZ_SUCCESS, payload: roomCode})
+                    dispatch(webSocket())
+                }else {
+                    dispatch({type: 'JOIN_QUIZ_FAILED'})
+                }
+        })
     }
 }
 

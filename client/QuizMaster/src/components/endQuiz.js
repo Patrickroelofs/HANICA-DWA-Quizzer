@@ -18,9 +18,12 @@ export const EndQuiz = () => {
     }
 
     const endQuiz = () => {
-        dispatch(deleteQuiz()).then(() => {
-            dispatch({type: 'RESET_STATE'})
-        })
+        dispatch(deleteQuiz())//.then(() => {
+            // this makes the error dissapear but then it wont reload on refresh
+            // if(window.location.pathname !== '/' && roomCode === '') {
+            //     history.push('/')
+            // }
+        //})
     }
 
     if(window.location.pathname !== '/' && roomCode === '') {

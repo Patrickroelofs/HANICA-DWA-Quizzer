@@ -7,6 +7,7 @@ export const JoinQuizCode = () => {
     const history = useHistory()
     const dispatch = useDispatch()
     const roomCode = useSelector((state) => state.quiz.roomCode)
+    const accepted = useSelector((state) => state.quiz.accepted)
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -30,6 +31,9 @@ export const JoinQuizCode = () => {
                         Enter
                     </button>
                 </form>
+            {accepted === false
+            ? <p>sorry this room has already started</p>
+            : null}
         </div>
     )
 }

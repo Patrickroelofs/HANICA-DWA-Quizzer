@@ -40,7 +40,8 @@ export const Quiz = () => {
 
     return (
         <div className='quiz'>
-            <h1>{currentQuestion}</h1>
+            <h1>{currentQuestion.question}</h1>
+            <h5>{currentQuestion.category}</h5>
 
             { answers
                 ? answers.map((a) => {

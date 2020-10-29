@@ -9,6 +9,7 @@ export const Answers = () => {
     const roomCode = useSelector((state) => state.quiz.roomCode)
     const answers = useSelector((state) => state.quiz.answers)
     const teams = useSelector((state) => state.quiz.teams)
+    const currentQuestion = useSelector((state) => state.quiz.currentQuestion)
     const fetchQuestions = useSelector((state) => state.quiz.fetchQuestions)
 
     useEffect(() => {
@@ -28,7 +29,7 @@ export const Answers = () => {
     return (
         <div className='answers'>
             <h1>Answers</h1>
-
+            <h3>Right Answer : {currentQuestion.answer}</h3>
             <div className='answerlist'>
                 {teams && answers
                     ? teams.map((team) => {

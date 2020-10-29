@@ -13,12 +13,13 @@ const Quiz = mongoose.model("Quiz")
 
 router.patch('/:roundNumber/question/:questionNumber',async function(req, res, next){
 
+    console.log(req.body)
     await Quiz.findOne({roomCode: req.session.roomCode})
     .then(room => {
         room.rounds.forEach(r => {
             if(r.roundNumber.toString() === req.params.roundNumber.toString()) {
                 if(req.params.questionNumber.toString() === '0') {
-                    r.round.push({question: req.body.question, answer: req.body.answer, questionNumber: 1})
+                    r.round.push({question: req.body.question, answer: req.body.answer, category: req.body.category, questionNumber: 1})
                 } else {
                     r.round.push({question: req.body.question, answer: req.body.answer, questionNumber: Number(req.params.questionNumber) + 1})
                 }
@@ -41,7 +42,7 @@ router.get('/:roundNumber/question/:questionNumber', async function(req, res, ne
             if(r.roundNumber.toString() === req.params.roundNumber.toString()) {
                 r.round.forEach(a => {
                     if(a.questionNumber.toString() === req.params.questionNumber.toString()) {
-                        res.send(JSON.stringify(a.question))
+                        res.send(JSON.stringify({question: a.question, answer: a.answer, category: a.category}))
                     }
                 })
             }
