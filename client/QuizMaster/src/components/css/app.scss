@@ -18,6 +18,10 @@ ul, li {
     padding: 0;
 }
 
+p {
+    color: white;
+}
+
 #root {
     width: 100vw;
     height: 100vh;
@@ -64,6 +68,9 @@ ul, li {
     h2 {
         font-size: 32px;
     }
+    p {
+        font-size: 24px;
+    }
     li {
         color: white;
         font-size: 24px;
@@ -102,7 +109,7 @@ ul, li {
         @extend .button;
 
         border-radius: 30px !important;
-        margin: 0 12px;
+        margin: 12px;
     }
 
     .chosenCategories{
@@ -149,6 +156,9 @@ ul, li {
     h3 {
         font-size: 32px;
         padding: 32px 0;
+    }
+    p{
+        color: white;
     }
     .reviewteamanswers{
         p {

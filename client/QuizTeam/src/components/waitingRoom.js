@@ -8,6 +8,7 @@ export const WaitingRoom = () => {
     const history = useHistory()
     const fetchQuestions = useSelector(state => state.quiz.fetchQuestions)
     const roundNumber = useSelector(state => state.quiz.roundNumber)
+    const roomCode = useSelector(state => state.quiz.roomCode)
     
     useEffect(() => {
         if(fetchQuestions){
@@ -15,6 +16,11 @@ export const WaitingRoom = () => {
             history.push('/quiz')
         }
     }, [dispatch, fetchQuestions, history, roundNumber])
+
+    if(window.location.pathname !== '/' && roomCode === '') {
+        history.push('/')
+    }
+
     return (
         <div className='waitingRoom'>
             <h1>Waiting for QuizMaster to start.</h1>

@@ -35,7 +35,7 @@ const quizReducer = (state = initialQuizState, action) => {
             return {...state, answered : true, answer: action.payload}
         }
         case 'START_QUIZ': {
-            return {...state, roundNumber : action.payload}
+            return {...state, roundNumber : action.payload, questionNumber: 0}
         }
         case 'CLOSE_QUESTION': {
             return {...state, closeQuestion: false}
@@ -43,6 +43,10 @@ const quizReducer = (state = initialQuizState, action) => {
         case 'QUESTION_CLOSED': {
             return {...state, closeQuestion: true}
         }
+        case 'DISCONNECTED_MASTER_LEFT': {
+            return {...initialQuizState}
+        }
+
         default: {
             return state
         }

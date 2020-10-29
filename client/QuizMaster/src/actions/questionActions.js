@@ -41,8 +41,7 @@ export function sendReview(review, teamName){
                 mode: "cors",
                 body: JSON.stringify({review: review, team: teamName})
             }
-            await fetch(`http://localhost:3001/round/${store.getState().quiz.roundNumber}/review/${store.getState().questions.questionNumber}`, options)
-            .then(dispatch({type: 'SEND_REVIEW'}))
+            return fetch(`http://localhost:3001/round/${store.getState().quiz.roundNumber}/review/${store.getState().questions.questionNumber}`, options)
         }
         catch (err) {
             console.log('error (function sendReview)', err)

@@ -6,6 +6,7 @@ export const Answered = () => {
     const dispatch = useDispatch()
     const history = useHistory();
     const answer = useSelector(state => state.quiz.answer)
+    const roomCode = useSelector(state => state.quiz.roomCode)
     const closeQuestion = useSelector(state => state.quiz.closeQuestion)
 
     useEffect(() => {
@@ -17,6 +18,10 @@ export const Answered = () => {
 
     const newAnswer = () => {
         history.push('/quiz')
+    }
+
+    if(window.location.pathname !== '/' && roomCode === '') {
+        history.push('/')
     }
 
     return (

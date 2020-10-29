@@ -1,8 +1,7 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { createQuiz } from '../actions/quizActions'
-
 
 
 export const CreateQuiz = () => {
@@ -11,14 +10,13 @@ export const CreateQuiz = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        dispatch(createQuiz(e.target.language.value))
-        
-        history.push('/lobby')
+        dispatch(createQuiz(e.target.language.value)).then((data) => {
+            history.push('/lobby')
+        })
     }
 
-
     return (
-        <div class='createQuiz'>
+        <div className='createQuiz'>
             <h1>QuizzerMaster</h1>
             <form onSubmit={handleSubmit}>
                 <select name="language">

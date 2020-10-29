@@ -25,6 +25,12 @@ const categoryReducer = (state = initialCategoryState, action) => {
             }
         }
 
+        case 'RESET_STATE': {
+            return {
+                ...initialCategoryState
+            }
+        }
+
         case 'NEW_ROUND':
             return {
                 selected: ''

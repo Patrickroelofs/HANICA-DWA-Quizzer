@@ -28,13 +28,13 @@ const quizReducer = (state = initialQuizState, action) => {
             return { ...state, fetchTeams: true }
         }
         case 'START_QUIZ': {
-            return { ...state, roundNumber: action.payload}
+            return { ...state, roundNumber: action.payload, questionNumber: 0}
         }
         case 'NEW_QUESTION': {
             return {...state, fetchQuestions: true, questionNumber: state.questionNumber + 1}
         }
         case 'GET_QUESTIONS': {
-            return {...state, fetchQuestions: true, currentQuestion: action.payload}
+            return {...state, fetchQuestions: false, currentQuestion: action.payload}
         }
         case 'CLOSE_QUESTION': {
             return {...state, closeQuestion: false}
@@ -50,6 +50,9 @@ const quizReducer = (state = initialQuizState, action) => {
         }
         case 'GET_ANSWERS': {
             return {...state, answers: action.payload, fetchAnswers: false}
+        }
+        case 'DISCONNECTED_MASTER_LEFT': {
+            return {...initialQuizState}
         }
 
         default: {

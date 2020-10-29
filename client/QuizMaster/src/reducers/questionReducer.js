@@ -8,6 +8,11 @@ const initialQuestionState = {
 
 const questionReducer = (state = initialQuestionState, action) => {
     switch (action.type) {
+        case 'RESET_STATE': {
+            return {
+                ...initialQuestionState
+            }
+        }
         case 'SELECT_QUESTIONS':
             return {
                 ...state,

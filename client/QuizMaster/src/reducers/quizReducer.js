@@ -8,6 +8,7 @@ const initialQuizState = {
     fetchTeams: false,
     startQuiz: false,
     fetchAnswers: false,
+    scoreboard: false,
     connectedTeams: [],
     acceptedTeams: [],
     answers: []
@@ -21,6 +22,13 @@ const quizReducer = (state = initialQuizState, action) => {
                 fetchAnswers: true
             }
         }
+
+        case 'RESET_STATE': {
+            return {
+                ...initialQuizState
+            }
+        }
+
         case CREATE_QUIZ: {
             return {
                 ...state,
@@ -87,7 +95,11 @@ const quizReducer = (state = initialQuizState, action) => {
                 ...state,
                 answers: []
             }
-            
+        case 'SCOREBOARD_JOINED':
+            return {
+                ...state,
+                scoreboard: true
+            }
         default: {
             return state
         }

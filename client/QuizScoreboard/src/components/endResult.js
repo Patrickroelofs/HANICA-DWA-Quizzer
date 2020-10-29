@@ -1,35 +1,22 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React from 'react'
+import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { getTeams } from '../actions/quizActions'
 
-export const Answers = () => {
+export const EndResult = () => {
     const history = useHistory()
-    const dispatch = useDispatch()
     const roomCode = useSelector((state) => state.quiz.roomCode)
     const answers = useSelector((state) => state.quiz.answers)
     const teams = useSelector((state) => state.quiz.teams)
-    const fetchQuestions = useSelector((state) => state.quiz.fetchQuestions)
-
-    useEffect(() => {
-        dispatch(getTeams(roomCode))
-    }, [])
-
-    useEffect(() => {
-        if(fetchQuestions) {
-            history.push('/quiz')
-        }
-    })
 
     if(window.location.pathname !== '/' && roomCode === '') {
         history.push('/')
     }
 
     return (
-        <div className='answers'>
+        <div className='endresult'>
             <h1>Answers</h1>
 
-            <div className='answerlist'>
+            <div className='endresultlist'>
                 {teams && answers
                     ? teams.map((team) => {
                         return answers.map((answer) => {
@@ -38,7 +25,7 @@ export const Answers = () => {
                                     <div key={team.name} className='team'>
                                         <h2 key={team.name}>{team.name}</h2>
                                         <p>{answer.answer}</p>
-                                        <span>Correct: {team.roundScore} / 12</span>
+                                        <span>{team.roundPoints}</span>
                                     </div>
                                 )
                             }
@@ -51,4 +38,4 @@ export const Answers = () => {
     )
 }
 
-export default Answers
+export default EndResult

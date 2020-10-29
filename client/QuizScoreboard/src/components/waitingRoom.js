@@ -15,6 +15,7 @@ export const WaitingRoom = () => {
     const teams = useSelector(state => state.quiz.teams)
     const currentQuestion = useSelector(state => state.quiz.currentQuestion)
     const roundNumber = useSelector(state => state.quiz.roundNumber)
+    
     useEffect(() => {
         if (fetchTeams === true) {
             dispatch(getTeams(roomCode))
@@ -27,6 +28,9 @@ export const WaitingRoom = () => {
         }
     }, [fetchTeams, dispatch, roomCode, currentQuestion, history, fetchQuestions, roundNumber])
 
+    if(window.location.pathname !== '/' && roomCode === '') {
+        history.push('/')
+    }
 
 
     return (

@@ -5,7 +5,7 @@ export const JOIN_QUIZ_SUCCESS = 'JOIN_QUIZ_SUCCESS'
 export const GET_TEAMS = 'GET_TEAMS'
 
 export function joinQuiz(roomCode) {
-    return (dispatch) => {
+    return async (dispatch) => {
         const options = {
             method: 'POST',
             headers: {
@@ -16,10 +16,9 @@ export function joinQuiz(roomCode) {
             body: JSON.stringify({ roomCode: roomCode }),
         }
 
-        fetch('http://localhost:3001/scoreboard/', options).then(() => {
+        return fetch('http://localhost:3001/scoreboard/', options).then(() => {
             dispatch({type: JOIN_QUIZ_SUCCESS, payload: roomCode})
             dispatch(webSocket())
-
         })
     }
 }

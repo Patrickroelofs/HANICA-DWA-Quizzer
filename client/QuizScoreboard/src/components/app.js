@@ -8,6 +8,7 @@ import Quiz from './Quiz'
 
 import './css/normalize.scss'
 import './css/app.scss'
+import EndResult from './endResult'
 
 export const App = () => {
     return (
@@ -24,6 +25,7 @@ export const App = () => {
                         <Route path={`/waitingroom`}  render={() => <WaitingRoom />} />
                         <Route path={`/quiz`} render={() => <Quiz />} />
                         <Route path={'/answers'} render={() => <Answers />} />
+                        <Route path={'/endresult'} render={() => <EndResult />} />
                     </Switch>
                 </Router>
             </div>

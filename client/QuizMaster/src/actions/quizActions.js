@@ -6,7 +6,7 @@ export const START_QUIZ = 'START_QUIZ'
 export const CREATE_ROUND = 'CREATE_ROUND'
 
 export function createQuiz(language) {
-    return (dispatch) => {
+    return async (dispatch) => {
         const options = {
             method: 'POST',
             headers: {
@@ -17,7 +17,7 @@ export function createQuiz(language) {
             body: JSON.stringify({ language: language }),
         }
 
-        fetch('http://localhost:3001/quiz/', options)
+        return fetch('http://localhost:3001/quiz/', options)
             .then((response) => response.json())
             .then((data) => {
                 dispatch(
@@ -27,9 +27,10 @@ export function createQuiz(language) {
                         roomCode: data.roomCode
                     }
                 )
-            }).then(() => {
-            dispatch(webSocket())
-        })
+            })
+            .then(() => {
+                dispatch(webSocket())
+            })
     }
 }
 
@@ -97,6 +98,50 @@ export function closeQuestion () {
 
         } catch (e) {
             console.log("error (function closeQuestion)", e)
+        }
+    }
+}
+
+export function deleteQuiz() {
+    return async (dispatch) => {
+        try {
+            const options = {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials: "include",
+                mode: "cors"
+            }
+            await fetch(`http://localhost:3001/quiz/${store.getState().quiz.roomCode}`, options)
+            .then(() => {
+                dispatch({type: 'QUIZ_DELETED'})
+            })
+        } catch (e) {
+            console.log(e)
+        }
+    }
+}
+
+export function calculateScores() {
+    return async (dispatch) => {
+        try {
+            const options = {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials: "include",
+                mode: "cors"
+            }
+
+            return fetch(`http://localhost:3001/quiz/${store.getState().quiz.roomCode}/scores`, options)
+                .then((response) => response.json())
+                .then((data) => {
+                    dispatch({type: 'NEW_ROUND'})
+                })
+        } catch (e) {
+            console.log(e)
         }
     }
 }

@@ -25,8 +25,12 @@ export const Quiz = () => {
         }
     })
 
+    if(window.location.pathname !== '/' && roomCode === '') {
+        history.push('/')
+    }
+
     return (
-        <div class='quiz'>
+        <div className='quiz'>
             <h1>{question}</h1>
             <form method='post' onSubmit={handleSubmit}>
                 <input className='input' name='answer' type='text' placeholder='put your answer here..'/>

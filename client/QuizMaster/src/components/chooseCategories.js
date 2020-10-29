@@ -10,6 +10,7 @@ export const ChooseCategories = () => {
     const AllCategories = useSelector(state => state.categories.all)
     const selectedCategories = useSelector(state => state.categories.selected)
     const roundNumber = useSelector(state => state.quiz.roundNumber)
+    const roomCode = useSelector(state => state.quiz.roomCode)
 
     useEffect(() => {
         dispatch(getCategories())
@@ -21,6 +22,10 @@ export const ChooseCategories = () => {
                 history.push('/sendquestions')
             })
         })
+    }
+
+    if(window.location.pathname !== '/' && roomCode === '') {
+        history.push('/')
     }
 
     return (
@@ -44,7 +49,7 @@ export const ChooseCategories = () => {
 
 
                 
-                <div class='chosenCategories'>
+                <div className='chosenCategories'>
                     {selectedCategories.length >= 1
                         ? <h3>Chosen Categories:</h3>
                         : null
@@ -59,7 +64,7 @@ export const ChooseCategories = () => {
                         : null
                     }
                 </div>
-                <div class='sendCategories'>
+                <div className='sendCategories'>
                     {
                         selectedCategories.length >= 3
                         ? <button onClick={onSubmit}>Start Sending Questions</button>

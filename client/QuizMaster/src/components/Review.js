@@ -20,7 +20,9 @@ export const Review = () => {
 
     const send = (review, teamName) => {
         //todo make this exist so that the review can be sent back
-        dispatch(sendReview(review, teamName))
+        dispatch(sendReview(review, teamName)).then(() => {
+            dispatch({type: 'SEND_REVIEW'})
+        })
     }
 
     const close = () => {
@@ -49,9 +51,13 @@ export const Review = () => {
             dispatch(getAnswer())
         }
     })
+    
+    if(window.location.pathname !== '/' && roomCode === '') {
+        history.push('/')
+    }
 
     return (
-        <div class='review'>
+        <div className='review'>
             {question
                 ? <React.Fragment>
                     <h1>{question.question}</h1>
@@ -59,8 +65,9 @@ export const Review = () => {
                 </React.Fragment>
             : null}
             {answers
-                ? answers.map(a => {return (
-                    <div key={a.name}>
+                ? answers.map(a => {
+                    return (
+                    <div key={a.team}>
                         {a.answer 
                         ?   <div>
                             {a.review === undefined
@@ -70,9 +77,7 @@ export const Review = () => {
                                     <button className='button' onClick={() => send(false, a.team)}>Fout</button>
                                   </div>
 
-                                  // !!! something goes wrong here (a.name gets reset? should it?)
-                                  // !!! probably not, but this <p> wont display anything when above buttons pressed
-                                : <p>{a.name + ` : `} {a.review}</p>}
+                                : <p>{a.team + ` : `} {a.review ? 'Goed!' : 'Fout!'}</p>}
                             </div>
                         : <p>waiting for answer</p>}
                     </div>)})

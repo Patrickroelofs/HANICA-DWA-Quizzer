@@ -83,6 +83,14 @@ webSocketServer.on('connection', (socket, req) => {
 
     })
 
+    socket.on('close', (message) => {
+        if(socket.session.master === true) {
+            TeamsMessage(webSocketServer.clients, socket, 'DISCONNECTED_MASTER_LEFT')
+            ScoreboardMessage(webSocketServer.clients, socket, 'DISCONNECTED_MASTER_LEFT')
+
+        }
+    })
+
 })
 
 // Setup routers

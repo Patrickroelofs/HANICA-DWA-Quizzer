@@ -1,5 +1,6 @@
 const express = require('express')
 const mongoose = require('mongoose')
+const _ = require('lodash')
 const router = express.Router()
 const { makeRoomCode } = require('../functions/quiz')
 
@@ -82,6 +83,53 @@ router.patch('/:roundNumber/close/:questionNumber', async function (req, res, ne
         });
     } catch (e) {
         next (e)
+    }
+})
+
+router.delete('/:roomCode', async function(req, res, next) {
+    try {
+        await Quiz.deleteOne({roomCode: req.params.roomCode})
+
+        req.session.destroy()
+
+        res.send({deleted: true})
+
+    } catch (e) {
+        next (e)
+    }
+})
+
+router.patch('/:roomCode/scores', async function(req, res, next) {
+    try {
+        await Quiz.findOne({roomCode: req.params.roomCode})
+        .then(room => {
+            // so well ranked[0] is the highest scoring team but maybe ranked[1] has the same score...
+            let ranked = []
+            room.teams.forEach(t => {
+               ranked.push(t.roundScore)
+            })
+            ranked = _.uniq(ranked.sort(function (a, b) {return b - a}))
+            room.teams.forEach(t => {
+                if(t.roundScore === ranked[0]){
+                    t.roundPoints = t.roundPoints + 4
+                    t.roundScore = 0
+                }else if(t.roundScore === ranked[1]){
+                    t.roundPoints = t.roundPoints + 2
+                    t.roundScore = 0
+                }else if(t.roundScore === ranked[2]){
+                    t.roundPoints = t.roundPoints + 1
+                    t.roundScore = 0
+                }else{
+                    t.roundPoints = t.roundPoints + 0.1
+                    t.roundScore = 0
+                }
+            })
+            room.save()
+        })
+
+        res.send({scores: true})
+    } catch (e) {
+        next(e)
     }
 })
 

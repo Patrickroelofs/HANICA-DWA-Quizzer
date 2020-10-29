@@ -6,7 +6,7 @@ const router = express.Router()
 mongoose.set("useFindAndModify", false)
 
 require("../models/quiz")
-const {TeamsMessage} = require("../functions/websocket");
+const {TeamsMessage, TeamMessage} = require("../functions/websocket");
 const {MasterMessage} = require("../functions/websocket");
 const {ScoreboardMessage} = require("../functions/websocket");
 const Quiz = mongoose.model("Quiz")
@@ -112,7 +112,7 @@ router.patch('/:roundNumber/review/:questionNumber', async function(req, res, ne
 
     }).then(room => {
         room.teams.forEach(r => {
-            if(r.name.toString() === req.body.team.toString()) {
+            if(r.name.toString() === req.body.team.toString() && req.body.review) {
                 r.roundScore = r.roundScore + 1;
             }
         })

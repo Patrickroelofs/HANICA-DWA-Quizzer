@@ -23,6 +23,11 @@ export const JoinQuizForm = () => {
             history.push('/waitingroom')
         }
     }, [accepted, history])
+
+    if(window.location.pathname !== '/' && roomCode === '') {
+        history.push('/')
+    }
+    
     return (
         <div className='joinQuizForm'>
             <h1>QuizzerTeam</h1>

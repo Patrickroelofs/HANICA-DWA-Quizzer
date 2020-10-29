@@ -1,11 +1,12 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { joinQuiz } from '../actions/quizActions'
 
 export const JoinQuizCode = () => {
     const history = useHistory()
     const dispatch = useDispatch()
+    const roomCode = useSelector((state) => state.quiz.roomCode)
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -13,11 +14,11 @@ export const JoinQuizCode = () => {
         //TODO: Check here if roomCode exists in database
 
         if(!isNaN(e.target.roomCode.value) && e.target.roomCode.value.length === 4) {
-            dispatch(joinQuiz(e.target.roomCode.value))
-            history.push('/waitingroom')
+            dispatch(joinQuiz(e.target.roomCode.value)).then(() => {
+                history.push('/waitingroom')
+            })
         }
     }
-
 
     return (
         <div className='joinQuizCode'>

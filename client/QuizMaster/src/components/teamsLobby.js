@@ -14,6 +14,7 @@ export const TeamsLobby = () => {
     const fetchTeams = useSelector(state => state.quiz.fetchTeams)
     const connectedTeams = useSelector(state => state.quiz.connectedTeams)
     const acceptedTeams = useSelector(state => state.quiz.acceptedTeams)
+    const scoreboard = useSelector(state => state.quiz.scoreboard)
 
     useEffect(() => {
 
@@ -26,12 +27,16 @@ export const TeamsLobby = () => {
         history.push("/categories")
     }
 
+    if(window.location.pathname !== '/' && roomCode === '') {
+        history.push('/')
+    }
+
     return (
         <div className='teamsLobby'>
             <h1>Game PIN: {roomCode}</h1>
             { connectedTeams.length >= 1
                 ? <h2>Teams in kamer</h2>
-                : null
+                : <p>Nog geen teams gevonden...</p>
             }
 
             <ul>
@@ -51,13 +56,19 @@ export const TeamsLobby = () => {
                               </li>
                             )
                       })
-                    : null}
+                    : null
+                }
             </ul>   
             <div>
                   
                 {acceptedTeams.length >= 1
                     ? <button className='button full' onClick={() => handleSubmit()}>Start Quiz</button>
-                    : ''
+                    : null
+                }
+
+                { scoreboard
+                    ? <p>Scoreboard joined :)</p>
+                    : <p>Nog geen scoreboard gevonden...</p>
                 }
             </div>
         </div>

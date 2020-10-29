@@ -10,15 +10,21 @@ import './css/normalize.scss'
 import './css/app.scss'
 
 export const App = () => {
+
     return (
-        <Router>
-            <Switch>
-                <Route path="/" exact render={() =>  <JoinQuizForm />} />
-                <Route path={`/waitingroom`} render={() =>  <WaitingRoom />} />
-                <Route path={'/quiz'} render={() => <Quiz/>} />
-                <Route path={'/answered'} render={() => <Answered />} />
-            </Switch>
-        </Router>
+        <div>
+            <div>
+                <Router>
+                    <Switch>
+                        <Route path="/" exact render={() =>  <JoinQuizForm />} />
+                        <Route path={`/waitingroom`} render={() =>  <WaitingRoom />} />
+                        <Route path={'/quiz'} render={() => <Quiz/>} />
+                        <Route path={'/answered'} render={() => <Answered />} />
+                    </Switch>
+                </Router>
+            </div>
+        </div>
+
     )
 }
 

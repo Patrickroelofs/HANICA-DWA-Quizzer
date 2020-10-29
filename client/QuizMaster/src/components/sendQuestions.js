@@ -7,6 +7,7 @@ import {sendQuestion, updateQuestion} from "../actions/questionActions";
 export const SendQuestions = () => {
     const history = useHistory()
     const dispatch = useDispatch()
+    const roomCode = useSelector(state => state.quiz.roomCode)
     const questions = useSelector(state => state.questions.all)
     const roundNumber = useSelector(state => state.quiz.roundNumber)
     const randomizedQuestions = useSelector(state => state.questions.randomized)
@@ -24,8 +25,12 @@ export const SendQuestions = () => {
         history.push('/review')
     }
 
+    if(window.location.pathname !== '/' && roomCode === '') {
+        history.push('/')
+    }
+
     return (
-        <div class='sendQuestions'>
+        <div className='sendQuestions'>
             <h1>Choose a question and send it to the teams!</h1>
             <button className='button full' onClick={refreshQuestions}>Nieuwe vragen laden...</button>
             <hr />

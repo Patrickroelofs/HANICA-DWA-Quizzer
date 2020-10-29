@@ -34,6 +34,10 @@ export const Quiz = () => {
         }
     })
 
+    if(window.location.pathname !== '/' && roomCode === '') {
+        history.push('/')
+    }
+
     return (
         <div className='quiz'>
             <h1>{currentQuestion}</h1>
