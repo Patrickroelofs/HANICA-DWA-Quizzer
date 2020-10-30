@@ -39,7 +39,7 @@ mongoose
 
 // Ensure all responses are Application/JSON
 app.use(function (req, res, next) {
-    res.setHeader('Content-Type', 'Application/JSON')
+    res.setHeader('Content-Type', 'application/json')
 
     next()
 })
@@ -74,20 +74,25 @@ webSocketServer.on('connection', (socket, req) => {
         message = JSON.parse(message)
         console.log(message)
         switch (message.type){
-            case 'START_QUIZ':
+            case 'START_QUIZ': {
                 TeamsMessage(webSocketServer.clients, socket, 'START_QUIZ', message.roundNumber)
                 ScoreboardMessage(webSocketServer.clients, socket, 'START_QUIZ', message.roundNumber)
                 break;
             }
-
+            
+             case 'END_RESULTS': {
+                ScoreboardMessage(webSocketServer.clients, socket, 'END_RESULTS')
+                break;
+             }
+         }
 
     })
 
     socket.on('close', (message) => {
         if(socket.session.master === true) {
+            socket.session.destroy()
             TeamsMessage(webSocketServer.clients, socket, 'DISCONNECTED_MASTER_LEFT')
             ScoreboardMessage(webSocketServer.clients, socket, 'DISCONNECTED_MASTER_LEFT')
-
         }
     })
 

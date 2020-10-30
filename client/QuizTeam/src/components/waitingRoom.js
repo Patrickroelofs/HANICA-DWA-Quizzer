@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import {useDispatch, useSelector} from "react-redux";
 import { useHistory } from "react-router-dom";
 import {getQuestions} from "../actions/quizActions";
+import { translate } from '../functions/language'
 
 export const WaitingRoom = () => {
     const dispatch = useDispatch()
@@ -9,6 +10,7 @@ export const WaitingRoom = () => {
     const fetchQuestions = useSelector(state => state.quiz.fetchQuestions)
     const roundNumber = useSelector(state => state.quiz.roundNumber)
     const roomCode = useSelector(state => state.quiz.roomCode)
+    const language = useSelector(state => state.quiz.language)
     
     useEffect(() => {
         if(fetchQuestions){
@@ -23,9 +25,9 @@ export const WaitingRoom = () => {
 
     return (
         <div className='waitingRoom'>
-            <h1>Waiting for QuizMaster to start.</h1>
+            <h1>{translate(language, 'waitingToStart')}</h1>
             {roundNumber
-                ? <h4>Round {roundNumber} in the making</h4>
+                ? <h4>{translate(language, 'round')} {roundNumber} {translate(language, 'making')}</h4>
              : null}
         </div>
     )

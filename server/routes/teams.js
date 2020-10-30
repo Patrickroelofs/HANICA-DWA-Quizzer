@@ -20,8 +20,8 @@ router.post("/:name", async function (req, res, next) {
         req.session.roomCode = req.body.roomCode
        await Quiz.findOne({roomCode: req.body.roomCode})
            .then(room => {
-               if(room.started){
-                   res.send({worked : false})
+               if(room.started || room.teams.some(team => team.name === req.params.name)){
+                   res.send({worked: false})
                }else{
                    room.teams.push({
                        name: req.params.name,
@@ -30,7 +30,7 @@ router.post("/:name", async function (req, res, next) {
                        answer: '',
                    })
                    req.session.joined = true
-                   res.send({worked : true,})
+                   res.send({worked : true, language: room.language})
                }
             room.save()
         })

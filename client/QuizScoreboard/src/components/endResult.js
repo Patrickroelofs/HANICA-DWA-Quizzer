@@ -1,20 +1,30 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
+import { getTeams } from '../actions/quizActions';
+import { translate } from '../functions/language';
 
 export const EndResult = () => {
     const history = useHistory()
+    const dispatch = useDispatch()
     const roomCode = useSelector((state) => state.quiz.roomCode)
     const answers = useSelector((state) => state.quiz.answers)
     const teams = useSelector((state) => state.quiz.teams)
+    const language = useSelector(state => state.quiz.language)
 
     if(window.location.pathname !== '/' && roomCode === '') {
         history.push('/')
     }
 
+    useEffect(() => {
+        dispatch(getTeams(roomCode))
+    }, [])
+
+
+    
     return (
         <div className='endresult'>
-            <h1>Answers</h1>
+            <h1>{translate(language, 'answers')}</h1>
 
             <div className='endresultlist'>
                 {teams && answers

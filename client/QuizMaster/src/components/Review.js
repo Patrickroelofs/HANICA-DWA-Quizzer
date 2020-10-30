@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom'
 import {getAnswer, sendReview} from "../actions/questionActions";
 import {getTeams} from "../actions/teamActions";
 import { closeQuestion } from '../actions/quizActions';
+import { translate } from '../functions/language'
 
 export const Review = () => {
     const history = useHistory()
@@ -15,6 +16,7 @@ export const Review = () => {
     const fetchAnswers = useSelector(state => state.quiz.fetchAnswers)
     const roomCode = useSelector(state => state.quiz.roomCode)
     const answers = useSelector(state => state.quiz.answers)
+    const language = useSelector(state => state.quiz.language)
     const questionNumber = useSelector(state => state.questions.questionNumber)
 
 
@@ -73,19 +75,20 @@ export const Review = () => {
                             {a.review === undefined
                                 ? <div className='reviewteamanswers'>
                                     <p>{a.team} : {a.answer}</p>
-                                    <button className='button' onClick={() => send(true, a.team)}>Correct</button>
-                                    <button className='button' onClick={() => send(false, a.team)}>Fout</button>
+                                    <button className='button' onClick={() => send(true, a.team)}>✔️</button>
+                                    <button className='button' onClick={() => send(false, a.team)}>❌</button>
                                   </div>
 
-                                : <p>{a.team + ` : `} {a.review ? 'Goed!' : 'Fout!'}</p>}
+
+                                : <p>{a.team + ` : `} {a.review ? '✔️' : '❌'}</p>}
                             </div>
-                        : <p>waiting for answer</p>}
+                        : <p>{translate(language, 'waitingForAnswer')}</p>}
                     </div>)})
                 :null}
 
                 <br />
                 <br />
-                <button className='button full' onClick={close}>Close Question</button>
+                <button className='button full' onClick={close}>{translate(language, 'closeQuestion')}</button>
         </div>
     )
 }

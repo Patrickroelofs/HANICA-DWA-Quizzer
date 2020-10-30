@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { randomQuestions } from '../functions/randomQuestions'
 import { useHistory } from 'react-router-dom'
 import {sendQuestion, updateQuestion} from "../actions/questionActions";
+import { translate } from '../functions/language'
 
 export const SendQuestions = () => {
     const history = useHistory()
@@ -11,6 +12,7 @@ export const SendQuestions = () => {
     const questions = useSelector(state => state.questions.all)
     const roundNumber = useSelector(state => state.quiz.roundNumber)
     const randomizedQuestions = useSelector(state => state.questions.randomized)
+    const language = useSelector(state => state.quiz.language)
 
     useEffect(() => {
         dispatch(randomQuestions(questions))
@@ -31,8 +33,8 @@ export const SendQuestions = () => {
 
     return (
         <div className='sendQuestions'>
-            <h1>Choose a question and send it to the teams!</h1>
-            <button className='button full' onClick={refreshQuestions}>Nieuwe vragen laden...</button>
+            <h1>{translate(language, 'chooseaQuestion')}</h1>
+            <button className='button full' onClick={refreshQuestions}>{translate(language, 'refreshQuestions')}</button>
             <hr />
             
             {

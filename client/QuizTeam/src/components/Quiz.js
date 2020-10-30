@@ -2,13 +2,14 @@ import React, { useEffect } from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import { useHistory } from 'react-router-dom';
 import {sendAnswer} from "../actions/quizActions";
-
+import { translate } from '../functions/language'
 
 export const Quiz = () => {
     const dispatch = useDispatch()
     const history = useHistory()
     const question = useSelector(state => state.quiz.question)
     const roomCode = useSelector(state => state.quiz.roomCode)
+    const language = useSelector(state => state.quiz.language)
     const closeQuestion = useSelector(state => state.quiz.closeQuestion)
 
     const handleSubmit = (e) => {
@@ -41,8 +42,8 @@ export const Quiz = () => {
             :null}
 
             <form method='post' onSubmit={handleSubmit}>
-                <input className='input' name='answer' type='text' placeholder='put your answer here..'/>
-                <button className='button' type="submit" value="Submit">Send Answer</button>
+                <input className='input' name='answer' type='text' placeholder={`${translate(language, 'sendAnswerPlaceholder')}`}/>
+                <button className='button' type="submit" value="Submit">{translate(language, 'sendAnswer')}</button>
             </form>
 
         </div>

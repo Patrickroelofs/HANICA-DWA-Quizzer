@@ -23,7 +23,7 @@ export const CreateQuiz = () => {
                     <option value="NL">Nederlands</option>
                     <option value="EN">English</option>
                 </select>
-                <input className='button' type="submit" value="Quiz maken" />
+                <input className='button' type="submit" value="Start Quizzing!" />
             </form>
         </div>
     )

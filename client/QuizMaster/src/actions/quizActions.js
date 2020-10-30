@@ -135,7 +135,7 @@ export function calculateScores() {
                 mode: "cors"
             }
 
-            return fetch(`http://localhost:3001/quiz/${store.getState().quiz.roomCode}/scores`, options)
+            await fetch(`http://localhost:3001/quiz/${store.getState().quiz.roomCode}/scores`, options)
                 .then((response) => response.json())
                 .then((data) => {
                     dispatch({type: 'NEW_ROUND'})

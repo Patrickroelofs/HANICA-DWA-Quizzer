@@ -20,7 +20,7 @@ export function joinQuiz(roomCode) {
             .then((response) => response.json())
             .then((data) => {
                 if(data.worked){
-                    dispatch({type: JOIN_QUIZ_SUCCESS, payload: roomCode})
+                    dispatch({type: JOIN_QUIZ_SUCCESS, payload: roomCode, language: data.language})
                     dispatch(webSocket())
                 }else{
                     dispatch({type: 'JOIN_QUIZ_FAILED'})
@@ -59,7 +59,7 @@ export function getQuestions(roundNumber) {
             mode: 'cors',
         }
 
-        fetch(`http://localhost:3001/round/${roundNumber}/question/${store.getState().quiz.questionNumber}`, options)
+        await fetch(`http://localhost:3001/round/${roundNumber}/question/${store.getState().quiz.questionNumber}`, options)
             .then((response) => response.json())
             .then((data) => {
                 dispatch({type: 'GET_QUESTIONS', payload: data})

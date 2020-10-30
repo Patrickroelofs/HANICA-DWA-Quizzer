@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom'
 
 import { startQuiz } from '../actions/quizActions'
 import { reviewTeam, getTeams } from '../actions/teamActions'
+import { translate } from '../functions/language'
 
 
 export const TeamsLobby = () => {
@@ -15,6 +16,7 @@ export const TeamsLobby = () => {
     const connectedTeams = useSelector(state => state.quiz.connectedTeams)
     const acceptedTeams = useSelector(state => state.quiz.acceptedTeams)
     const scoreboard = useSelector(state => state.quiz.scoreboard)
+    const language = useSelector(state => state.quiz.language)
 
     useEffect(() => {
 
@@ -33,10 +35,10 @@ export const TeamsLobby = () => {
 
     return (
         <div className='teamsLobby'>
-            <h1>Game PIN: {roomCode}</h1>
+            <h1>{translate(language, 'pin')} {roomCode}</h1>
             { connectedTeams.length >= 1
-                ? <h2>Teams in kamer</h2>
-                : <p>Nog geen teams gevonden...</p>
+                ? <h2>{translate(language, 'teamsInRoom')}</h2>
+                : <p>{translate(language, 'noTeamsFound')}</p>
             }
 
             <ul>
@@ -47,10 +49,10 @@ export const TeamsLobby = () => {
                                 <span>{team.name} </span>
                                 {
                                     acceptedTeams.some(e => e.name === team.name)
-                                    ? <span> - User accepted</span>
+                                    ? <span> - {translate(language, 'userAccepted')}</span>
                                     : <React.Fragment>
-                                        <button onClick={() => dispatch(reviewTeam(team.name, 'accept'))}>Accept</button>
-                                        <button onClick={() => dispatch(reviewTeam(team.name, 'remove'))}>Deny</button>
+                                        <button onClick={() => dispatch(reviewTeam(team.name, 'accept'))}>✔️</button>
+                                        <button onClick={() => dispatch(reviewTeam(team.name, 'remove'))}>❌</button>
                                       </React.Fragment> 
                                     }
                               </li>
@@ -67,8 +69,8 @@ export const TeamsLobby = () => {
                 }
 
                 { scoreboard
-                    ? <p>Scoreboard joined :)</p>
-                    : <p>Nog geen scoreboard gevonden...</p>
+                    ? <p>{translate(language, 'scoreboardJoined')}</p>
+                    : <p>{translate(language, 'noScoreboardFound')}</p>
                 }
             </div>
         </div>

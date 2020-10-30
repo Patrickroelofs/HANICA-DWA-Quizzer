@@ -22,7 +22,7 @@ export function joinQuiz(roomCode, teamName) {
             .then((response) => response.json())
             .then((data) => {
                 if(data.worked){
-                    dispatch({type: JOIN_QUIZ_SUCCESS, payload: roomCode})
+                    dispatch({type: JOIN_QUIZ_SUCCESS, payload: roomCode, language: data.language})
                     dispatch(webSocket())
                 }else {
                     dispatch({type: 'JOIN_QUIZ_FAILED'})

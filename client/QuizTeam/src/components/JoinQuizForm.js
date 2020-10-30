@@ -2,12 +2,13 @@ import React, {useEffect}from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import { useHistory} from 'react-router-dom'
 import { joinQuiz } from '../actions/quizActions'
-
+import { translate } from '../functions/language'
 
 
 export const JoinQuizForm = () => {
     const history = useHistory()
     const dispatch = useDispatch()
+    const language = useSelector(state => state.quiz.language)
     const accepted = useSelector(state => state.quiz.accepted)
     const roomCode = useSelector(state => state.quiz.roomCode)
 
@@ -35,13 +36,13 @@ export const JoinQuizForm = () => {
                 ?   <form method='post' onSubmit={handleSubmit}>
                         <input className='input' name='teamName' type='text' placeholder='team name...'/>
                         <input className='input second' name='roomCode' type='text' placeholder='room code...'/>
-                        <button className='button' type="submit" value="Submit">Inloggen met teamnaam</button>
-                    {accepted === false ? <p>sorry this room has already started</p> : null}
+                        <button className='button' type="submit" value="Submit">{translate(language, 'loginWithTeam')}</button>
+                    {accepted === false ? <p>{translate(language, 'roomStarted')}</p> : null}
                     </form>
 
                 : accepted !== false
-                    ? <p>Waiting for review from Quiz master of room {roomCode} </p>
-                    : <p>Sorry rejected</p>
+                    ? <p>{translate(language, 'waitingForReview')} {roomCode} </p>
+                    : <p>{translate(language, 'rejected')}</p>
             }
             {}
         </div>

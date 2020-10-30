@@ -9,12 +9,13 @@ const initialQuizState = {
     answered: undefined,
     questionNumber: 0,
     closeQuestion: false,
+    language: 'nl'
 }
 
 const quizReducer = (state = initialQuizState, action) => {
     switch (action.type) {
         case JOIN_QUIZ_SUCCESS: {
-            return { ...state, roomCode: action.payload, }
+            return { ...state, roomCode: action.payload, language: action.language}
         }
         case 'JOIN_QUIZ_FAILED':{
             return {...state, accepted: false}
@@ -47,7 +48,7 @@ const quizReducer = (state = initialQuizState, action) => {
             return {...state, closeQuestion: true}
         }
         case 'DISCONNECTED_MASTER_LEFT': {
-            return {...initialQuizState}
+            return {...initialQuizState, refresh: true}
         }
         case 'QUIZ_ENDED':{
             return {...initialQuizState}

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const uniqueValidator = require('mongoose-unique-validator');
 
 const Rounds = require('./rounds')
 
@@ -6,6 +7,7 @@ const quizSchema = mongoose.Schema({
     roomCode: {
         type: String,
         required: true,
+        unique: true
     },
     language: {
         type: String,
@@ -34,6 +36,7 @@ const quizSchema = mongoose.Schema({
     }]
 })
 
+quizSchema.plugin(uniqueValidator)
 const Quiz = mongoose.model('Quiz', quizSchema)
 
 module.exports = quizSchema

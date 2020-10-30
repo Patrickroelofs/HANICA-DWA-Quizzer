@@ -4,6 +4,7 @@ const initialQuestionState = {
     all: '',
     randomized: '',
     questionNumber: 0,
+    questionsHad: ''
 }
 
 const questionReducer = (state = initialQuestionState, action) => {
@@ -34,6 +35,7 @@ const questionReducer = (state = initialQuestionState, action) => {
                 ...state,
                 currentQuestions : action.payload,
                 questionNumber: state.questionNumber + 1,
+                questionsHad: [...state.questionsHad, action.payload]
             }
 
         case 'NEW_ROUND': 

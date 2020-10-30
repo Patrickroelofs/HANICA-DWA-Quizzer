@@ -22,17 +22,26 @@ router.get('/:roomCode', async function (req, res, next) {
 router.post('/', async function (req, res, next) {
     try {
         let roomCodeGenerated = makeRoomCode();
-
+        
         req.session.master      = true
         req.session.roomCode    = roomCodeGenerated
         req.session.language    = req.body.language
         
-        const quiz = await Quiz.create({
+        const quiz = new Quiz({
             roomCode: roomCodeGenerated,
             language: req.body.language
         })
 
-        res.send(quiz)
+        quiz.save(function (err) {
+            if(err) {
+                console.log(err)
+            } else {
+                res.send(quiz)
+            }
+        })
+
+
+
     } catch (err) {
         next(err)
     }

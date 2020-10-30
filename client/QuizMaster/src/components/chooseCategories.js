@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { getCategories, getQuestions, selectCategory, unselectCategory } from '../actions/categoryActions'
 import { createRound } from '../actions/quizActions'
+import { translate } from '../functions/language'
 
 export const ChooseCategories = () => {
     const dispatch = useDispatch()
@@ -11,6 +12,7 @@ export const ChooseCategories = () => {
     const selectedCategories = useSelector(state => state.categories.selected)
     const roundNumber = useSelector(state => state.quiz.roundNumber)
     const roomCode = useSelector(state => state.quiz.roomCode)
+    const language = useSelector(state => state.quiz.language)
 
     useEffect(() => {
         dispatch(getCategories())
@@ -30,12 +32,12 @@ export const ChooseCategories = () => {
 
     return (
             <div className='chooseCategories'>
-                <h1>Choose Categories!</h1>
+                <h1>{translate(language, 'categories')}</h1>
                 
                 {selectedCategories.length >= 3
                     ? null
                     : <div>
-                        <h3>Choose {`${selectedCategories.length} / 3`} Categories</h3>
+                        <h3>{`${selectedCategories.length} / 3`}</h3>
                         {AllCategories
                         ? AllCategories.map((category) => {
                             return selectedCategories.includes(category)
@@ -51,7 +53,7 @@ export const ChooseCategories = () => {
                 
                 <div className='chosenCategories'>
                     {selectedCategories.length >= 1
-                        ? <h3>Chosen Categories:</h3>
+                        ? <h3>{translate(language, 'chosenCategories')}</h3>
                         : null
                     }
                     {
@@ -67,7 +69,7 @@ export const ChooseCategories = () => {
                 <div className='sendCategories'>
                     {
                         selectedCategories.length >= 3
-                        ? <button onClick={onSubmit}>Start Sending Questions</button>
+                        ? <button onClick={onSubmit}>{translate(language, 'startSendingQuestions')}</button>
                         : null
                     }
                 </div>

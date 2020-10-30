@@ -2,11 +2,13 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { getTeams, getAnswer, getQuestions } from '../actions/quizActions'
+import { translate } from '../functions/language';
 
 export const Quiz = () => {
     const dispatch = useDispatch()
     const history = useHistory()
     const currentQuestion = useSelector((state) => state.quiz.currentQuestion)
+    const language = useSelector(state => state.quiz.language)
     const answers = useSelector((state) => state.quiz.answers)
     const fetchTeams = useSelector((state) => state.quiz.fetchTeams)
     const roomCode = useSelector((state) => state.quiz.roomCode)
@@ -16,12 +18,16 @@ export const Quiz = () => {
     const closeQuestion = useSelector((state) => state.quiz.closeQuestion)
 
     useEffect(() => {
+        if(fetchQuestions === true) {
+            dispatch(getQuestions(roundNumber)).then(() => {
+                console.log('yepp')
+            })
+        }
+    })
+
+    useEffect(() => {
         if (fetchTeams === true) {
             dispatch(getTeams(roomCode))
-        }
-        
-        if(fetchQuestions === true) {
-            dispatch(getQuestions(roundNumber))
         }
 
         if (fetchAnswers === true) {
@@ -48,7 +54,7 @@ export const Quiz = () => {
                       return (
                           <div className='answers'>
                               {a.answer 
-                                ? <h2>{a.team} : Has answered!</h2>
+                                ? <h2>{a.team} : {translate(language, 'hasAnswered')}</h2>
                                 : null
                               }
                           </div>

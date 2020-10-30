@@ -11,7 +11,8 @@ const initialQuizState = {
     scoreboard: false,
     connectedTeams: [],
     acceptedTeams: [],
-    answers: []
+    answers: [],
+    endResults: false,
 }
 
 const quizReducer = (state = initialQuizState, action) => {
@@ -99,6 +100,11 @@ const quizReducer = (state = initialQuizState, action) => {
             return {
                 ...state,
                 scoreboard: true
+            }
+        case 'END_RESULTS': 
+            return {
+                ...state,
+                endResults: true
             }
         default: {
             return state

@@ -5,10 +5,12 @@ import { useHistory } from "react-router-dom";
 
 import './css/normalize.scss'
 import './css/app.scss'
+import { translate } from '../functions/language';
 
 export const WaitingRoom = () => {
     const dispatch = useDispatch()
     const history = useHistory()
+    const language = useSelector(state => state.quiz.language)
     const roomCode = useSelector(state => state.quiz.roomCode)
     const fetchTeams = useSelector(state => state.quiz.fetchTeams)
     const fetchQuestions = useSelector(state => state.quiz.fetchQuestions)
@@ -35,8 +37,8 @@ export const WaitingRoom = () => {
 
     return (
         <div className='waitingRoom'>
-                <h3>Game PIN : {roomCode}</h3>
-                <h1>These teams have joined</h1>
+                <h3>{translate(language, 'pin')} {roomCode}</h3>
+                <h1>{translate(language, 'teamsjoined')}</h1>
                 
                 <div className='teamList'>
                 {teams

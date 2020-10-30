@@ -17,7 +17,7 @@ router.post('/', async function (req, res, next) {
             }else{
                 room.scoreboard = true
                 req.session.joined = true
-                res.send({worked: true})
+                res.send({worked: true, language: room.language})
             }
             room.save()
         })

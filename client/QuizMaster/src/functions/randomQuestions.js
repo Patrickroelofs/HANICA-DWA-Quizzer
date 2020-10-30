@@ -1,3 +1,4 @@
+import { store } from '../store'
 const _ = require('lodash');
 
 export function randomQuestions(questions) {
@@ -7,8 +8,10 @@ export function randomQuestions(questions) {
         for(var i in questions) {
             convertedQuestions.push(questions[i])
         }
-    
-        let newQuestions = _.sampleSize(convertedQuestions, 6)
+
+        let removedQuestionsHad = convertedQuestions.filter(question => !store.getState().questions.questionsHad.includes(question))
+
+        let newQuestions = _.sampleSize(removedQuestionsHad, 6)
 
         dispatch({type: 'RANDOM_QUESTIONS', payload: newQuestions}) 
     }
