@@ -6,9 +6,10 @@ import {getAnswer, getTeams, joinQuiz} from '../actions/quizActions'
 export const JoinQuizCode = () => {
     const history = useHistory()
     const dispatch = useDispatch()
-    const roomCode = useSelector((state) => state.quiz.roomCode)
     const accepted = useSelector((state) => state.quiz.accepted)
     const started = useSelector((state) => state.quiz.started)
+    const message = useSelector((state) => state.quiz.message)
+
 
     useEffect(() => {
         if(started === false){
@@ -21,7 +22,9 @@ export const JoinQuizCode = () => {
 
         if(!isNaN(e.target.roomCode.value) && e.target.roomCode.value.length === 4) {
             dispatch(joinQuiz(e.target.roomCode.value)).then(() => {
-                history.push('/waitingroom')
+                if(accepted === true){
+                    history.push('/waitingroom')
+                }
             })
         }
     }
@@ -37,7 +40,7 @@ export const JoinQuizCode = () => {
                     </button>
                 </form>
             {accepted === false
-            ? <p>sorry this room has already started</p>
+            ? <p>{message}</p>
             : null}
         </div>
     )

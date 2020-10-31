@@ -1,4 +1,4 @@
-import { WEBSOCKET_OPEN } from '../actions/sessionActions'
+import {TEAM_REFUSED, WEBSOCKET_OPEN} from '../actions/sessionActions'
 
 export default function (state = null, action) {
     switch (action.type) {
@@ -8,6 +8,7 @@ export default function (state = null, action) {
         case 'QUIZ_ENDED': {
             return {state: undefined}
         }
+
         default: 
             return state
     }

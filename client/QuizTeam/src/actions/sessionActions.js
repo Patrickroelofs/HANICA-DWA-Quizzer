@@ -1,4 +1,5 @@
 import { getTeams } from "./quizActions";
+import {store} from "../store";
 
 const port = 3001
 const server = `ws://${window.location.hostname}:${port}`
@@ -25,7 +26,12 @@ export function sendMessage(message){
 
 export function webSocket() {
     return (dispatch) => {
-        if(wsConnection === undefined) {
+        console.log(wsConnection)
+        if(wsConnection === undefined ) {
+            console.log('making new websocket')
+            wsConnection = new WebSocket(server)
+        }else if(store.getState().quiz.accepted === false) {
+            wsConnection.close()
             wsConnection = new WebSocket(server)
         }
 

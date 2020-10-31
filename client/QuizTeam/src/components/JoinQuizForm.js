@@ -12,6 +12,7 @@ export const JoinQuizForm = () => {
     const accepted = useSelector(state => state.quiz.accepted)
     const roomCode = useSelector(state => state.quiz.roomCode)
     const started = useSelector(state => state.quiz.started)
+    const message = useSelector(state => state.quiz.message)
     const handleSubmit = (e) => {
         e.preventDefault();
         dispatch(joinQuiz(e.target.roomCode.value, e.target.teamName.value))
@@ -35,17 +36,17 @@ export const JoinQuizForm = () => {
     return (
         <div className='joinQuizForm'>
             <h1>QuizzerTeam</h1>
-            {roomCode === ''
+            {roomCode === '' || accepted === false
                 ?   <form method='post' onSubmit={handleSubmit}>
                         <input className='input' name='teamName' type='text' placeholder='team name...'/>
                         <input className='input second' name='roomCode' type='text' placeholder='room code...'/>
                         <button className='button' type="submit" value="Submit">{translate(language, 'loginWithTeam')}</button>
-                    {accepted === false ? <p>{translate(language, 'roomStarted')}</p> : null}
+                    {accepted === false ? <p>{message}</p> : null}
                     </form>
 
-                : accepted !== false
+                : accepted === undefined
                     ? <p>{translate(language, 'waitingForReview')} {roomCode} </p>
-                    : <p>{translate(language, 'rejected')}</p>
+                    : null
             }
             {}
         </div>

@@ -23,7 +23,7 @@ export function joinQuiz(roomCode) {
                     dispatch({type: JOIN_QUIZ_SUCCESS, payload: roomCode, language: data.language})
                     dispatch(webSocket())
                 }else{
-                    dispatch({type: 'JOIN_QUIZ_FAILED'})
+                    dispatch({type: 'JOIN_QUIZ_FAILED', payload: data.message})
                 }
             })
     }

@@ -12,14 +12,19 @@ router.post('/', async function (req, res, next) {
         req.session.roomCode = req.body.roomCode
 
         await Quiz.findOne({ roomCode: req.body.roomCode }).then(room => {
-            if(room.started){
-                res.send({worked: false})
-            }else{
-                room.scoreboard = true
-                req.session.joined = true
-                res.send({worked: true, language: room.language})
+            if(room !== null) {
+                if (room.started) {
+                    res.send({worked: false, message: 'This room already started'})
+                } else {
+                    room.scoreboard = true
+                    req.session.joined = true
+                    res.send({worked: true, language: room.language})
+                }
+                room.save()
             }
-            room.save()
+            else{
+                res.send({worked: false, message: 'This room does not exist'})
+            }
         })
 
     } catch (err) {

@@ -18,21 +18,30 @@ router.post("/:name", async function (req, res, next) {
         req.session.team = true
         req.session.teamName = req.params.name
         req.session.roomCode = req.body.roomCode
+        console.log(req.body.roomCode)
+        console.log(req.session.roomCode)
        await Quiz.findOne({roomCode: req.body.roomCode})
            .then(room => {
-               if(room.started || room.teams.some(team => team.name === req.params.name)){
-                   res.send({worked: false})
-               }else{
-                   room.teams.push({
-                       name: req.params.name,
-                       roundPoints: 0,
-                       roundScore: 0,
-                       answer: '',
-                   })
-                   req.session.joined = true
-                   res.send({worked : true, language: room.language})
+               if(room !== null){
+                   if(room.started === true){
+                       res.send({worked: false, message: 'Room already started'})
+                   }else if(room.teams.some(team => team.name === req.params.name)){
+                       res.send({worked: false, message: 'This name is not available'})
+                   } else{
+                       room.teams.push({
+                           name: req.params.name,
+                           roundPoints: 0,
+                           roundScore: 0,
+                           answer: '',
+                       })
+                       req.session.joined = true
+                       res.send({worked : true, language: room.language})
+                   }
+                   room.save()
                }
-            room.save()
+               else{
+                   res.send({worked: false, message: 'This room does not exist'})
+               }
         })
 
     } catch (err) {

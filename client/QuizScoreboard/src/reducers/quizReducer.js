@@ -10,7 +10,7 @@ const initialQuizState = {
     roomCode: '',
     currentQuestion: '',
     accepted : undefined,
-    refresh: false,
+    message: ''
 }
 
 const quizReducer = (state = initialQuizState, action) => {
@@ -19,7 +19,7 @@ const quizReducer = (state = initialQuizState, action) => {
             return { ...state, roomCode: action.payload, accepted: true, language: action.language }
         }
         case 'JOIN_QUIZ_FAILED': {
-            return {...state, accepted: false}
+            return {...state, accepted: false, message: action.payload}
         }
         case GET_TEAMS: {
             return { ...state, teams: action.payload, fetchTeams: false }
