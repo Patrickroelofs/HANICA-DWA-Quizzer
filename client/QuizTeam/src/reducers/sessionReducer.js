@@ -5,6 +5,9 @@ export default function (state = null, action) {
         case WEBSOCKET_OPEN: {
             return {state : action.payload}
         }
+        case 'QUIZ_ENDED': {
+            return {state: undefined}
+        }
         default: 
             return state
     }

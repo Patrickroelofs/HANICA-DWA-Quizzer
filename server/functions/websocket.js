@@ -24,6 +24,9 @@ MasterMessage = function (clients,socket, message, payload) {
                     payload: payload
                 })
             )
+            if(payload === 'DELETE'){
+                client.close()
+            }
         }
     })
 }
@@ -45,7 +48,6 @@ TeamsMessage = function (clients, socket, message, payload) {
             socket.session.roomCode === client.session.roomCode
         ) {
             console.log('message:', message, ' | TO: ALL TEAMS')
-
             client.send(
                 JSON.stringify({
                     type: message,
@@ -53,6 +55,9 @@ TeamsMessage = function (clients, socket, message, payload) {
                     roomCode: client.session.roomCode
                 })
             )
+            if(payload === 'DELETE'){
+                client.close()
+            }
         }
     })
 }
@@ -105,7 +110,6 @@ ScoreboardMessage = function (clients, socket , message, payload) {
             socket.session.roomCode === client.session.roomCode
         ) {
             console.log('message:', message, ' | TO: SCOREBOARD')
-
             client.send(
                 JSON.stringify({
                     type: message,
@@ -113,6 +117,9 @@ ScoreboardMessage = function (clients, socket , message, payload) {
                     roomCode: client.session.roomCode
                 })
             )
+            if(payload === 'DELETE'){
+                client.close()
+            }
         }
     })
 }

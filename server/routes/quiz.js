@@ -5,6 +5,7 @@ const router = express.Router()
 const { makeRoomCode } = require('../functions/quiz')
 
 require('../models/quiz')
+const {MasterMessage} = require("../functions/websocket");
 const {ScoreboardMessage} = require("../functions/websocket");
 const {TeamsMessage} = require("../functions/websocket");
 const Quiz = mongoose.model('Quiz')
@@ -102,10 +103,11 @@ router.delete('/:roomCode', async function(req, res, next) {
     try {
         await Quiz.deleteOne({roomCode: req.params.roomCode})
 
-        TeamsMessage(req.webSocketServer.clients, req, 'QUIZ_ENDED')
-        ScoreboardMessage(req.webSocketServer.clients, req, 'QUIZ_ENDED')
-
+        TeamsMessage(req.webSocketServer.clients, req, 'QUIZ_ENDED', 'DELETE')
+        ScoreboardMessage(req.webSocketServer.clients, req, 'QUIZ_ENDED', 'DELETE')
+        MasterMessage(req.webSocketServer.clients, req, 'QUIZ_ENDED', 'DELETE')
         req.session.destroy()
+
         res.send({deleted: true})
 
     } catch (e) {

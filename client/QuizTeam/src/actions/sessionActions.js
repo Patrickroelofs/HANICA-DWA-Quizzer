@@ -43,6 +43,7 @@ export function webSocket() {
         }
 
         wsConnection.onclose = (e) => {
+            wsConnection = undefined
             console.log('WEBSOCKET CLOSED: ', e)
         }
 

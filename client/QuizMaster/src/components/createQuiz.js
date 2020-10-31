@@ -1,16 +1,23 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { createQuiz } from '../actions/quizActions'
+import {createQuiz, deleteQuiz} from '../actions/quizActions'
 
 
 export const CreateQuiz = () => {
     const history = useHistory()
     const dispatch = useDispatch()
+    const roomCode = useSelector(state => state.quiz.roomCode)
+
+    useEffect(() => {
+        if(roomCode !== ''){
+            dispatch(deleteQuiz())
+        }
+    }, [dispatch])
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        dispatch(createQuiz(e.target.language.value)).then((data) => {
+        dispatch(createQuiz(e.target.language.value)).then(() => {
             history.push('/lobby')
         })
     }
