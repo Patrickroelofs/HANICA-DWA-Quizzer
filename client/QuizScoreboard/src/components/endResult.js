@@ -11,6 +11,7 @@ export const EndResult = () => {
     const answers = useSelector((state) => state.quiz.answers)
     const teams = useSelector((state) => state.quiz.teams)
     const language = useSelector(state => state.quiz.language)
+    const started = useSelector(state => state.quiz.started)
 
     if(window.location.pathname !== '/' && roomCode === '') {
         history.push('/')
@@ -18,7 +19,10 @@ export const EndResult = () => {
 
     useEffect(() => {
         dispatch(getTeams(roomCode))
-    }, [])
+        if(started === false) {
+            history.push('/')
+        }
+    }, [dispatch, history, roomCode, started])
 
 
     

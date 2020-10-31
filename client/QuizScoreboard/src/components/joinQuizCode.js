@@ -15,17 +15,16 @@ export const JoinQuizCode = () => {
         if(started === false){
             dispatch({type: 'DISCONNECTED_MASTER_LEFT'})
         }
+        if(accepted === true){
+            history.push('/waitingroom')
+        }
     })
     const handleSubmit = (e) => {
         e.preventDefault();
         //TODO: Check here if roomCode exists in database
 
         if(!isNaN(e.target.roomCode.value) && e.target.roomCode.value.length === 4) {
-            dispatch(joinQuiz(e.target.roomCode.value)).then(() => {
-                if(accepted === true){
-                    history.push('/waitingroom')
-                }
-            })
+            dispatch(joinQuiz(e.target.roomCode.value))
         }
     }
 
