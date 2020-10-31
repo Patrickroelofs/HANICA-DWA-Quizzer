@@ -18,12 +18,12 @@ export const EndResult = () => {
     }
 
     useEffect(() => {
-        dispatch(getTeams(roomCode))
         if(started === false) {
-            history.push('/')
+            history.push('/')}
+        else{
+            dispatch(getTeams(roomCode))
         }
     }, [dispatch, history, roomCode, started])
-
 
     
     return (

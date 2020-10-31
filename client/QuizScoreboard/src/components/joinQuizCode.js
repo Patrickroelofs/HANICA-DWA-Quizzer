@@ -15,7 +15,7 @@ export const JoinQuizCode = () => {
         if(started === false){
             dispatch({type: 'DISCONNECTED_MASTER_LEFT'})
         }
-        if(accepted === true){
+        if(accepted === true && started !== false){
             history.push('/waitingroom')
         }
     })
