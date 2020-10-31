@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const uniqueValidator = require('mongoose-unique-validator');
 
 const Rounds = require('./rounds')
+mongoose.set('useCreateIndex', true)
 
 const quizSchema = mongoose.Schema({
     roomCode: {
@@ -35,6 +36,7 @@ const quizSchema = mongoose.Schema({
         type: Rounds
     }]
 })
+
 
 quizSchema.plugin(uniqueValidator)
 const Quiz = mongoose.model('Quiz', quizSchema)

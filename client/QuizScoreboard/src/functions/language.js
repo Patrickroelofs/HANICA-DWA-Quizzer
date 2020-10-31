@@ -3,7 +3,8 @@ const english = {
     'teamsjoined': "These teams have joined.",
     'hasAnswered': 'Has answered.',
     'answers': 'Answers',
-    'rightAnswers': 'Right Answer'
+    'rightAnswers': 'Right Answer',
+    'endResult': 'Winner!'
 }
 
 const nederlands = {
@@ -11,7 +12,8 @@ const nederlands = {
     'teamsjoined': "Deze teams zitten in de quiz.",
     'hasAnswered': 'Heeft geantwoord.',
     'answers': 'Antwoorden',
-    'rightAnswers': 'Goede Antwoord'
+    'rightAnswers': 'Goede Antwoord',
+    'endResult': 'Winnaar!'
 }
 
 export const translate = (language, value) => {

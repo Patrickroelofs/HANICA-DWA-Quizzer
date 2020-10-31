@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import _ from 'lodash'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { getTeams } from '../actions/quizActions';
@@ -8,8 +9,23 @@ export const EndResult = () => {
     const history = useHistory()
     const dispatch = useDispatch()
     const roomCode = useSelector((state) => state.quiz.roomCode)
-    const answers = useSelector((state) => state.quiz.answers)
     const teams = useSelector((state) => state.quiz.teams)
+    const sortedTeams = _.sortBy(teams, "roundPoints").reverse()
+    
+    const emojiList = [
+        '😞',
+        '😪',
+        '👿',
+        '🥵',
+        '😰',
+        '😩',
+        '😫',
+        '😧'
+    ]
+
+    const shuffledEmoji = _.shuffle(emojiList)
+    console.log(shuffledEmoji)
+
     const language = useSelector(state => state.quiz.language)
     const started = useSelector(state => state.quiz.started)
 
@@ -27,26 +43,53 @@ export const EndResult = () => {
 
     
     return (
-        <div className='endresult'>
-            <h1>{translate(language, 'answers')}</h1>
+        <div>
+            <div className="pie">
+                <p className="p1"></p>
+                <p className="p2"></p>
+                <p className="p3"></p>
+                <p className="p4"></p>
+                <p className="p5"></p>
+                <p className="p6"></p>
+                <p className="p7"></p>
+                <p className="p8"></p>
+                <p className="p9"></p>
+                <p className="p10"></p>
+                <p className="p11"></p>
+                <p className="p12"></p>
+                <p className="p13"></p>
+                <p className="p14"></p>
+                <p className="p15"></p>
+                <p className="p16"></p>
+                <p className="p17"></p>
+                <p className="p18"></p>
+                <p className="p19"></p>
+                <p className="p20"></p>
+            </div>
+            <div className='endresult'>
+                <h1>{translate(language, 'endResult')}</h1>
 
-            <div className='endresultlist'>
-                {teams && answers
-                    ? teams.map((team) => {
-                        return answers.map((answer) => {
-                            if(team.name.toString() === answer.team.toString()) {
-                                return (
-                                    <div key={team.name} className='team'>
-                                        <h2 key={team.name}>{team.name}</h2>
-                                        <p>{answer.answer}</p>
-                                        <span>{team.roundPoints}</span>
+                <div className='endresultlist'>
+                    {sortedTeams
+                        ? sortedTeams.map((team, index) => {
+                            console.log(index)
+                            return (
+                                <div key={team.name} className={`team ${sortedTeams[0].name === team.name ? 'winner' : ''} `}>
+                                    <div>
+                                        { sortedTeams[0].name === team.name
+                                            ? <span className='emoji'>👑</span>
+                                            : <span className='emoji'>{ shuffledEmoji[index] }</span>
+                                        }
                                     </div>
-                                )
-                            }
+                                    <div>
+                                        <h2 key={team.name}>{team.name}</h2>
+                                        <span>{team.roundPoints} Round Points!</span>
+                                    </div>
+                                </div>
+                            )
                         })
-
-                      })
-                    : null}
+                        : null}
+                </div>
             </div>
         </div>
     )

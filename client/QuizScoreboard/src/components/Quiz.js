@@ -19,9 +19,7 @@ export const Quiz = () => {
 
     useEffect(() => {
         if(fetchQuestions === true) {
-            dispatch(getQuestions(roundNumber)).then(() => {
-                console.log('yepp')
-            })
+            dispatch(getQuestions(roundNumber))
         }
     })
 
@@ -46,13 +44,14 @@ export const Quiz = () => {
 
     return (
         <div className='quiz'>
+            <h2>{currentQuestion.category}</h2>
+            <br />
             <h1>{currentQuestion.question}</h1>
-            <h5>{currentQuestion.category}</h5>
 
             { answers
                 ? answers.map((a) => {
                       return (
-                          <div className='answers'>
+                          <div className='answer'>
                               {a.answer 
                                 ? <h2>{a.team} : {translate(language, 'hasAnswered')}</h2>
                                 : null

@@ -36,7 +36,8 @@ export const Quiz = () => {
         <div className='quiz'>
             {question
                 ? <div>
-                    <h3>{question.category}</h3>
+                    <h2>{question.category}</h2>
+                    <br />
                     <h1>{question.question}</h1>
             </div>
             :null}

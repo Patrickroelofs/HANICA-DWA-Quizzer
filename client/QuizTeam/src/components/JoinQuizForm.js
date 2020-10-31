@@ -39,7 +39,7 @@ export const JoinQuizForm = () => {
             {roomCode === '' || accepted === false
                 ?   <form method='post' onSubmit={handleSubmit}>
                         <input className='input' name='teamName' type='text' placeholder='team name...'/>
-                        <input className='input second' name='roomCode' type='text' placeholder='room code...'/>
+                        <input className='input second' name='roomCode' type='text' placeholder='room code...'/> <br />
                         <button className='button' type="submit" value="Submit">{translate(language, 'loginWithTeam')}</button>
                     {accepted === false ? <p>{message}</p> : null}
                     </form>

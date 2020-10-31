@@ -37,7 +37,7 @@ export const EndQuiz = () => {
 
     return (
         <div className='endQuiz'>
-            {roundNumber >= 3
+            {roundNumber >= 3 && endResults
                 ? null
                 : <h1>{translate(language, 'newRound')}</h1>
             }

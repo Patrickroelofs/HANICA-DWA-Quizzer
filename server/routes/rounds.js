@@ -13,7 +13,6 @@ const Quiz = mongoose.model("Quiz")
 
 router.patch('/:roundNumber/question/:questionNumber',async function(req, res, next){
 
-    console.log(req.body)
     await Quiz.findOne({roomCode: req.session.roomCode})
     .then(room => {
         room.rounds.forEach(r => {
@@ -27,10 +26,11 @@ router.patch('/:roundNumber/question/:questionNumber',async function(req, res, n
         })
 
         room.save()
+
+        TeamsMessage(req.webSocketServer.clients, req, 'NEW_QUESTION')
+        ScoreboardMessage(req.webSocketServer.clients, req, 'NEW_QUESTION')
     })
 
-    TeamsMessage(req.webSocketServer.clients, req, 'NEW_QUESTION')
-    ScoreboardMessage(req.webSocketServer.clients, req, 'NEW_QUESTION')
     res.send({thing :'got there good job'})
 })
 

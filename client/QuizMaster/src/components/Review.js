@@ -62,6 +62,8 @@ export const Review = () => {
         <div className='review'>
             {question
                 ? <React.Fragment>
+                    <h2>{question.category}</h2>
+                    <br />
                     <h1>{question.question}</h1>
                     <h3>{question.answer}</h3>
                 </React.Fragment>
