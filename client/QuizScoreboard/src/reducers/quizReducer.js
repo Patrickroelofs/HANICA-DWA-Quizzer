@@ -32,7 +32,7 @@ const quizReducer = (state = initialQuizState, action) => {
             return { ...state, fetchTeams: true }
         }
         case 'START_QUIZ': {
-            return { ...state, roundNumber: action.payload, questionNumber: 0}
+            return { ...state, roundNumber: action.payload, questionNumber: 0, started: true}
         }
         case 'NEW_QUESTION': {
             return {...state, fetchQuestions: true, questionNumber: state.questionNumber + 1}
@@ -59,7 +59,7 @@ const quizReducer = (state = initialQuizState, action) => {
             return {...initialQuizState, refresh: true}
         }
         case 'QUIZ_ENDED':{
-            return {...initialQuizState}
+            return {...state, started: false}
         }
         case 'END_RESULTS': {
             return { ...state, showEndResults: true }

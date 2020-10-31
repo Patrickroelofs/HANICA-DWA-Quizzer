@@ -9,18 +9,8 @@ import Quiz from './Quiz'
 import './css/normalize.scss'
 import './css/app.scss'
 import EndResult from './endResult'
-import { useSelector } from 'react-redux'
 
 export const App = () => {
-
-    const refresh = useSelector(state => state.quiz.refresh)
-
-    useEffect(() => {
-        if(refresh) {
-            window.location.reload();
-        }
-    })
-
     return (
         <div>
             <div className='blob'>

@@ -14,6 +14,7 @@ export const Answers = () => {
     const currentQuestion = useSelector((state) => state.quiz.currentQuestion)
     const fetchQuestions = useSelector((state) => state.quiz.fetchQuestions)
     const showEndResults = useSelector(state => state.quiz.showEndResults)
+    const started = useSelector(state => state.quiz.started)
 
     useEffect(() => {
         dispatch(getTeams(roomCode))
@@ -23,15 +24,18 @@ export const Answers = () => {
         if(fetchQuestions) {
             history.push('/quiz')
         }
+        if(showEndResults) {
+            history.push('/endresult')
+        }
+        if(started === false) {
+            history.push('/')
+        }
     })
 
     if(window.location.pathname !== '/' && roomCode === '') {
         history.push('/')
     }
 
-    if(showEndResults) {
-        history.push('/endresult')
-    }
     
     return (
         <div className='answers'>

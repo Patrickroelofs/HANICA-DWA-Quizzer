@@ -11,13 +11,17 @@ export const WaitingRoom = () => {
     const roundNumber = useSelector(state => state.quiz.roundNumber)
     const roomCode = useSelector(state => state.quiz.roomCode)
     const language = useSelector(state => state.quiz.language)
+    const started = useSelector(state => state.quiz.started)
     
     useEffect(() => {
         if(fetchQuestions){
             dispatch(getQuestions(roundNumber))
             history.push('/quiz')
         }
-    }, [dispatch, fetchQuestions, history, roundNumber])
+        if(started === false) {
+            history.push('/')
+        }
+    }, [dispatch, fetchQuestions, history, roundNumber, started])
 
     if(window.location.pathname !== '/' && roomCode === '') {
         history.push('/')

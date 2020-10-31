@@ -11,7 +11,7 @@ export const JoinQuizForm = () => {
     const language = useSelector(state => state.quiz.language)
     const accepted = useSelector(state => state.quiz.accepted)
     const roomCode = useSelector(state => state.quiz.roomCode)
-
+    const started = useSelector(state => state.quiz.started)
     const handleSubmit = (e) => {
         e.preventDefault();
         dispatch(joinQuiz(e.target.roomCode.value, e.target.teamName.value))
@@ -20,10 +20,13 @@ export const JoinQuizForm = () => {
         }
     }
     useEffect(() => {
-        if(accepted){
+        if(started === false){
+            dispatch({type: 'DISCONNECTED_MASTER_LEFT'})
+        }
+        if(accepted && started === undefined){
             history.push('/waitingroom')
         }
-    }, [accepted, history])
+    }, [accepted, dispatch, history, started])
 
     if(window.location.pathname !== '/' && roomCode === '') {
         history.push('/')

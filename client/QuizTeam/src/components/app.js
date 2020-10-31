@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 import JoinQuizForm from './JoinQuizForm'
@@ -8,17 +8,9 @@ import Answered from './Answered'
 
 import './css/normalize.scss'
 import './css/app.scss'
-import { useSelector } from 'react-redux';
+
 
 export const App = () => {
-
-    const refresh = useSelector(state => state.quiz.refresh)
-
-    useEffect(() => {
-        if(refresh) {
-            window.location.reload();
-        }
-    })
 
     return (
         <div>

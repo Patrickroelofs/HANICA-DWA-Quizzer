@@ -1,17 +1,22 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { joinQuiz } from '../actions/quizActions'
+import {getAnswer, getTeams, joinQuiz} from '../actions/quizActions'
 
 export const JoinQuizCode = () => {
     const history = useHistory()
     const dispatch = useDispatch()
     const roomCode = useSelector((state) => state.quiz.roomCode)
     const accepted = useSelector((state) => state.quiz.accepted)
+    const started = useSelector((state) => state.quiz.started)
 
+    useEffect(() => {
+        if(started === false){
+            dispatch({type: 'DISCONNECTED_MASTER_LEFT'})
+        }
+    })
     const handleSubmit = (e) => {
         e.preventDefault();
-
         //TODO: Check here if roomCode exists in database
 
         if(!isNaN(e.target.roomCode.value) && e.target.roomCode.value.length === 4) {
