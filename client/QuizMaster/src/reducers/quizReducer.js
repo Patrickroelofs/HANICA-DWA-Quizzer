@@ -103,7 +103,9 @@ const quizReducer = (state = initialQuizState, action) => {
             }
         }
         case 'GET_ANSWERS':
-            const r = state.answers.filter(({answer: id1}) => !action.payload.some(({answer: id2}) => id2 === id1))
+            const r = state.answers.filter(({team : name1, answer: answer1}) =>
+                !action.payload.some(({team : name2, answer: answer2}) =>
+                    answer2 === answer1 && name1 === name2))
             console.log(r)
             if(r.length >= 1){
                 let teamChanged = r[0].team
