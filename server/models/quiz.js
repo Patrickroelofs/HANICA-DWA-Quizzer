@@ -20,6 +20,7 @@ const quizSchema = mongoose.Schema({
     teams: [
         {
             name: String,
+            teamMoji: String,
             roundPoints: Number,
             roundScore: Number,
             answer: {

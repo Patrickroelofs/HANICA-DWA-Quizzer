@@ -11,20 +11,6 @@ export const EndResult = () => {
     const roomCode = useSelector((state) => state.quiz.roomCode)
     const teams = useSelector((state) => state.quiz.teams)
     const sortedTeams = _.sortBy(teams, "roundPoints").reverse()
-    
-    const emojiList = [
-        '😞',
-        '😪',
-        '👿',
-        '🥵',
-        '😰',
-        '😩',
-        '😫',
-        '😧'
-    ]
-
-    const shuffledEmoji = _.shuffle(emojiList)
-    console.log(shuffledEmoji)
 
     const language = useSelector(state => state.quiz.language)
     const started = useSelector(state => state.quiz.started)
@@ -71,14 +57,13 @@ export const EndResult = () => {
 
                 <div className='endresultlist'>
                     {sortedTeams
-                        ? sortedTeams.map((team, index) => {
-                            console.log(index)
+                        ? sortedTeams.map((team) => {
                             return (
                                 <div key={team.name} className={`team ${sortedTeams[0].name === team.name ? 'winner' : ''} `}>
                                     <div>
                                         { sortedTeams[0].name === team.name
                                             ? <span className='emoji'>👑</span>
-                                            : <span className='emoji'>{ shuffledEmoji[index] }</span>
+                                            : <span className='emoji'>{ team.teamMoji }</span>
                                         }
                                     </div>
                                     <div>

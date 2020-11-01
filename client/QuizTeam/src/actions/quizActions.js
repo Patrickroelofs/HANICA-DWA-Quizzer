@@ -1,13 +1,33 @@
 import { webSocket } from "./sessionActions";
 import { store } from '../store'
+import _ from 'lodash'
 
 export const JOIN_QUIZ_SUCCESS = 'JOIN_QUIZ_SUCCESS'
 export const GET_TEAMS = 'GET_TEAMS'
 export const SEND_ANSWER = 'SEND_ANSWER'
 export const GET_QUESTIONS = 'GET_QUESTIONS'
 
-export function joinQuiz(roomCode, teamName) {
+export function joinQuiz(roomCode, teamName, teamMoji) {
     return (dispatch) => {
+
+        let emoji;
+
+        if(teamMoji.toString() === 'random') {
+            const emojiList = [
+                '😞',
+                '😪',
+                '👿',
+                '🥵',
+                '😰',
+                '😩',
+                '😫',
+                '😧'
+            ]
+            emoji = _.shuffle(emojiList)[0]
+        } else {
+            emoji = teamMoji
+        }
+
         const options = {
             method: 'POST',
             headers: {
@@ -15,7 +35,7 @@ export function joinQuiz(roomCode, teamName) {
             },
             credentials: 'include',
             mode: 'cors',
-            body: JSON.stringify({roomCode: roomCode})
+            body: JSON.stringify({roomCode: roomCode, teamMoji: emoji})
         }
 
         fetch(`http://localhost:3001/teams/${teamName}`, options)

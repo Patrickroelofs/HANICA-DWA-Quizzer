@@ -45,7 +45,11 @@ export const WaitingRoom = () => {
                     ? teams.map((team) => {
                         return (
                             <div key={team.name} className='team'>
-                                <p>{team.name}</p>
+                                
+                                <p>
+                                    <span class='teamoji'>{team.teamMoji}</span>
+                                    {team.name}
+                                </p>
                             </div>
                         )
                     })

@@ -15,7 +15,7 @@ export const JoinQuizForm = () => {
     const message = useSelector(state => state.quiz.message)
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(joinQuiz(e.target.roomCode.value, e.target.teamName.value))
+        dispatch(joinQuiz(e.target.roomCode.value, e.target.teamName.value, e.target.teamMoji.value))
         if(accepted) {
             history.push('/waitingroom')
         }
@@ -38,8 +38,18 @@ export const JoinQuizForm = () => {
             <h1>QuizzerTeam</h1>
             {roomCode === '' || accepted === false
                 ?   <form method='post' onSubmit={handleSubmit}>
-                        <input className='input' name='teamName' type='text' placeholder='team name...'/>
-                    <input className='input second' name='roomCode' type='text' placeholder='room code...'/> <br />
+                        <input className='input' name='teamName' type='text' placeholder='team name...'/> <br />
+                        <select className='selectTeamMoji' name='teamMoji' placeholder='TeamMoji'>
+                            <option value="random" style={{display: 'none'}}>TeamMoji</option>
+                            <option value="😀">😀</option>
+                            <option value="🥳">🥳</option>
+                            <option value="😤">😤</option>
+                            <option value="😰">😰</option>
+                            <option value="😦">😦</option>
+                            <option value="🤔">🤔</option>
+                            <option value="🤯">🤯</option>
+                        </select><br />
+                        <input className='input second' name='roomCode' type='text' placeholder='room code...'/> <br />
                         <button className='button' type="submit" value="Submit">{translate(language, 'loginWithTeam')}</button>
                     {accepted === false ? <p>{message}</p> : null}
                     </form>

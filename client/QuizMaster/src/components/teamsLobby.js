@@ -46,7 +46,7 @@ export const TeamsLobby = () => {
                     ? connectedTeams.map((team) => {
                           return (
                               <li key={team._id}>
-                                <span>{team.name} </span>
+                                <span><span className='teamMoji'>{team.teamMoji}</span> {team.name}</span>
                                 {
                                     acceptedTeams.some(e => e.name === team.name)
                                     ? <span> - {translate(language, 'userAccepted')}</span>

@@ -33,6 +33,7 @@ router.post("/:name", async function (req, res, next) {
                            roundPoints: 0,
                            roundScore: 0,
                            answer: '',
+                           teamMoji: req.body.teamMoji
                        })
                        req.session.joined = true
                        res.send({worked : true, language: room.language})
