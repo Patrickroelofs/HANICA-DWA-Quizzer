@@ -60,12 +60,15 @@ router.patch('/:roundNumber/answer/:questionNumber', async function(req, res, ne
                         a.answers.forEach(c => {
                             if(a.questionNumber.toString() === req.params.questionNumber.toString()) {
                                 if(c.team.toString() === req.session.teamName.toString()) {
+                                    console.log('changing answer')
+                                    req.body.answer
                                     c.answer = req.body.answer
                                     c.review = undefined
                                 }
                             }
                         })
                     } else {
+                        console.log('pushing answer')
                         a.answers.push({answer: req.body.answer, team: req.session.teamName})
                     }
                 })
@@ -95,31 +98,35 @@ router.get('/:roundNumber/answer/:questionNumber', async function(req, res, next
 })
 
 router.patch('/:roundNumber/review/:questionNumber', async function(req, res, next) {
-    await Quiz.findOne({roomCode: req.session.roomCode})
-    .then(room => {
-        room.rounds.forEach(r => {
-            if(r.roundNumber.toString() === req.params.roundNumber.toString()) {
-                r.round.forEach(a => {
-                    a.answers.forEach(b => {
-                        if(b.team.toString() === req.body.team.toString()) {
-                            b.review = req.body.review
-                        }
-                    })
+    console.log(req.body)
+    req.body.reviews.forEach(team =>{
+        Quiz.findOne({roomCode: req.session.roomCode})
+            .then(room => {
+                room.rounds.forEach(r => {
+                    if(r.roundNumber.toString() === req.params.roundNumber.toString()) {
+                        r.round.forEach(a => {
+                            a.answers.forEach(b => {
+                                if(b.team.toString() === team.name.toString()) {
+                                    b.review = team.review
+                                }
+                            })
+                        })
+                    }
                 })
-            }
-        })
-        
-        return room
 
-    }).then(room => {
-        room.teams.forEach(r => {
-            if(r.name.toString() === req.body.team.toString() && req.body.review) {
-                r.roundScore = r.roundScore + 1;
-            }
-        })
+                return room
 
-        room.save()
+            }).then(room => {
+                room.teams.forEach(r => {
+                    if(r.name.toString() === team.name.toString() && team.review) {
+                        r.roundScore = r.roundScore + 1;
+                    }
+                })
+
+                room.save()
+            })
     })
+
 
     ScoreboardMessage(req.webSocketServer.clients, req, "ANSWER_REVIEWED")
     res.send()

@@ -28,7 +28,7 @@ export function updateQuestion(question, roundNumber){
     }
 }
 
-export function sendReview(review, teamName){
+export function sendReview(reviews){
     return async (dispatch) => {
         try {
             const options = {
@@ -38,7 +38,7 @@ export function sendReview(review, teamName){
                 },
                 credentials: "include",
                 mode: "cors",
-                body: JSON.stringify({review: review, team: teamName})
+                body: JSON.stringify({reviews : reviews})
             }
             return fetch(`http://localhost:3001/round/${store.getState().quiz.roundNumber}/review/${store.getState().questions.questionNumber}`, options)
         }
@@ -65,7 +65,7 @@ export function getAnswer() {
                 })
         }
         catch (err) {
-            console.log('error (function sendReview)', err)
+            console.log('error (function get answer)', err)
         }
     }
 }

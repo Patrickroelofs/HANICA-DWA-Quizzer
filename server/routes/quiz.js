@@ -35,7 +35,7 @@ router.post('/', async function (req, res, next) {
 
         quiz.save(function (err) {
             if(err) {
-                console.log(err)
+                res.send({worked: false, message: 'The generated room code already exists please try again'})
             } else {
                 res.send(quiz)
             }

@@ -13,7 +13,9 @@ const initialQuizState = {
     acceptedTeams: [],
     answers: [],
     endResults: false,
+    reviews : []
 }
+//198,79
 
 const quizReducer = (state = initialQuizState, action) => {
     switch (action.type) {
@@ -61,10 +63,26 @@ const quizReducer = (state = initialQuizState, action) => {
             }
         }
         case 'SEND_REVIEW': {
-            return {
-                ...state,
-                fetchAnswers: true
+            console.log(action.payload)
+            let i = state.reviews.findIndex(team => team.name === action.payload.name)
+            console.log(i)
+            if(i !== -1){
+                return {
+                    ...state,
+                    reviews: [
+                        ...state.reviews.slice(0,i),
+                        {name: state.reviews[i].name, review: action.payload.review},
+                        ...state.reviews.slice(i+1)
+                    ]
+
+                }
+            }else{
+                return {
+                    ...state,
+                    reviews: [...state.reviews, action.payload]
+                }
             }
+
         }
         case REMOVE_TEAM: {
             return {
@@ -85,6 +103,16 @@ const quizReducer = (state = initialQuizState, action) => {
             }
         }
         case 'GET_ANSWERS':
+            const r = state.answers.filter(({answer: id1}) => !action.payload.some(({answer: id2}) => id2 === id1))
+            console.log(r)
+            if(r.length >= 1){
+                let teamChanged = r[0].team
+                console.log(teamChanged)
+                let i = state.reviews.findIndex(t => t.name === teamChanged)
+                console.log(i)
+                state.reviews[i].review = undefined
+            }
+
             return {
                 ...state,
                 fetchAnswers: false,
@@ -94,7 +122,8 @@ const quizReducer = (state = initialQuizState, action) => {
         case 'QUESTION_CLOSED': 
             return {
                 ...state,
-                answers: []
+                answers: [],
+                reviews: []
             }
         case 'SCOREBOARD_JOINED':
             return {

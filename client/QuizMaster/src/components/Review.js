@@ -18,23 +18,27 @@ export const Review = () => {
     const answers = useSelector(state => state.quiz.answers)
     const language = useSelector(state => state.quiz.language)
     const questionNumber = useSelector(state => state.questions.questionNumber)
-
+    const reviews = useSelector(state => state.quiz.reviews)
 
     const send = (review, teamName) => {
-        //todo make this exist so that the review can be sent back
-        dispatch(sendReview(review, teamName)).then(() => {
-            dispatch({type: 'SEND_REVIEW'})
-        })
-    }
+            dispatch({type: 'SEND_REVIEW', payload: {name : teamName, review :review}})
+        }
 
     const close = () => {
         if(questionNumber >= 2) {
-            dispatch(closeQuestion())
-            history.push('/endQuiz')
+            dispatch(sendReview(reviews)).then(() => {
+                dispatch(closeQuestion())
+                history.push('/endQuiz')
+
+            })
 
         } else {
-            dispatch(closeQuestion())
-            history.push('/sendQuestions')
+            dispatch(sendReview(reviews)).then(() => {
+                dispatch(closeQuestion())
+                history.push('/sendQuestions')
+
+            })
+
 
         }
 
@@ -72,9 +76,9 @@ export const Review = () => {
                 ? answers.map(a => {
                     return (
                     <div key={a.team}>
-                        {a.answer 
+                        {a.answer
                         ?   <div>
-                            {a.review === undefined
+                            {reviews.findIndex(t => t.name === a.team) === -1 || reviews[reviews.findIndex(t => t.name === a.team)].review === undefined
                                 ? <div className='reviewteamanswers'>
                                     <p>{a.team} : {a.answer}</p>
                                     <button className='button' onClick={() => send(true, a.team)}>✔️</button>
@@ -82,7 +86,8 @@ export const Review = () => {
                                   </div>
 
 
-                                : <p>{a.team + ` : `} {a.review ? '✔️' : '❌'}</p>}
+                                : reviews.map(r => { return(r.name === a.team ? <p>{r.name + ` : `} {r.review ? '✔️' : '❌'}</p> : null )}  )
+                            }
                             </div>
                         : <p>{translate(language, 'waitingForAnswer')}</p>}
                     </div>)})
@@ -94,5 +99,6 @@ export const Review = () => {
         </div>
     )
 }
+//<p>{a.team + ` : `} {a.review ? '✔️' : '❌'}</p>}
 
 export default Review
