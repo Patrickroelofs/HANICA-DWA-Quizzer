@@ -18,7 +18,7 @@ export const Answers = () => {
 
     useEffect(() => {
         dispatch(getTeams(roomCode))
-    }, [])
+    }, [dispatch, roomCode])
 
     useEffect(() => {
         if(fetchQuestions) {
@@ -48,11 +48,14 @@ export const Answers = () => {
                             if(team.name.toString() === answer.team.toString()) {
                                 return (
                                     <div key={team.name} className='team'>
+                                        <span className='teamMoji'>{team.teamMoji}</span>
                                         <h2 key={team.name}>{team.name}</h2>
                                         <p>{answer.answer}</p>
                                         <span>Correct: {team.roundScore} / 12</span>
                                     </div>
                                 )
+                            } else {
+                                return null
                             }
                         })
 

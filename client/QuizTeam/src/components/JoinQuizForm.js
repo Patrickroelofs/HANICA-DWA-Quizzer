@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/accessible-emoji */
+
 import React, {useEffect}from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import { useHistory} from 'react-router-dom'
@@ -13,6 +15,8 @@ export const JoinQuizForm = () => {
     const roomCode = useSelector(state => state.quiz.roomCode)
     const started = useSelector(state => state.quiz.started)
     const message = useSelector(state => state.quiz.message)
+    const teamMoji = useSelector(state => state.quiz.teamMoji)
+
     const handleSubmit = (e) => {
         e.preventDefault();
         dispatch(joinQuiz(e.target.roomCode.value, e.target.teamName.value, e.target.teamMoji.value))
@@ -35,6 +39,7 @@ export const JoinQuizForm = () => {
     
     return (
         <div className='joinQuizForm'>
+            <span class='teamMoji'>{teamMoji}</span>
             <h1>QuizzerTeam</h1>
             {roomCode === '' || accepted === false
                 ?   <form method='post' onSubmit={handleSubmit}>
@@ -55,7 +60,7 @@ export const JoinQuizForm = () => {
                     </form>
 
                 : accepted === undefined
-                    ? <p>{translate(language, 'waitingForReview')} {roomCode} </p>
+                    ? <p>{translate(language, 'waitingForReview')} {roomCode}</p>
                     : null
             }
             {}

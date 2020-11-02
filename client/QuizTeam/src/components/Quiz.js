@@ -11,7 +11,8 @@ export const Quiz = () => {
     const roomCode = useSelector(state => state.quiz.roomCode)
     const language = useSelector(state => state.quiz.language)
     const closeQuestion = useSelector(state => state.quiz.closeQuestion)
-
+    const teamMoji = useSelector(state => state.quiz.teamMoji)
+            
     const handleSubmit = (e) => {
         e.preventDefault();
         if(e.target.answer.value !== '') {
@@ -36,6 +37,7 @@ export const Quiz = () => {
         <div className='quiz'>
             {question
                 ? <div>
+                    <span className='teamMoji'>{teamMoji}</span>
                     <h2>{question.category}</h2>
                     <br />
                     <h1>{question.question}</h1>

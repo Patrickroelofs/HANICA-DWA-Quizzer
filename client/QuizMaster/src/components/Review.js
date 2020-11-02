@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { randomQuestions } from '../functions/randomQuestions'
 import { useHistory } from 'react-router-dom'
 import {getAnswer, sendReview} from "../actions/questionActions";
 import {getTeams} from "../actions/teamActions";
@@ -19,13 +18,14 @@ export const Review = () => {
     const language = useSelector(state => state.quiz.language)
     const questionNumber = useSelector(state => state.questions.questionNumber)
     const reviews = useSelector(state => state.quiz.reviews)
+    const teams = useSelector(state => state.quiz.acceptedTeams)
 
     const send = (review, teamName) => {
             dispatch({type: 'SEND_REVIEW', payload: {name : teamName, review :review}})
         }
 
     const close = () => {
-        if(questionNumber >= 2) {
+        if(questionNumber >= 12) {
             dispatch(sendReview(reviews)).then(() => {
                 dispatch(closeQuestion())
                 history.push('/endQuiz')
@@ -50,7 +50,7 @@ export const Review = () => {
             dispatch(getTeams(roomCode))
         }
 
-    }, [answer, dispatch, fetchTeams, getAnswer, roomCode])
+    }, [answer, dispatch, fetchTeams, roomCode])
 
     useEffect(() => {
         if(fetchAnswers) {
@@ -72,25 +72,34 @@ export const Review = () => {
                     <h3>{question.answer}</h3>
                 </React.Fragment>
             : null}
-            {answers
-                ? answers.map(a => {
-                    return (
-                    <div key={a.team}>
-                        {a.answer
-                        ?   <div>
-                            {reviews.findIndex(t => t.name === a.team) === -1 || reviews[reviews.findIndex(t => t.name === a.team)].review === undefined
-                                ? <div className='reviewteamanswers'>
-                                    <p>{a.team} : {a.answer}</p>
-                                    <button className='button' onClick={() => send(true, a.team)}>✔️</button>
-                                    <button className='button' onClick={() => send(false, a.team)}>❌</button>
-                                  </div>
+            {answers && teams
 
-
-                                : reviews.map(r => { return(r.name === a.team ? <p>{r.name + ` : `} {r.review ? '✔️' : '❌'}</p> : null )}  )
-                            }
-                            </div>
-                        : <p>{translate(language, 'waitingForAnswer')}</p>}
-                    </div>)})
+                ? teams.map((team) => {
+                    return answers.map(a => {
+                        if(team.name === a.team) {
+                            return (
+                                <div key={a.team}>
+                                    {a.answer
+                                    ?   <div>
+                                        {reviews.findIndex(t => t.name === a.team) === -1 || reviews[reviews.findIndex(t => t.name === a.team)].review === undefined
+                                            ? <div className='reviewteamanswers'>
+                                                <p><span className='teamMoji'>{team.teamMoji}</span> {a.team} : {a.answer}</p>
+                                                <button className='button' onClick={() => send(true, a.team)}><span aria-label='check' role="img">✔️</span></button>
+                                                <button className='button' onClick={() => send(false, a.team)}><span aria-label='nocheck' role="img">❌</span></button>
+                                              </div>
+            
+            
+                                            : reviews.map(r => { return(r.name === a.team ? <p><span className='teamMoji'>{team.teamMoji}</span> {r.name + ` : `} {r.review ? '✔️' : '❌'}</p> : null )}  )
+                                        }
+                                        </div>
+                                    : <p>{translate(language, 'waitingForAnswer')}</p>}
+                                </div>)
+                        } else {
+                            return null
+                        }
+                    })
+                })
+            
                 :null}
 
                 <br />
@@ -99,6 +108,5 @@ export const Review = () => {
         </div>
     )
 }
-//<p>{a.team + ` : `} {a.review ? '✔️' : '❌'}</p>}
 
 export default Review

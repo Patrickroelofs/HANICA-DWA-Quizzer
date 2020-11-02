@@ -1,10 +1,10 @@
-import { round } from 'lodash'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { calculateScores, deleteQuiz } from '../actions/quizActions'
+import { calculateScores } from '../actions/quizActions'
 import { sendMessage } from '../actions/sessionActions'
 import { translate } from '../functions/language'
+
 export const EndQuiz = () => {
     const history = useHistory()
     const dispatch = useDispatch()
@@ -37,7 +37,7 @@ export const EndQuiz = () => {
 
     return (
         <div className='endQuiz'>
-            {roundNumber >= 3 && endResults
+            {roundNumber >= 3 && !endResults
                 ? null
                 : <h1>{translate(language, 'newRound')}</h1>
             }

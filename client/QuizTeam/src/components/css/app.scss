@@ -63,6 +63,10 @@ ul, li {
         padding: 32px 0;
     }
 
+    .teamMoji {
+        font-size: 64px;
+    }
+
     input {
         width: 100%;
         margin: 8px 0;
@@ -88,10 +92,21 @@ ul, li {
 
 .waitingRoom{
     font-size: 24px;
+
+    .teamMoji {
+        font-size: 128px;
+        padding-bottom: 32px;
+    }
 }
 
 .quiz {
     position: relative;
+
+    .teamMoji {
+        font-size: 64px;
+        padding-bottom: 16px;
+        display: block;
+    }
 
     input {
         margin: 8px;
@@ -104,6 +119,12 @@ ul, li {
 
 .answered {
     position: relative;
+
+    .teamMoji{
+        font-size: 64px;
+        padding-bottom: 16px;
+        display: block;
+    }
 
     button {
         margin: 12px;

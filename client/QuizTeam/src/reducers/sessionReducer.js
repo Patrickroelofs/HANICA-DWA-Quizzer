@@ -1,4 +1,4 @@
-import {TEAM_REFUSED, WEBSOCKET_OPEN} from '../actions/sessionActions'
+import { WEBSOCKET_OPEN } from '../actions/sessionActions'
 
 export default function (state = null, action) {
     switch (action.type) {

@@ -77,6 +77,10 @@ p {
         padding: 16px 0;
         span {
             padding-right: 16px;
+            .teamMoji {
+                font-size: 32px;
+                vertical-align: middle;
+            }
         }
         button {
             @extend .button;
@@ -163,6 +167,11 @@ p {
     }
     p{
         color: white;
+        font-size: 24px;
+        .teamMoji {
+            font-size: 32px;
+            vertical-align: middle;
+        }
     }
     .reviewteamanswers{
         padding: 12px 0;
@@ -170,8 +179,15 @@ p {
             color: white;
             padding-right: 12px;
             display: inline-block;
+
+            .teamMoji {
+                font-size: 32px;
+                padding-right: 16px;
+                vertical-align: middle;
+            }
         }
         button {
+            vertical-align: middle;
             &:first-of-type {
                 border-top-left-radius: 30px;
                 border-bottom-left-radius: 30px;

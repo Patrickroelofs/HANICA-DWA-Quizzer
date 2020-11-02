@@ -10,10 +10,10 @@ export const CreateQuiz = () => {
     const roomCode = useSelector(state => state.quiz.roomCode)
 
     useEffect(() => {
-        if(roomCode !== ''){
+        if(roomCode !== '' && window.location.pathname.toString() === '/'){
             dispatch(deleteQuiz())
         }
-    }, [dispatch])
+    })
 
     const handleSubmit = (e) => {
         e.preventDefault()

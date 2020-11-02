@@ -1,5 +1,3 @@
-import {sendMessage} from "./sessionActions";
-
 export const TEAM_ACCEPTED = 'TEAM_ACCEPTED'
 export const TEAM_REFUSED = 'TEAM_REFUSED'
 export const ACCEPT_TEAM = 'ACCEPT_TEAM'

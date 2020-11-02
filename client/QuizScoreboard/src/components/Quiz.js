@@ -16,6 +16,8 @@ export const Quiz = () => {
     const fetchQuestions = useSelector((state) => state.quiz.fetchQuestions)
     const roundNumber = useSelector((state) => state.quiz.roundNumber)
     const closeQuestion = useSelector((state) => state.quiz.closeQuestion)
+    const teams = useSelector((state) => state.quiz.teams)
+    const questionNumber = useSelector((state) => state.quiz.questionNumber)
 
     useEffect(() => {
         if(fetchQuestions === true) {
@@ -44,21 +46,34 @@ export const Quiz = () => {
 
     return (
         <div className='quiz'>
+            <h3>{translate(language, 'questionumber')} {questionNumber} / 12 <br /> {translate(language, 'roundnumber')} {roundNumber} / 3</h3>
             <h2>{currentQuestion.category}</h2>
             <br />
             <h1>{currentQuestion.question}</h1>
 
-            { answers
-                ? answers.map((a) => {
-                      return (
-                          <div className='answer'>
-                              {a.answer 
-                                ? <h2>{a.team} : {translate(language, 'hasAnswered')}</h2>
-                                : null
-                              }
-                          </div>
-                      )
-                  })
+            { answers && teams
+                ? teams.map((team) => {
+                    return answers.map((a) => {
+                        if(team.name === a.team) {
+                            return (
+                                <div className='answer'>
+                                    {a.answer
+                                      ? (
+                                            <h2>
+                                                <span className='teamMoji'>{team.teamMoji}</span>
+                                                {a.team} : {translate(language, 'hasAnswered')}
+                                            </h2>
+                                      )
+                                      : null
+                                    }
+                                </div>
+                            )
+                        } else {
+                            return null
+                        }
+                    })
+                }) 
+
                 : null
             }
         </div>

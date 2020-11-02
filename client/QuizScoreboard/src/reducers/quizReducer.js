@@ -35,7 +35,7 @@ const quizReducer = (state = initialQuizState, action) => {
             return { ...state, roundNumber: action.payload, questionNumber: 0, started: true}
         }
         case 'NEW_QUESTION': {
-            return {...state, fetchQuestions: true, questionNumber: state.questionNumber + 1}
+            return {...state, fetchQuestions: true, answers: '', questionNumber: state.questionNumber + 1}
         }
         case 'GET_QUESTIONS': {
             return {...state, fetchQuestions: false, currentQuestion: action.payload}

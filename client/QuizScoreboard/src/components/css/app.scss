@@ -77,6 +77,11 @@ h1, h2, h3, h4, h5, h6 {
         max-width: 1024px;
     }
 
+    h3 {
+        padding-bottom: 32px;
+        line-height: 1.5;
+    }
+
     .answers {
         padding-top: 48px;
     }
@@ -84,6 +89,12 @@ h1, h2, h3, h4, h5, h6 {
 
 .answer {
     padding: 16px 0;
+
+    .teamMoji {
+        vertical-align: middle;
+        padding-right: 16px;
+        font-size: 32px;
+    }
 }
 
 .answers {
@@ -103,6 +114,11 @@ h1, h2, h3, h4, h5, h6 {
         padding: 32px;
         color: white;
         text-align: center;
+        .teamMoji {
+            font-size: 64px;
+            padding-bottom: 24px;
+            display: block;
+        }
         h2 {
             font-size: 24px;
         }
@@ -153,6 +169,10 @@ h1, h2, h3, h4, h5, h6 {
         color: white;
         text-align: center;
         font-size: 32px;
+        .teamoji {
+            vertical-align: middle;
+            padding-right: 16px;
+        }
     }
 }
 

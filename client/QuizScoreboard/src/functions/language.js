@@ -4,7 +4,9 @@ const english = {
     'hasAnswered': 'Has answered.',
     'answers': 'Answers',
     'rightAnswers': 'Right Answer',
-    'endResult': 'Winner!'
+    'endResult': 'Winner!',
+    'questionumber': 'Question',
+    'roundnumber': 'Round'
 }
 
 const nederlands = {
@@ -13,7 +15,9 @@ const nederlands = {
     'hasAnswered': 'Heeft geantwoord.',
     'answers': 'Antwoorden',
     'rightAnswers': 'Goede Antwoord',
-    'endResult': 'Winnaar!'
+    'endResult': 'Winnaar!',
+    'questionumber': 'Vraag',
+    'roundnumber': 'Ronde'
 }
 
 export const translate = (language, value) => {

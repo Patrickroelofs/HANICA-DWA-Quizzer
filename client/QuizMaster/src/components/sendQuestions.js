@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { randomQuestions } from '../functions/randomQuestions'
 import { useHistory } from 'react-router-dom'
-import {sendQuestion, updateQuestion} from "../actions/questionActions";
+import { updateQuestion} from "../actions/questionActions";
 import { translate } from '../functions/language'
 
 export const SendQuestions = () => {

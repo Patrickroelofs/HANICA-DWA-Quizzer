@@ -63,9 +63,7 @@ const quizReducer = (state = initialQuizState, action) => {
             }
         }
         case 'SEND_REVIEW': {
-            console.log(action.payload)
             let i = state.reviews.findIndex(team => team.name === action.payload.name)
-            console.log(i)
             if(i !== -1){
                 return {
                     ...state,
@@ -106,12 +104,9 @@ const quizReducer = (state = initialQuizState, action) => {
             const r = state.answers.filter(({team : name1, answer: answer1}) =>
                 !action.payload.some(({team : name2, answer: answer2}) =>
                     answer2 === answer1 && name1 === name2))
-            console.log(r)
             if(r.length >= 1){
                 let teamChanged = r[0].team
-                console.log(teamChanged)
                 let i = state.reviews.findIndex(t => t.name === teamChanged)
-                console.log(i)
                 state.reviews[i].review = undefined
             }
 

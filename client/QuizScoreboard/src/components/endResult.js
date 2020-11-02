@@ -62,7 +62,7 @@ export const EndResult = () => {
                                 <div key={team.name} className={`team ${sortedTeams[0].name === team.name ? 'winner' : ''} `}>
                                     <div>
                                         { sortedTeams[0].name === team.name
-                                            ? <span className='emoji'>👑</span>
+                                            ? <span className='emoji' role="img" aria-label="crown :)">👑</span>
                                             : <span className='emoji'>{ team.teamMoji }</span>
                                         }
                                     </div>

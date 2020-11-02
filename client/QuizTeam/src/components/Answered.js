@@ -9,7 +9,8 @@ export const Answered = () => {
     const roomCode = useSelector(state => state.quiz.roomCode)
     const language = useSelector(state => state.quiz.language)
     const closeQuestion = useSelector(state => state.quiz.closeQuestion)
-
+    const teamMoji = useSelector(state => state.quiz.teamMoji)
+            
     useEffect(() => {
         if(closeQuestion === true) {
             dispatch({type: 'CLOSE_QUESTION'})
@@ -27,6 +28,7 @@ export const Answered = () => {
 
     return (
         <div className='answered'>
+            <span className='teamMoji'>{teamMoji}</span>
             <h1>{translate(language, 'answered')}</h1>
             <h2>{answer}</h2>
             <button className='button' onClick={newAnswer}>{translate(language, 'answerchanges')}</button>

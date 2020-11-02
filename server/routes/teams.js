@@ -18,8 +18,6 @@ router.post("/:name", async function (req, res, next) {
         req.session.team = true
         req.session.teamName = req.params.name
         req.session.roomCode = req.body.roomCode
-        console.log(req.body.roomCode)
-        console.log(req.session.roomCode)
        await Quiz.findOne({roomCode: req.body.roomCode})
            .then(room => {
                if(room !== null){

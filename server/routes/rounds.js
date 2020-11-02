@@ -60,7 +60,6 @@ router.patch('/:roundNumber/answer/:questionNumber', async function(req, res, ne
                         a.answers.forEach(c => {
                             if(a.questionNumber.toString() === req.params.questionNumber.toString()) {
                                 if(c.team.toString() === req.session.teamName.toString()) {
-                                    console.log('changing answer')
                                     req.body.answer
                                     c.answer = req.body.answer
                                     c.review = undefined
@@ -68,7 +67,6 @@ router.patch('/:roundNumber/answer/:questionNumber', async function(req, res, ne
                             }
                         })
                     } else {
-                        console.log('pushing answer')
                         a.answers.push({answer: req.body.answer, team: req.session.teamName})
                     }
                 })
@@ -98,7 +96,6 @@ router.get('/:roundNumber/answer/:questionNumber', async function(req, res, next
 })
 
 router.patch('/:roundNumber/review/:questionNumber', async function(req, res, next) {
-    console.log(req.body)
     req.body.reviews.forEach(team =>{
         Quiz.findOne({roomCode: req.session.roomCode})
             .then(room => {

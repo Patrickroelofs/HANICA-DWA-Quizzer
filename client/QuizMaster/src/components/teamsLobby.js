@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-
-import { startQuiz } from '../actions/quizActions'
 import { reviewTeam, getTeams } from '../actions/teamActions'
 import { translate } from '../functions/language'
 
@@ -49,10 +47,10 @@ export const TeamsLobby = () => {
                                 <span><span className='teamMoji'>{team.teamMoji}</span> {team.name}</span>
                                 {
                                     acceptedTeams.some(e => e.name === team.name)
-                                    ? <span> - {translate(language, 'userAccepted')}</span>
+                                    ? <span> {translate(language, 'userAccepted')}</span>
                                     : <React.Fragment>
-                                        <button onClick={() => dispatch(reviewTeam(team.name, 'accept'))}>✔️</button>
-                                        <button onClick={() => dispatch(reviewTeam(team.name, 'remove'))}>❌</button>
+                                        <button onClick={() => dispatch(reviewTeam(team.name, 'accept'))}><span aria-label='check' role="img">✔️</span></button>
+                                        <button onClick={() => dispatch(reviewTeam(team.name, 'remove'))}><span aria-label='nocheck' role="img">❌</span></button>
                                       </React.Fragment> 
                                     }
                               </li>

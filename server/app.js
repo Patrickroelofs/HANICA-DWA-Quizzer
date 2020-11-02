@@ -72,7 +72,6 @@ webSocketServer.on('connection', (socket, req) => {
     }
     socket.on('message', (message) => {
         message = JSON.parse(message)
-        console.log(message)
         switch (message.type){
             case 'START_QUIZ': {
                 TeamsMessage(webSocketServer.clients, socket, 'START_QUIZ', message.roundNumber)

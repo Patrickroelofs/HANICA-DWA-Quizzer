@@ -26,10 +26,8 @@ export function sendMessage(message){
 
 export function webSocket() {
     return (dispatch) => {
-        console.log(wsConnection)
         console.log(store.getState().quiz.accepted)
         if(wsConnection === undefined ) {
-            console.log('making new websocket')
             wsConnection = new WebSocket(server)
         }else if(store.getState().quiz.accepted === undefined) {
             wsConnection.close()

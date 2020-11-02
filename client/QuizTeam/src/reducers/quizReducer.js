@@ -9,13 +9,14 @@ const initialQuizState = {
     answered: undefined,
     questionNumber: 0,
     closeQuestion: false,
-    language: 'nl'
+    language: 'nl',
+    teamMoji: ''
 }
 
 const quizReducer = (state = initialQuizState, action) => {
     switch (action.type) {
         case JOIN_QUIZ_SUCCESS: {
-            return { ...state, roomCode: action.payload, language: action.language, message: '', accepted: undefined}
+            return { ...state, roomCode: action.payload, language: action.language, teamMoji: action.teamMoji,  message: '', accepted: undefined}
         }
         case 'JOIN_QUIZ_FAILED':{
             return {...state, accepted: false, message : action.payload}
